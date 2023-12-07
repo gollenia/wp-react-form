@@ -1,26 +1,27 @@
-import React from '@wordpress/elements';
+import React from '@wordpress/element';
 
+type Props = {
+	label: string;
+	help: string;
+	width: number;
+	disabled: boolean;
+	required: boolean;
+	placeholder: boolean;
+	toggle: boolean;
+	onChange: ( value: boolean ) => void;
+};
 
-const Checkbox = ( props ) => {
-	const {
-		help,
-		width,
-		onChange,
-		disabled,
-		placeholder,
-		required,
-		toggle,
-	} = props;
+const Checkbox = ( props: Props ) => {
+	const { help, width, onChange, disabled, placeholder, required, toggle } =
+		props;
 
-	const onChangeHandler = (
-		event
-	) => {
+	const onChangeHandler = ( event: any ) => {
 		onChange( event.target.checked );
 	};
 
 	const classes = [
 		toggle ? 'toggle' : 'checkbox',
-		'ctx-form-field-' + width,
+		'grid__column--span-' + width,
 	].join( ' ' );
 
 	return (
@@ -66,3 +67,4 @@ Checkbox.defaultProps = {
 };
 
 export default Checkbox;
+export type { Props as CheckboxProps };

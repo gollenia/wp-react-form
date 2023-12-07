@@ -1,6 +1,21 @@
-import React, { useRef, useState } from '@wordpress/elements';
+import React, { useRef, useState } from '@wordpress/element';
 
-const NumberInput = ( props ) => {
+type NumberInputProps = {
+	label: string;
+	placeholder: number;
+	name: string;
+	required: boolean;
+	width: number;
+	min: number;
+	max: number;
+	range: boolean;
+	disabled: boolean;
+	hasTicks: boolean;
+	hasLabels: boolean;
+	onChange: ( value: string ) => void;
+};
+
+const NumberInput = ( props: NumberInputProps ) => {
 	const {
 		label,
 		placeholder,
@@ -19,9 +34,7 @@ const NumberInput = ( props ) => {
 	const [ rangeValue, setRangeValue ] = useState( placeholder );
 	const rangeRef = useRef( null );
 
-	const onChangeHandler = (
-		event
-	) => {
+	const onChangeHandler = ( event: any ) => {
 		setRangeValue( parseInt( event.target.value ) );
 		onChange( event.target.value );
 	};

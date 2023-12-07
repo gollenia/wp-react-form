@@ -1,6 +1,11 @@
+import React from '@wordpress/element';
 
+type Props = {
+	content: string;
+	width: string;
+};
 
-const HtmlBlock = ( props ) => {
+const HtmlBlock = ( props: Props ) => {
 	const { content, width } = props;
 	const classes = [ 'core-block', 'grid__column--span-' + width ].join( ' ' );
 

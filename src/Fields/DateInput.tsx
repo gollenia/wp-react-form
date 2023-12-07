@@ -1,19 +1,35 @@
+import React from '@wordpress/element';
 
-const MailInput = ( props ) => {
+type MailInputProps = {
+	label: string;
+	placeholder: string;
+	name: string;
+	required: boolean;
+	width: number;
+	value: string;
+	min: string;
+	help: boolean;
+	max: string;
+	disabled: boolean;
+	onChange: ( value: string ) => void;
+};
+
+const MailInput = ( props: MailInputProps ) => {
 	const {
 		value,
 		label,
 		placeholder,
 		name,
 		required,
-		width,
+		help,
 		disabled,
+		width,
+		min,
+		max,
 		onChange,
 	} = props;
 
-	const onChangeHandler = (
-		event
-	) => {
+	const onChangeHandler = ( event: any ) => {
 		onChange( event.target.value );
 	};
 
@@ -32,7 +48,10 @@ const MailInput = ( props ) => {
 				disabled={ disabled }
 				required={ required }
 				placeholder={ placeholder }
-				type="email"
+				autoComplete={ help ? 'bday' : 'off' }
+				type="date"
+				max={ max }
+				min={ min }
 				onChange={ onChangeHandler }
 			/>
 		</div>
@@ -45,6 +64,9 @@ MailInput.defaultProps = {
 	name: '',
 	required: false,
 	width: 6,
+	help: true,
+	min: '',
+	max: '',
 };
 
 export default MailInput;

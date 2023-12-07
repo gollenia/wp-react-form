@@ -1,11 +1,22 @@
+import React, { useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { useEffect, useRef, useState } from 'react';
-import InputField from './InputField';
+import InputField, { InputFieldProps } from './InputField';
 
-const Form = ( props ) => {
-	const { id, lang, data, formUrl, onSubmit, validate, submitUrl } = props;
+type FormProps = {
+	extraData: any;
+	lang: string;
+	data: Array< InputFieldProps >;
+	formUrl: string;
+	onSubmit: ( event: any, data: any ) => void | null;
+	validate: boolean;
+	submitUrl: string;
+};
+
+const Form = ( props: FormProps ) => {
+	const { extraData, lang, data, formUrl, onSubmit, validate, submitUrl } =
+		props;
 	const [ status, setStatus ] = useState( 'LOADING' );
-	const [ fields, setFields ] = useState( [] );
+	const [ fields, setFields ] = useState< Array< InputFieldProps > >( [] );
 	const [ form, setForm ] = useState( {} );
 	const [ submitButton, setSubmitButton ] = useState( {} );
 
@@ -13,11 +24,11 @@ const Form = ( props ) => {
 
 	useEffect( () => {
 		if ( ! formUrl && data ) {
-			setFields(data);
+			setFields( data );
 			setStatus( 'LOADED' );
 			return;
-		};
-		fetch( url )
+		}
+		fetch( formUrl )
 			.then( ( response ) => response.json() )
 			.then( ( data ) => {
 				setFields( data.fields );
@@ -25,9 +36,8 @@ const Form = ( props ) => {
 				setStatus( 'LOADED' );
 
 				const fieldTemplate = {};
-				Object.entries( data.fields ).map(
-					( [ key, field ] ) => {
-						console.log( field );
+				Object.entries( data.fields ).forEach(
+					( [ key, field ]: [ string, any ] ) => {
 						fieldTemplate[ key ] = field.settings.defaultValue;
 					}
 				);
@@ -38,27 +48,36 @@ const Form = ( props ) => {
 
 	if ( fields.length == 0 ) return <></>;
 
-	const handleSubmit = ( event ) => {
-		
+	const handleSubmit = ( event: any ) => {
 		event.preventDefault();
-		if(onSubmit) {
-			onSubmit(event, form);
+		if ( onSubmit ) {
+			onSubmit( event, form );
 			return;
 		}
 
-		if ( ! formRef.current.checkValidity() ) {
-			formRef.current.reportValidity();
-			return;
+		if (
+			! ( formRef.current as HTMLFormElement | null )?.checkValidity()
+		) {
+			if (
+				formRef.current &&
+				( formRef.current as HTMLFormElement ).reportValidity
+			) {
+				( formRef.current as HTMLFormElement ).reportValidity();
+				return;
+			}
 		}
 
-		if (!submitUrl) {
-			console.error('wp-react-form', 'No URL or onSubmit callback provided');
+		if ( ! submitUrl ) {
+			console.error(
+				'wp-react-form',
+				'No URL or onSubmit callback provided'
+			);
 			return;
 		}
 
 		if ( status == 'SUBMITTING' || status == 'SUCCESS' ) return;
 
-		const data = { fields: form, id, page };
+		const data = { fields: form, ...extraData };
 		setStatus( 'SUBMITTING' );
 		fetch( submitUrl, {
 			method: 'POST',
@@ -104,7 +123,6 @@ const Form = ( props ) => {
 					/>
 				);
 			} ) }
-	
 		</form>
 	);
 };

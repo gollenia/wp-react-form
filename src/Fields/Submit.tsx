@@ -1,5 +1,13 @@
+import React from '@wordpress/element';
 
-const Submit = ( props ) => {
+type Props = {
+	label: string;
+	width: number;
+	alignment: 'left' | 'center' | 'right';
+	disabled: boolean;
+};
+
+const Submit = ( props: Props ) => {
 	const { label, width, alignment, disabled } = props;
 
 	const classes = [

@@ -1,22 +1,40 @@
-import DateInput from './Fields/DateInput';
-
+import React from '@wordpress/element';
 import Checkbox from './Fields/Checkbox';
 import Country from './Fields/Country';
+import DateInput from './Fields/DateInput';
 import HtmlBlock from './Fields/HtmlBlock';
 import MailInput from './Fields/MailInput';
 import NumberInput from './Fields/NumberInput';
 import Radio from './Fields/Radio';
 import Select from './Fields/Select';
-
 import Telephone from './Fields/Telephone';
 import TextArea from './Fields/TextArea';
 import TextInput from './Fields/TextInput';
 
+type InputFieldProps = {
+	type: string;
+	settings: {
+		label: string;
+		placeholder: string;
+		name: string;
+		required: boolean;
+		width: number;
+		value: string;
+		disabled: boolean;
+		help: string;
+		options: any;
+		toggle: boolean;
+		defaultValue: string | boolean;
+	};
+	lang: string;
+	disabled: boolean;
+	onChange: ( value: any ) => void;
+};
 
-const InputField = ( props ) => {
+const InputField: any = ( props: InputFieldProps ) => {
 	const { type, settings, onChange, lang, disabled } = props;
 
-	const renderField = ( type, settings ) => {
+	const renderField: any = ( type: string, settings: any ) => {
 		switch ( type ) {
 			case 'text':
 				return (
@@ -110,5 +128,4 @@ const InputField = ( props ) => {
 };
 
 export default InputField;
-export { Country };
-
+export type { InputFieldProps };

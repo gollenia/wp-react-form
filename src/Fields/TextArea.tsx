@@ -1,7 +1,18 @@
-import { useRef } from 'react';
+import React, { useRef } from '@wordpress/element';
 
+type TextAreaProps = {
+	label: string;
+	placeholder: string;
+	name: string;
+	required: boolean;
+	width: number;
+	value: string;
+	disabled: boolean;
+	rows: number;
+	onChange: ( value: string ) => void;
+};
 
-const TextArea = ( props ) => {
+const TextArea = ( props: TextAreaProps ) => {
 	const {
 		value,
 		label,
@@ -15,9 +26,7 @@ const TextArea = ( props ) => {
 	} = props;
 	const textInputRef = useRef( null );
 
-	const onChangeHandler = (
-		event
-	) => {
+	const onChangeHandler = ( event: any ) => {
 		onChange( event.target.value );
 	};
 

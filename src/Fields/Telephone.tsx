@@ -1,6 +1,17 @@
-import { useRef } from 'react';
+import React, { useRef } from '@wordpress/element';
 
-const Telephone = ( props ) => {
+type TextInputProps = {
+	label: string;
+	placeholder: string;
+	name: string;
+	required: boolean;
+	width: number;
+	value: string;
+	disabled: boolean;
+	onChange: ( value: string ) => void;
+};
+
+const TextInput = ( props: TextInputProps ) => {
 	const {
 		value,
 		label,
@@ -13,9 +24,7 @@ const Telephone = ( props ) => {
 	} = props;
 	const textInputRef = useRef( null );
 
-	const onChangeHandler = (
-		event
-	) => {
+	const onChangeHandler = ( event: any ) => {
 		onChange( event.target.value );
 	};
 
@@ -41,7 +50,7 @@ const Telephone = ( props ) => {
 	);
 };
 
-Telephone.defaultProps = {
+TextInput.defaultProps = {
 	label: '',
 	placeholder: '',
 	name: '',
@@ -49,4 +58,4 @@ Telephone.defaultProps = {
 	width: 6,
 };
 
-export default Telephone;
+export default TextInput;

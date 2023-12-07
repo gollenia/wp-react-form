@@ -1,6 +1,19 @@
+import React from '@wordpress/element';
+
 import { useState } from 'react';
 
-const Radio = ( props ) => {
+type Props = {
+	label: string;
+	placeholder: string;
+	name: string;
+	required: boolean;
+	width: number;
+	options: Array< string >;
+	disabled: boolean;
+	onChange: ( value: string ) => void;
+};
+
+const Radio = ( props: Props ) => {
 	const { onChange, options, name, disabled, placeholder } = props;
 
 	const classes = [
@@ -11,9 +24,7 @@ const Radio = ( props ) => {
 
 	const [ selection, setSelection ] = useState( placeholder );
 
-	const onChangeHandler = (
-		event
-	) => {
+	const onChangeHandler = ( event: any ) => {
 		setSelection( event.target.value );
 		onChange( event.target.value );
 	};

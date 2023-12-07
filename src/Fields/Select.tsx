@@ -1,7 +1,21 @@
-import { __ } from '@wordpress/i18n';
+import React from '@wordpress/element';
 
+type Props = {
+	label: string;
+	placeholder: string;
+	name: string;
+	required: boolean;
+	width: number;
+	options: Array< string >;
+	hasEmptyOption: boolean;
+	help: string;
+	hint: string;
+	disabled: boolean;
+	multiSelect: boolean;
+	onChange: ( value: string ) => void;
+};
 
-const Select = ( props ) => {
+const Select = ( props: Props ) => {
 	const {
 		onChange,
 		options,
@@ -22,9 +36,7 @@ const Select = ( props ) => {
 		props.required ? 'select--required' : '',
 	].join( ' ' );
 
-	const onChangeHandler = (
-		event
-	) => {
+	const onChangeHandler = ( event: any ) => {
 		onChange( event.target.value );
 	};
 
@@ -42,7 +54,7 @@ const Select = ( props ) => {
 			>
 				{ hasEmptyOption && (
 					<option value="" disabled>
-						{ help ?? __( 'Make a selection', 'gutenberg-form' ) }
+						{ help ?? 'Make a selection' }
 					</option>
 				) }
 				{ options.map( ( option, index ) => {

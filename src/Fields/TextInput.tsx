@@ -1,5 +1,20 @@
+import React from '@wordpress/element';
 
-const TextInput = ( props ) => {
+type TextInputProps = {
+	label: string;
+	placeholder: string;
+	name: string;
+	required: boolean;
+	help: string;
+	pattern: string;
+	width: number;
+	disabled: boolean;
+	error: string;
+	value: string;
+	onChange: ( value: string ) => void;
+};
+
+const TextInput = ( props: TextInputProps ) => {
 	const {
 		value,
 		label,
@@ -29,13 +44,11 @@ const TextInput = ( props ) => {
 		}
 	};
 
-	const onChangeHandler = (
-		event
-	) => {
+	const onChangeHandler = ( event: any ) => {
 		onChange( event.target.value );
 	};
 
-	const setInvalidity = ( event ) => {
+	const setInvalidity = ( event: any ) => {
 		if ( ! props.error ) return;
 		console.log( event );
 		event.target.setCustomValidity( props.error );

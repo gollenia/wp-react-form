@@ -1,23 +1,39 @@
 {
-	"name": "wp-react-form",
+	"name": "@contexis/wp-react-form",
 	"version": "1.0.0",
-	"description": "Wordpress plugin to create forms with Gutenberg blocks",
-	"author": "kids-team Österreich",
+	"description": "Create forms in the frontend based on JSON Form data",
+	"author": "Thomas Gollenia",
 	"prettier": "@wordpress/prettier-config",
 	"license": "GPL-2.0-or-later",
-	"main": "assets/index.js",
+	"main": "build/index.js",
+	"bugs": {
+		"url": "https://github.com/gollenia/wp-react-form/issues",
+		"email": "thomas@gollenia.at"
+	},
+	"homepage": "https://github.com/gollenia/wp-react-form#readme",
 	"scripts": {
-		"start": "wp-scripts start",
-		"build": "wp-scripts build",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"build": "tsc",
+		"format": "prettier --write \"src/**/*.ts\" \"lib/**/*.js\"",
+		"lint": "tslint -p tsconfig.json",
+		"test": "jest --rootDir=tests",
+		"postversion": "git push && git push --tags",
+		"preversion": "npm run lint",
+		"prepublishOnly": "npm test && npm run lint",
+		"prepare": "npm run build"
 	},
 	"dependencies": {
-
+		"@wordpress/element": "^5.24.0"
 	},
 	"devDependencies": {
-		
-		"@wordpress/scripts": "^26.18.0"
-		
+		"@testing-library/jest-dom": "^6.1.5",
+		"@testing-library/react": "^14.1.2",
+		"@types/jest": "^29.5.11",
+		"@wordpress/scripts": "^26.18.0",
+		"isomorphic-fetch": "^3.0.0",
+		"testing-library": "^0.0.2",
+		"ts-jest": "^29.1.1",
+		"ts-node": "^10.9.1",
+		"tslint": "^6.1.3"
 	},
 	"browserslist": [
 		"> 1%",
