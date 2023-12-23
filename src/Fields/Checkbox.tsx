@@ -1,62 +1,61 @@
-import React from '@wordpress/element';
+import { useRef } from '@wordpress/element';
 
 type Props = {
 	label: string;
-	help: string;
 	width: number;
 	disabled: boolean;
 	required: boolean;
-	placeholder: boolean;
-	toggle: boolean;
-	onChange: ( value: boolean ) => void;
+	defaultChecked: boolean;
+	type: 'checkbox' | 'toggle';
+	customError: string;
+	onChange: ( value: any ) => void;
 };
 
 const Checkbox = ( props: Props ) => {
-	const { help, width, onChange, disabled, placeholder, required, toggle } =
+	const { label, width, onChange, type } =
 		props;
+	
+	const inputRef = useRef<HTMLInputElement>( null );
 
 	const onChangeHandler = ( event: any ) => {
 		onChange( event.target.checked );
 	};
 
+	const setInvalidity = ( event: any ) => {
+		if ( ! props.customError ) return;
+		event.target.setCustomValidity( props.customError );
+	}
+
+	const toggle = type === 'toggle';
+
 	const classes = [
 		toggle ? 'toggle' : 'checkbox',
-		'grid__column--span-' + width,
+		'ctx-form-field-w' + width,
 	].join( ' ' );
 
 	return (
-		<>
-			{ toggle ? (
-				<div className={ classes }>
-					<label>
-						<div className="toggle__control">
-							<input
-								defaultChecked={ placeholder }
-								type="checkbox"
-								required={ required }
-								onChange={ onChangeHandler }
-								disabled={ disabled }
-							/>
-							<span className="toggle__switch"></span>
-						</div>
-						<span>{ help }</span>
-					</label>
+		<div className={ classes }>
+			<label>
+				<div className="toggle__control">
+					<input
+						disabled={ props.disabled }
+						required={ props.required }
+						ref={inputRef}
+						type="checkbox"
+						onChange={ onChangeHandler }
+						onInvalid={ setInvalidity }
+					/>
+					{ toggle && <span className="toggle__switch"></span> }
 				</div>
-			) : (
-				<div className={ classes }>
-					<label>
-						<input
-							defaultChecked={ placeholder }
-							type="checkbox"
-							required={ required }
-							onChange={ onChangeHandler }
-							disabled={ disabled }
-						/>
-						<span>{ help }</span>
-					</label>
-				</div>
+				<span>{ label }</span>
+			</label>
+			{ ! inputRef?.current?.validity.valid && inputRef.current?.validationMessage && (
+				<span className="input__error" >
+					{ inputRef.current?.validationMessage }
+				</span>
 			) }
-		</>
+
+		</div>
 	);
 };
 
@@ -64,6 +63,10 @@ Checkbox.defaultProps = {
 	label: '',
 	help: '',
 	width: 6,
+	disabled: false,
+	required: false,
+	defaultChecked: false,
+	type: 'checkbox',
 };
 
 export default Checkbox;

@@ -1,14 +1,17 @@
 {
 	"compilerOptions": {
-		"outDir": "./assets/public/",
+		"outDir": "./lib/",
 		"jsx": "react-jsx",
-		"target": "ES2015", // Set to ES5 for older browser support.
+		"target": "es6", // Set to ES5 for older browser support.
+		"declaration": true,
 		"strict": true,
 		"allowSyntheticDefaultImports": true,
+		"plugins": [{ "name": "typescript-plugin-css-modules" }],
 		"noImplicitAny": true,
 		"allowJs": true,
 		"moduleResolution": "node",
 		"resolveJsonModule": true
 	},
-	"include": [ "src" ]
+	"include": [ "src" ],
+	"exclude": [ "node_modules" ]
 }

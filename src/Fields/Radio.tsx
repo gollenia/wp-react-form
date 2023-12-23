@@ -1,24 +1,22 @@
-import React from '@wordpress/element';
-
 import { useState } from 'react';
 
-type Props = {
+export type RadioProps = {
 	label: string;
 	placeholder: string;
 	name: string;
 	required: boolean;
 	width: number;
-	options: Array< string >;
+	options?: Array< string >;
 	disabled: boolean;
 	onChange: ( value: string ) => void;
 };
 
-const Radio = ( props: Props ) => {
-	const { onChange, options, name, disabled, placeholder } = props;
+const Radio = ( props: RadioProps ) => {
+	const { onChange, options, name, disabled, placeholder, width } = props;
 
 	const classes = [
 		'radio',
-		'grid__column--span-' + props.width,
+		'ctx-form-field-w' + width,
 		props.required ? 'select--required' : '',
 	].join( ' ' );
 
@@ -29,13 +27,11 @@ const Radio = ( props: Props ) => {
 		onChange( event.target.value );
 	};
 
-	console.log( selection );
-
 	return (
 		<div className={ classes }>
 			<fieldset name={ props.name }>
 				<legend>{ props.label }</legend>
-				{ options.map( ( option, index ) => {
+				{ options && options.map( ( option, index ) => {
 					return (
 						<label key={ index } htmlFor={ name + index }>
 							<input
@@ -62,6 +58,7 @@ Radio.defaultProps = {
 	label: '',
 	placeholder: '',
 	name: '',
+	options: [],
 	required: false,
 	width: 6,
 	region: 'world',

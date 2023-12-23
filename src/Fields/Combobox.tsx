@@ -1,23 +1,23 @@
 import { useRef } from 'react';
 
 
-export type SelectProps = {
+export type ComboboxProps = {
 	label: string;
-	placeholder: any;
+	placeholder: string;
 	name: string;
 	required: boolean;
 	width: number;
 	options?: Array< string >;
 	hasEmptyOption?: boolean;
-	help?: string;
-	hint?: string;
+	help: string;
+	hint: string;
 	disabled: boolean;
-	multiple?: boolean;
-	customError?: string;
+	multiple: boolean;
+	customError: string;
 	onChange: ( value: string ) => void;
 };
 
-const Select = ( props: SelectProps ) => {
+const Combobox = ( props: ComboboxProps ) => {
 	const {
 		onChange,
 		options,
@@ -75,7 +75,7 @@ const Select = ( props: SelectProps ) => {
 	);
 };
 
-Select.defaultProps = {
+Combobox.defaultProps = {
 	label: '',
 	placeholder: '',
 	name: '',
@@ -84,4 +84,4 @@ Select.defaultProps = {
 	region: 'world',
 };
 
-export default Select;
+export default Combobox;

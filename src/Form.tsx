@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
-import InputField, { InputFieldProps } from './InputField';
+import { useEffect, useRef, useState } from '@wordpress/element';
+
+import InputField from './InputField';
 
 type FormProps = {
-	extraData: any;
-	lang: string;
-	data: Array< InputFieldProps >;
+	data: Array< any >;
 	formUrl: string;
 	onSubmit: ( event: any, data: any ) => void | null;
 	validate: boolean;
@@ -13,12 +11,11 @@ type FormProps = {
 };
 
 const Form = ( props: FormProps ) => {
-	const { extraData, lang, data, formUrl, onSubmit, validate, submitUrl } =
+	const { data, formUrl, onSubmit, submitUrl } =
 		props;
 	const [ status, setStatus ] = useState( 'LOADING' );
-	const [ fields, setFields ] = useState< Array< InputFieldProps > >( [] );
+	const [ fields, setFields ] = useState< Array< any > >( [] );
 	const [ form, setForm ] = useState( {} );
-	const [ submitButton, setSubmitButton ] = useState( {} );
 
 	const formRef = useRef( null );
 
@@ -32,10 +29,10 @@ const Form = ( props: FormProps ) => {
 			.then( ( response ) => response.json() )
 			.then( ( data ) => {
 				setFields( data.fields );
-				setSubmitButton( data.submit );
+				
 				setStatus( 'LOADED' );
 
-				const fieldTemplate = {};
+				const fieldTemplate: any = {};
 				Object.entries( data.fields ).forEach(
 					( [ key, field ]: [ string, any ] ) => {
 						fieldTemplate[ key ] = field.settings.defaultValue;
@@ -77,7 +74,7 @@ const Form = ( props: FormProps ) => {
 
 		if ( status == 'SUBMITTING' || status == 'SUCCESS' ) return;
 
-		const data = { fields: form, ...extraData };
+		const data = { fields: form };
 		setStatus( 'SUBMITTING' );
 		fetch( submitUrl, {
 			method: 'POST',
@@ -93,26 +90,26 @@ const Form = ( props: FormProps ) => {
 	};
 
 	if ( status == 'LOADING' )
-		return <>{ __( 'Form is beeing loaded', 'gutenberg-form' ) }</>;
+		return <></>;
 
 	const classes = [
-		'ctx-form form grid xl:grid--columns-6 grid--gap-8',
+		'ctx-form',
 		status == 'LOADED' ? 'form--loaded' : '',
 		status == 'ERROR' ? 'form--error' : '',
 		status == 'SUBMITTING' ? 'form--submitting' : '',
 		status == 'SUCCESS' ? 'form--submitted' : '',
 	].join( ' ' );
+
 	return (
 		<form className={ classes } ref={ formRef } onSubmit={ handleSubmit }>
 			{ Object.entries( fields ).map( ( [ key, field ], index ) => {
 				return (
 					<InputField
+						{ ...field }
+						status={ status }
 						disabled={ status == 'SUBMITTING' }
-						lang={ lang }
 						key={ index }
-						type={ field.type }
-						settings={ field.settings }
-						onChange={ ( value ) => {
+						onChange={ ( value: any ) => {
 							setForm( ( fields ) => {
 								return {
 									...fields,

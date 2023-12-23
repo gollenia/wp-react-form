@@ -1,4 +1,3 @@
-import React from '@wordpress/element';
 
 type Props = {
 	label: string;
@@ -12,7 +11,7 @@ const Submit = ( props: Props ) => {
 
 	const classes = [
 		'flex',
-		'grid__column--span-' + width,
+		'ctx-form-field-w' + width,
 		'flex--align-center',
 		alignment == 'right' ? 'flex--justify-end' : '',
 	].join( ' ' );

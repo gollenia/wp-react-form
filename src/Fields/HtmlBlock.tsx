@@ -1,13 +1,12 @@
-import React from '@wordpress/element';
 
-type Props = {
+export type HTMLBlockProps = {
 	content: string;
-	width: string;
+	width: number;
 };
 
-const HtmlBlock = ( props: Props ) => {
+const HTMLBlock = ( props: HTMLBlockProps ) => {
 	const { content, width } = props;
-	const classes = [ 'core-block', 'grid__column--span-' + width ].join( ' ' );
+	const classes = [ 'core-block', 'ctx-form-field-w' + width, ].join( ' ' );
 
 	return (
 		<div
@@ -17,4 +16,4 @@ const HtmlBlock = ( props: Props ) => {
 	);
 };
 
-export default HtmlBlock;
+export default HTMLBlock;

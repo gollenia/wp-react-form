@@ -1,11 +1,11 @@
 {
 	"name": "@contexis/wp-react-form",
-	"version": "1.0.0",
+	"version": "1.0.4",
 	"description": "Create forms in the frontend based on JSON Form data",
 	"author": "Thomas Gollenia",
 	"prettier": "@wordpress/prettier-config",
 	"license": "GPL-2.0-or-later",
-	"main": "build/index.js",
+	"main": "lib/index.js",
 	"bugs": {
 		"url": "https://github.com/gollenia/wp-react-form/issues",
 		"email": "thomas@gollenia.at"
@@ -14,11 +14,9 @@
 	"scripts": {
 		"build": "tsc",
 		"format": "prettier --write \"src/**/*.ts\" \"lib/**/*.js\"",
-		"lint": "tslint -p tsconfig.json",
 		"test": "jest --rootDir=tests",
 		"postversion": "git push && git push --tags",
-		"preversion": "npm run lint",
-		"prepublishOnly": "npm test && npm run lint",
+		"prepublishOnly": "npm test",
 		"prepare": "npm run build"
 	},
 	"dependencies": {
@@ -28,12 +26,18 @@
 		"@testing-library/jest-dom": "^6.1.5",
 		"@testing-library/react": "^14.1.2",
 		"@types/jest": "^29.5.11",
-		"@wordpress/scripts": "^26.18.0",
+		"@types/node-sass": "^4.11.7",
 		"isomorphic-fetch": "^3.0.0",
+		"jest-environment-jsdom": "^29.7.0",
+		"node-sass": "^9.0.0",
+		"sass": "^1.69.5",
 		"testing-library": "^0.0.2",
 		"ts-jest": "^29.1.1",
+		"ts-loader": "^9.5.1",
 		"ts-node": "^10.9.1",
-		"tslint": "^6.1.3"
+		"tslint": "^6.1.3",
+		"typescript": "^5.3.3",
+		"typescript-plugin-css-modules": "^5.0.2"
 	},
 	"browserslist": [
 		"> 1%",

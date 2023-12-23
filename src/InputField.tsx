@@ -1,85 +1,36 @@
-import React from '@wordpress/element';
 import Checkbox from './Fields/Checkbox';
+import Combobox from './Fields/Combobox';
 import Country from './Fields/Country';
-import DateInput from './Fields/DateInput';
-import HtmlBlock from './Fields/HtmlBlock';
-import MailInput from './Fields/MailInput';
-import NumberInput from './Fields/NumberInput';
+import HTMLBlock from './Fields/HtmlBlock';
+import Input from './Fields/Input';
+import NumberInput from './Fields/Number';
 import Radio from './Fields/Radio';
 import Select from './Fields/Select';
-import Telephone from './Fields/Telephone';
 import TextArea from './Fields/TextArea';
-import TextInput from './Fields/TextInput';
 
-type InputFieldProps = {
-	type: string;
-	settings: {
-		label: string;
-		placeholder: string;
-		name: string;
-		required: boolean;
-		width: number;
-		value: string;
-		disabled: boolean;
-		help: string;
-		options: any;
-		toggle: boolean;
-		defaultValue: string | boolean;
-	};
-	lang: string;
-	disabled: boolean;
-	onChange: ( value: any ) => void;
-};
+type InputType = 'text' | 'email' | 'url' | 'color' | 'tel' | 'password' | 'search' | 'date' | 'week' | 'month' | 'time' | 'datetime-local' | 'number' | 'select' | 'radio' | 'textarea' | 'checkbox' | 'country' | 'html' | 'hidden' | 'range' | 'file' | 'toggle' | 'combobox' | 'options';
 
-const InputField: any = ( props: InputFieldProps ) => {
-	const { type, settings, onChange, lang, disabled } = props;
 
-	const renderField: any = ( type: string, settings: any ) => {
+
+const InputField: any = ( props: any ) => {
+	const { type, onChange,  disabled } = props;
+
+	const renderField: any = ( type: string ) => {
 		switch ( type ) {
-			case 'text':
-				return (
-					<TextInput
-						{ ...settings }
-						onChange={ onChange }
-						disabled={ disabled }
-					/>
-				);
-			case 'email':
-				return (
-					<MailInput
-						{ ...settings }
-						onChange={ onChange }
-						disabled={ disabled }
-					/>
-				);
+			
 			case 'select':
 				return (
 					<Select
-						{ ...settings }
+						{ ...props }
 						onChange={ onChange }
 						disabled={ disabled }
 					/>
 				);
 			case 'radio':
+			case 'options':
 				return (
 					<Radio
-						{ ...settings }
-						onChange={ onChange }
-						disabled={ disabled }
-					/>
-				);
-			case 'date':
-				return (
-					<DateInput
-						{ ...settings }
-						onChange={ onChange }
-						disabled={ disabled }
-					/>
-				);
-			case 'number':
-				return (
-					<NumberInput
-						{ ...settings }
+						{ ...props }
 						onChange={ onChange }
 						disabled={ disabled }
 					/>
@@ -87,23 +38,16 @@ const InputField: any = ( props: InputFieldProps ) => {
 			case 'textarea':
 				return (
 					<TextArea
-						{ ...settings }
-						onChange={ onChange }
-						disabled={ disabled }
-					/>
-				);
-			case 'tel':
-				return (
-					<Telephone
-						{ ...settings }
+						{ ...props }
 						onChange={ onChange }
 						disabled={ disabled }
 					/>
 				);
 			case 'checkbox':
+			case 'toggle':
 				return (
 					<Checkbox
-						{ ...settings }
+						{ ...props }
 						onChange={ onChange }
 						disabled={ disabled }
 					/>
@@ -111,21 +55,44 @@ const InputField: any = ( props: InputFieldProps ) => {
 			case 'country':
 				return (
 					<Country
-						{ ...settings }
+						{ ...props }
 						onChange={ onChange }
-						lang={ lang }
+						disabled={ disabled }
+					/>
+				);
+			case 'combobox':
+				return (
+					<Combobox
+						{ ...props }
+						onChange={ onChange }
+						disabled={ disabled }
+					/>
+				);
+			case 'number':
+			case 'range':
+			case 'numberpicker':
+				return (
+					<NumberInput
+						{ ...props }
+						onChange={ onChange }
 						disabled={ disabled }
 					/>
 				);
 			case 'html':
-				return <HtmlBlock { ...settings } />;
+				return <HTMLBlock { ...props } />;
 
 			default:
-				return <></>;
+				return (
+					<Input
+						{ ...props }
+						onChange={ onChange }
+						disabled={ disabled }
+					/>
+				);;
 		}
 	};
-	return <>{ renderField( type, settings ) }</>;
+	return <>{ renderField( props ) }</>;
 };
 
 export default InputField;
-export type { InputFieldProps };
+export type { InputType };

@@ -1,12 +1,11 @@
-import React, { useRef } from '@wordpress/element';
+import { useRef } from '@wordpress/element';
 
-type TextAreaProps = {
+export type TextAreaProps = {
 	label: string;
 	placeholder: string;
 	name: string;
 	required: boolean;
 	width: number;
-	value: string;
 	disabled: boolean;
 	rows: number;
 	onChange: ( value: string ) => void;
@@ -14,7 +13,7 @@ type TextAreaProps = {
 
 const TextArea = ( props: TextAreaProps ) => {
 	const {
-		value,
+		
 		label,
 		placeholder,
 		name,
@@ -24,7 +23,8 @@ const TextArea = ( props: TextAreaProps ) => {
 		disabled,
 		onChange,
 	} = props;
-	const textInputRef = useRef( null );
+
+	const textInputRef = useRef<HTMLTextAreaElement>( null );
 
 	const onChangeHandler = ( event: any ) => {
 		onChange( event.target.value );
@@ -32,7 +32,7 @@ const TextArea = ( props: TextAreaProps ) => {
 
 	const classes = [
 		'textarea',
-		'grid__column--span-' + width,
+		'ctx-form-field-w' + width,
 		required ? 'input--required' : '',
 	].join( ' ' );
 
@@ -40,14 +40,19 @@ const TextArea = ( props: TextAreaProps ) => {
 		<div className={ classes }>
 			<label>{ label }</label>
 			<textarea
-				value={ value }
 				name={ name }
 				required={ required }
 				disabled={ disabled }
 				rows={ rows }
+				ref={textInputRef}
 				placeholder={ placeholder }
 				onChange={ onChangeHandler }
 			></textarea>
+			{ ! textInputRef?.current?.validity.valid && textInputRef.current?.validationMessage && (
+				<span className="input__error" >
+					{ textInputRef.current?.validationMessage }
+				</span>
+			) }
 		</div>
 	);
 };

@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from '@wordpress/element';
-type Props = {
+import { useEffect, useRef, useState } from '@wordpress/element';
+type CountryProps = {
 	label: string;
 	placeholder: string;
 	name: string;
 	required: boolean;
 	width: number;
-	region: string;
-	lang: string;
-	help: string;
+	region: 'world' | 'europe' | 'german' | 'english' | 'spanish' | 'french' | 'asia' | 'africa' | 'oceania' | 'americas';
+	emptyOption: string;
 	disabled: boolean;
-
+	customError: string;
 	onChange: ( value: string ) => void;
 };
 
@@ -18,30 +17,35 @@ type Option = {
 	label: string;
 };
 
-const Country = ( props: Props ) => {
+const browserLanguage = navigator.language.split( '-' )[ 0 ];
+
+const Country = ( props: CountryProps ) => {
 	const {
-		onChange,
-		lang,
-		help,
+		onChange,	
+		emptyOption,
 		disabled,
 		placeholder,
 		required,
 		name,
 		label,
+		width,
+		region
 	} = props;
 
 	const classes = [
 		'select',
-		'grid__column--span-' + props.width,
+		'ctx-form-field-w' + width,
 		props.required ? 'select--required' : '',
 	].join( ' ' );
+
+	const inputRef = useRef<HTMLSelectElement>( null );
 
 	const [ countries, setCountries ] = useState< Array< any > >( [] );
 	const [ selectedCountry, setSelectedCountry ] = useState( placeholder );
 
 	const fetchCountries = async () => {
 		const response = await fetch(
-			`https://countries.kids-team.com/countries/${ props.region }/${ lang }`
+			`https://countries.kids-team.com/countries/${ region }/${ browserLanguage }`
 		);
 		const data = await response.json();
 
@@ -69,12 +73,13 @@ const Country = ( props: Props ) => {
 			<select
 				name={ name }
 				required={ required }
-				onChange={ onChangeHandler }
 				disabled={ disabled }
+				onChange={ onChangeHandler }
+				ref={ inputRef }
 				value={ selectedCountry }
 			>
 				<option value="" disabled>
-					{ help ?? 'Make a selection' }
+					{ emptyOption ?? 'Make a selection' }
 				</option>
 				{ countries.map( ( country: Option, index ) => {
 					return (
@@ -84,6 +89,11 @@ const Country = ( props: Props ) => {
 					);
 				} ) }
 			</select>
+			{ ! inputRef?.current?.validity.valid && inputRef.current?.validationMessage && (
+				<span className="input__error" >
+					{ inputRef.current?.validationMessage }
+				</span>
+			) }
 		</div>
 	);
 };
@@ -98,3 +108,4 @@ Country.defaultProps = {
 };
 
 export default Country;
+export type { CountryProps };

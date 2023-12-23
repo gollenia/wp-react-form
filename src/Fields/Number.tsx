@@ -1,8 +1,8 @@
-import React, { useRef, useState } from '@wordpress/element';
+import { useRef, useState } from '@wordpress/element';
 
-type NumberInputProps = {
+export type NumberInputProps = {
 	label: string;
-	placeholder: number;
+	placeholder: string;
 	name: string;
 	required: boolean;
 	width: number;
@@ -12,6 +12,7 @@ type NumberInputProps = {
 	disabled: boolean;
 	hasTicks: boolean;
 	hasLabels: boolean;
+	type: 'number' | 'range' | 'numberpicker';
 	onChange: ( value: string ) => void;
 };
 
@@ -25,13 +26,12 @@ const NumberInput = ( props: NumberInputProps ) => {
 		min,
 		max,
 		disabled,
-		range,
 		hasTicks,
 		hasLabels,
 		onChange,
 	} = props;
 
-	const [ rangeValue, setRangeValue ] = useState( placeholder );
+	const [ rangeValue, setRangeValue ] = useState( parseInt(placeholder) );
 	const rangeRef = useRef( null );
 
 	const onChangeHandler = ( event: any ) => {
@@ -40,9 +40,9 @@ const NumberInput = ( props: NumberInputProps ) => {
 	};
 
 	const classes = [
-		range ? 'range' : 'input',
+		'range',
 		'range--ticks',
-		'grid__column--span-' + width,
+		'ctx-form-field-w' + width,
 		required ? 'input--required' : '',
 	].join( ' ' );
 
@@ -51,11 +51,9 @@ const NumberInput = ( props: NumberInputProps ) => {
 			( ( rangeValue - min ) * 100 ) / ( max - min ) + '% 100%',
 	};
 
-	console.log( min, max, rangeValue );
-
 	return (
 		<>
-			{ range ? (
+			
 				<div className={ classes }>
 					<label>{ label }</label>
 					<div className="range__set">
@@ -100,22 +98,7 @@ const NumberInput = ( props: NumberInputProps ) => {
 						<span className="range__value">{ rangeValue }</span>
 					</div>
 				</div>
-			) : (
-				<div className={ classes }>
-					<label>{ label }</label>
-					<input
-						value={ rangeValue }
-						name={ name }
-						required={ required }
-						disabled={ disabled }
-						type="number"
-						max={ max }
-						min={ min }
-						ref={ rangeRef }
-						onChange={ onChangeHandler }
-					/>
-				</div>
-			) }
+			
 		</>
 	);
 };
