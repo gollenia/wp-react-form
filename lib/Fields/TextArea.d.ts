@@ -1,10 +1,9 @@
-type TextAreaProps = {
+export type TextAreaProps = {
     label: string;
     placeholder: string;
     name: string;
     required: boolean;
     width: number;
-    value: string;
     disabled: boolean;
     rows: number;
     onChange: (value: string) => void;

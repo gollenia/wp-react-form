@@ -15,8 +15,9 @@ const Radio = ( props: RadioProps ) => {
 	const { onChange, options, name, disabled, placeholder, width } = props;
 
 	const classes = [
+		'ctx-form-field',
 		'radio',
-		'ctx-form-field-w' + width,
+		'input--width-' + width,
 		props.required ? 'select--required' : '',
 	].join( ' ' );
 
@@ -31,24 +32,25 @@ const Radio = ( props: RadioProps ) => {
 		<div className={ classes }>
 			<fieldset name={ props.name }>
 				<legend>{ props.label }</legend>
-				{ options && options.map( ( option, index ) => {
-					return (
-						<label key={ index } htmlFor={ name + index }>
-							<input
-								checked={ selection === option }
-								onChange={ ( value ) => {
-									onChangeHandler( value );
-								} }
-								disabled={ disabled }
-								type="radio"
-								value={ option }
-								name={ name }
-								id={ name + index }
-							/>
-							{ option }
-						</label>
-					);
-				} ) }
+				{ options &&
+					options.map( ( option, index ) => {
+						return (
+							<label key={ index } htmlFor={ name + index }>
+								<input
+									checked={ selection === option }
+									onChange={ ( value ) => {
+										onChangeHandler( value );
+									} }
+									disabled={ disabled }
+									type="radio"
+									value={ option }
+									name={ name }
+									id={ name + index }
+								/>
+								{ option }
+							</label>
+						);
+					} ) }
 			</fieldset>
 		</div>
 	);

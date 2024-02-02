@@ -1,21 +1,12 @@
-type TextInputProps = {
+type HiddenInputProps = {
 	name: string;
-	value: string;
+	defaultValue: string;
 };
 
-const HiddenInput = ( props: TextInputProps ) => {
-	const {
-		value,
-		name,
-	} = props;
+const HiddenInput = (props: HiddenInputProps) => {
+	const { defaultValue, name } = props;
 
-	return (
-		<input
-			value={ value }
-			name={ name }
-			type="hidden"
-		/>
-	);
+	return <input value={defaultValue} name={name} type="hidden" />;
 };
 
 HiddenInput.defaultProps = {

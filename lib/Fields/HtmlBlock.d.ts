@@ -1,6 +1,6 @@
-type Props = {
+export type HTMLBlockProps = {
     content: string;
-    width: string;
+    width: number;
 };
-declare const HtmlBlock: (props: Props) => import("react/jsx-runtime").JSX.Element;
-export default HtmlBlock;
+declare const HTMLBlock: (props: HTMLBlockProps) => import("react/jsx-runtime").JSX.Element;
+export default HTMLBlock;

@@ -1,17 +1,17 @@
-type Props = {
+type CountryProps = {
     label: string;
     placeholder: string;
     name: string;
     required: boolean;
     width: number;
-    region: string;
-    lang: string;
-    help: string;
+    region: 'world' | 'europe' | 'german' | 'english' | 'spanish' | 'french' | 'asia' | 'africa' | 'oceania' | 'americas';
+    emptyOption: string;
     disabled: boolean;
+    customError: string;
     onChange: (value: string) => void;
 };
 declare const Country: {
-    (props: Props): import("react/jsx-runtime").JSX.Element;
+    (props: CountryProps): import("react/jsx-runtime").JSX.Element;
     defaultProps: {
         label: string;
         placeholder: string;
@@ -22,3 +22,4 @@ declare const Country: {
     };
 };
 export default Country;
+export type { CountryProps };

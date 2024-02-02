@@ -5,7 +5,17 @@ type CountryProps = {
 	name: string;
 	required: boolean;
 	width: number;
-	region: 'world' | 'europe' | 'german' | 'english' | 'spanish' | 'french' | 'asia' | 'africa' | 'oceania' | 'americas';
+	region:
+		| 'world'
+		| 'europe'
+		| 'german'
+		| 'english'
+		| 'spanish'
+		| 'french'
+		| 'asia'
+		| 'africa'
+		| 'oceania'
+		| 'americas';
 	emptyOption: string;
 	disabled: boolean;
 	customError: string;
@@ -20,40 +30,27 @@ type Option = {
 const browserLanguage = navigator.language.split( '-' )[ 0 ];
 
 const Country = ( props: CountryProps ) => {
-	const {
-		onChange,	
-		emptyOption,
-		disabled,
-		placeholder,
-		required,
-		name,
-		label,
-		width,
-		region
-	} = props;
+	const { onChange, emptyOption, disabled, placeholder, required, name, label, width, region } = props;
 
 	const classes = [
+		'ctx-form-field',
 		'select',
-		'ctx-form-field-w' + width,
+		'input--width-' + width,
 		props.required ? 'select--required' : '',
 	].join( ' ' );
 
-	const inputRef = useRef<HTMLSelectElement>( null );
+	const inputRef = useRef< HTMLSelectElement >( null );
 
 	const [ countries, setCountries ] = useState< Array< any > >( [] );
 	const [ selectedCountry, setSelectedCountry ] = useState( placeholder );
 
 	const fetchCountries = async () => {
-		const response = await fetch(
-			`https://countries.kids-team.com/countries/${ region }/${ browserLanguage }`
-		);
+		const response = await fetch( `https://countries.kids-team.com/countries/${ region }/${ browserLanguage }` );
 		const data = await response.json();
 
-		const countryList = Object.entries( data ).map(
-			( [ key, name ], index ) => {
-				return { value: key, label: name };
-			}
-		);
+		const countryList = Object.entries( data ).map( ( [ key, name ], index ) => {
+			return { value: key, label: name };
+		} );
 
 		setCountries( countryList );
 	};
@@ -90,9 +87,7 @@ const Country = ( props: CountryProps ) => {
 				} ) }
 			</select>
 			{ ! inputRef?.current?.validity.valid && inputRef.current?.validationMessage && (
-				<span className="input__error" >
-					{ inputRef.current?.validationMessage }
-				</span>
+				<span className="input__error">{ inputRef.current?.validationMessage }</span>
 			) }
 		</div>
 	);

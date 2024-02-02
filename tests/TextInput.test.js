@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import TextInput from '../src/Fields/TextInput';
+import TextInput from '../src/Fields/Input';
 
 test( 'TextInput', () => {
 	render( <TextInput label="Test" /> );

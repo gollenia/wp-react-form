@@ -1,20 +1,20 @@
-export type SelectProps = {
+export type ComboboxProps = {
     label: string;
-    placeholder: any;
+    placeholder: string;
     name: string;
     required: boolean;
     width: number;
     options?: Array<string>;
     hasEmptyOption?: boolean;
-    help?: string;
-    hint?: string;
+    help: string;
+    hint: string;
     disabled: boolean;
-    multiple?: boolean;
-    customError?: string;
+    multiple: boolean;
+    customError: string;
     onChange: (value: string) => void;
 };
-declare const Select: {
-    (props: SelectProps): import("react/jsx-runtime").JSX.Element;
+declare const Combobox: {
+    (props: ComboboxProps): import("react/jsx-runtime").JSX.Element;
     defaultProps: {
         label: string;
         placeholder: string;
@@ -24,4 +24,4 @@ declare const Select: {
         region: string;
     };
 };
-export default Select;
+export default Combobox;

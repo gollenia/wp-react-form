@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 
-
 export type SelectProps = {
 	label: string;
 	placeholder: any;
@@ -30,16 +29,17 @@ const Select = ( props: SelectProps ) => {
 		required,
 		label,
 		name,
-		width
+		width,
 	} = props;
 
 	const classes = [
+		'ctx-form-field',
 		'select',
-		'ctx-form-field-w' + width,
+		'input--width-' + width,
 		props.required ? 'select--required' : '',
 	].join( ' ' );
 
-	const inputRef = useRef<HTMLSelectElement>( null );
+	const inputRef = useRef< HTMLSelectElement >( null );
 
 	const onChangeHandler = ( event: any ) => {
 		onChange( event.target.value );
@@ -62,14 +62,13 @@ const Select = ( props: SelectProps ) => {
 						{ help ?? 'Make a selection' }
 					</option>
 				) }
-				{ options && options.map( ( option, index ) => {
-					return <option key={ index }>{ option }</option>;
-				} ) }
+				{ options &&
+					options.map( ( option, index ) => {
+						return <option key={ index }>{ option }</option>;
+					} ) }
 			</select>
 			{ ! inputRef?.current?.validity.valid && inputRef.current?.validationMessage && (
-				<span className="input__error" >
-					{ inputRef.current?.validationMessage }
-				</span>
+				<span className="input__error">{ inputRef.current?.validationMessage }</span>
 			) }
 		</div>
 	);

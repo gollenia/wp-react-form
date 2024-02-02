@@ -1,6 +1,6 @@
 {
 	"name": "@contexis/wp-react-form",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "Create forms in the frontend based on JSON Form data",
 	"author": "Thomas Gollenia",
 	"prettier": "@wordpress/prettier-config",

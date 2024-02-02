@@ -12,29 +12,17 @@ export type TextAreaProps = {
 };
 
 const TextArea = ( props: TextAreaProps ) => {
-	const {
-		
-		label,
-		placeholder,
-		name,
-		required,
-		width,
-		rows,
-		disabled,
-		onChange,
-	} = props;
+	const { label, placeholder, name, required, width, rows, disabled, onChange } = props;
 
-	const textInputRef = useRef<HTMLTextAreaElement>( null );
+	const textInputRef = useRef< HTMLTextAreaElement >( null );
 
 	const onChangeHandler = ( event: any ) => {
 		onChange( event.target.value );
 	};
 
-	const classes = [
-		'textarea',
-		'ctx-form-field-w' + width,
-		required ? 'input--required' : '',
-	].join( ' ' );
+	const classes = [ 'ctx-form-field', 'textarea', 'input--width-' + width, required ? 'input--required' : '' ].join(
+		' '
+	);
 
 	return (
 		<div className={ classes }>
@@ -44,14 +32,12 @@ const TextArea = ( props: TextAreaProps ) => {
 				required={ required }
 				disabled={ disabled }
 				rows={ rows }
-				ref={textInputRef}
+				ref={ textInputRef }
 				placeholder={ placeholder }
 				onChange={ onChangeHandler }
 			></textarea>
 			{ ! textInputRef?.current?.validity.valid && textInputRef.current?.validationMessage && (
-				<span className="input__error" >
-					{ textInputRef.current?.validationMessage }
-				</span>
+				<span className="input__error">{ textInputRef.current?.validationMessage }</span>
 			) }
 		</div>
 	);

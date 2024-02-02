@@ -1,12 +1,14 @@
 type Props = {
     label: string;
-    help: string;
     width: number;
     disabled: boolean;
     required: boolean;
-    placeholder: boolean;
-    toggle: boolean;
-    onChange: (value: boolean) => void;
+    defaultChecked: boolean;
+    type: 'checkbox' | 'toggle';
+    customError: string;
+    value: boolean;
+    help: string;
+    onChange: (value: any) => void;
 };
 declare const Checkbox: {
     (props: Props): import("react/jsx-runtime").JSX.Element;
@@ -14,6 +16,10 @@ declare const Checkbox: {
         label: string;
         help: string;
         width: number;
+        disabled: boolean;
+        required: boolean;
+        defaultChecked: boolean;
+        type: string;
     };
 };
 export default Checkbox;
