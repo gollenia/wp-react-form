@@ -65,7 +65,9 @@ const Country = ( props: CountryProps ) => {
 	};
 
 	return (
-		<div className={ classes }>
+		<div className={classes} style={{
+			gridColumn: `span ${width}`
+		}}>
 			<label>{ label }</label>
 			<select
 				name={ name }

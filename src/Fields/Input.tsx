@@ -68,7 +68,9 @@ const TextInput = ( props: InputProps ) => {
 	].join( ' ' );
 
 	return (
-		<div className={ classes }>
+		<div className={classes} style={{
+			gridColumn: `span ${width}`
+		}}>
 			<label>{ label }</label>
 			<input
 				placeholder={ props.placeholder }

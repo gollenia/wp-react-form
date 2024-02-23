@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from '@wordpress/element';
 import InputField from './InputField';
-import './style.scss';
+import useMediaQueries from './useMediaQueries';
+
 type Response = {
 	success: boolean;
 	message: {
@@ -30,6 +31,8 @@ const Form = ( props: FormProps ) => {
 	const [ fields, setFields ] = useState< Array< any > >( [] );
 	const [ form, setForm ] = useState< { [ key: string ]: any } >( {} );
 	const [ response, setResponse ] = useState< Response >();
+
+	const { md, lg } = useMediaQueries();
 
 	useEffect( () => {
 		onStateChange?.( status );
@@ -118,7 +121,9 @@ const Form = ( props: FormProps ) => {
 	};
 
 	const style = {
+		display: md ? 'grid' : 'flex',
 		gridTemplateColumns: 'repeat(6, minmax(0, 1fr))',
+		gridGap: '2rem',
 	};
 
 	const classes = [

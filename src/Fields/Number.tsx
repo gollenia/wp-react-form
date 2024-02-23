@@ -40,8 +40,10 @@ const NumberInput = ( props: NumberInputProps ) => {
 	};
 
 	return (
-		<>
-			<div className={ classes }>
+		
+			<div className={classes} style={{
+			gridColumn: `span ${width}`
+		}}>
 				<label>{ label }</label>
 				<div className="range__set">
 					<div className="range__control">
@@ -74,7 +76,7 @@ const NumberInput = ( props: NumberInputProps ) => {
 					<span className="range__value">{ rangeValue }</span>
 				</div>
 			</div>
-		</>
+		
 	);
 };
 

@@ -29,7 +29,9 @@ const Radio = ( props: RadioProps ) => {
 	};
 
 	return (
-		<div className={ classes }>
+		<div className={classes} style={{
+			gridColumn: `span ${width}`
+		}}>
 			<fieldset name={ props.name }>
 				<legend>{ props.label }</legend>
 				{ options &&

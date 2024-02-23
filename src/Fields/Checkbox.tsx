@@ -37,11 +37,12 @@ const Checkbox = (props: Props) => {
 	const classes = [
 		'ctx-form-field',
 		toggle ? 'toggle' : 'checkbox',
-		'input--width-' + width,
 	].join(' ');
 
 	return (
-		<div className={classes}>
+		<div className={classes} style={{
+			gridColumn: `span ${width}`
+		}}>
 			<label>
 				<div className="toggle__control">
 					<input

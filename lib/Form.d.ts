@@ -1,4 +1,3 @@
-import './style.scss';
 type Response = {
     success: boolean;
     message: {

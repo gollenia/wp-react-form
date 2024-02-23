@@ -16,7 +16,9 @@ const Submit = ( props: Props ) => {
 		alignment == 'right' ? 'flex--justify-end' : '',
 	].join( ' ' );
 	return (
-		<div className={ classes }>
+		<div className={classes} style={{
+			gridColumn: `span ${width}`
+		}}>
 			<input className="button button--primary" type="submit" value={ label } disabled={ disabled } />
 		</div>
 	);
