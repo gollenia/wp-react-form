@@ -120,10 +120,12 @@ const Form = ( props: FormProps ) => {
 		}
 	};
 
-	const style = {
+	const style : Object = {
 		display: md ? 'grid' : 'flex',
 		gridTemplateColumns: 'repeat(6, minmax(0, 1fr))',
 		gridGap: '2rem',
+		gap: '2rem',
+		flexDirection: lg ? 'row' : 'column',
 	};
 
 	const classes = [
@@ -144,12 +146,12 @@ const Form = ( props: FormProps ) => {
 				onChange={ onFormChange }
 				onReset={ resetForm }
 			>
-				<div
+				{ status == 'SUCCESS' && <div
 					className={ `ctx-form__response ${ response?.message?.html ? 'ctx-form__response--show' : '' }` }
 					dangerouslySetInnerHTML={ {
 						__html: response?.message?.html ?? '',
 					} }
-				></div>
+				></div> }
 
 				{ fields.map( ( field, index ) => {
 					return (
