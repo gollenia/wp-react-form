@@ -1,4 +1,4 @@
-import { useRef } from '@wordpress/element';
+import { useRef, useState } from '@wordpress/element';
 
 type Props = {
 	label: string;
@@ -10,13 +10,16 @@ type Props = {
 	customError: string;
 	value: boolean;
 	help: string;
+	toggle: boolean;
+	formTouched: boolean;
 	onChange: (value: any) => void;
 };
 
 const Checkbox = (props: Props) => {
-	const { label, width, onChange, type, value, help } = props;
-	console.log('Checkbox', props);
+	const { label, width, onChange, type, value, help, toggle } = props;
+
 	const inputRef = useRef<HTMLInputElement>(null);
+	const [touched, setTouched] = useState(false);
 
 	const onChangeHandler = (event: any) => {
 		onChange(event.target.checked);
@@ -27,28 +30,33 @@ const Checkbox = (props: Props) => {
 		event.target.setCustomValidity(props.customError);
 	};
 
+	const isTouched = props.formTouched || touched;
+
 	const reset = () => {
 		if (!inputRef.current) return;
 		inputRef.current.checked = false;
 	};
 
-	const toggle = type === 'toggle';
-
 	const classes = [
 		'ctx-form-field',
 		toggle ? 'toggle' : 'checkbox',
+		!inputRef?.current?.validity.valid && isTouched ? 'error' : '',
 	].join(' ');
 
 	return (
-		<div className={classes} style={{
-			gridColumn: `span ${width}`
-		}}>
+		<div
+			className={classes}
+			style={{
+				gridColumn: `span ${width}`,
+			}}
+		>
 			<label>
 				<div className="toggle__control">
 					<input
 						disabled={props.disabled}
 						required={props.required}
 						ref={inputRef}
+						onClick={() => setTouched(true)}
 						checked={value}
 						type="checkbox"
 						onChange={onChangeHandler}
@@ -58,9 +66,10 @@ const Checkbox = (props: Props) => {
 				</div>
 				<span>{help ?? label}</span>
 			</label>
-			{!inputRef?.current?.validity.valid &&
+			{isTouched &&
+				!inputRef?.current?.validity.valid &&
 				inputRef.current?.validationMessage && (
-					<span className="input__error">
+					<span className="error-message">
 						{inputRef.current?.validationMessage}
 					</span>
 				)}
