@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 export type SelectProps = {
 	label: string;
@@ -6,17 +6,19 @@ export type SelectProps = {
 	name: string;
 	required: boolean;
 	width: number;
-	options?: Array< string >;
+	options?: Array<string>;
 	hasEmptyOption?: boolean;
 	help?: string;
 	hint?: string;
 	disabled: boolean;
 	multiple?: boolean;
 	customError?: string;
-	onChange: ( value: string ) => void;
+	formTouched?: boolean;
+	customErrorMessage?: string;
+	onChange: (value: string) => void;
 };
 
-const Select = ( props: SelectProps ) => {
+const Select = (props: SelectProps) => {
 	const {
 		onChange,
 		options,
@@ -29,49 +31,64 @@ const Select = ( props: SelectProps ) => {
 		required,
 		label,
 		name,
+		customErrorMessage,
 		width,
 	} = props;
+
+	const [touched, setTouched] = useState(false);
+
+	const inputRef = useRef<HTMLSelectElement>(null);
+
+	const onChangeHandler = (event: any) => {
+		onChange(event.target.value);
+	};
+
+	const isTouched = props.formTouched || touched;
 
 	const classes = [
 		'ctx-form-field',
 		'select',
 		'input--width-' + width,
 		props.required ? 'select--required' : '',
-	].join( ' ' );
-
-	const inputRef = useRef< HTMLSelectElement >( null );
-
-	const onChangeHandler = ( event: any ) => {
-		onChange( event.target.value );
-	};
+		!inputRef?.current?.validity.valid && isTouched ? 'error' : '',
+	].join(' ');
 
 	return (
-		<div className={classes} style={{
-			gridColumn: `span ${width}`
-		}}>
-			<label>{ label }</label>
+		<div
+			className={classes}
+			style={{
+				gridColumn: `span ${width}`,
+			}}
+		>
+			<label>{label}</label>
 			<select
-				name={ name }
-				required={ required }
-				onChange={ onChangeHandler }
-				autoComplete={ hint }
-				disabled={ disabled }
-				multiple={ multiple }
-				defaultValue={ placeholder }
+				name={name}
+				required={required}
+				onChange={onChangeHandler}
+				onBlur={() => setTouched(true)}
+				autoComplete={hint}
+				disabled={disabled}
+				multiple={multiple}
+				defaultValue={placeholder}
 			>
-				{ hasEmptyOption && (
+				{hasEmptyOption && (
 					<option value="" disabled>
-						{ help ?? 'Make a selection' }
+						{help ?? 'Make a selection'}
 					</option>
-				) }
-				{ options &&
-					options.map( ( option, index ) => {
-						return <option key={ index }>{ option }</option>;
-					} ) }
+				)}
+				{options &&
+					options.map((option, index) => {
+						return <option key={index}>{option}</option>;
+					})}
 			</select>
-			{ ! inputRef?.current?.validity.valid && inputRef.current?.validationMessage && (
-				<span className="input__error">{ inputRef.current?.validationMessage }</span>
-			) }
+			{isTouched &&
+				!inputRef?.current?.validity.valid &&
+				inputRef.current?.validationMessage && (
+					<span className="error-message">
+						{customErrorMessage ||
+							inputRef.current?.validationMessage}
+					</span>
+				)}
 		</div>
 	);
 };
