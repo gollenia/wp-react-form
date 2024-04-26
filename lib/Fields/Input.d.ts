@@ -12,7 +12,9 @@ type InputProps = {
     defaultValue: string;
     min?: number;
     max?: number;
+    customErrorMessage?: string;
     type: InputFieldTypes;
+    formTouched: boolean;
     onChange: (value: any) => void;
 };
 declare const TextInput: {

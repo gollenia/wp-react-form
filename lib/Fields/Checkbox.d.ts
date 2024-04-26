@@ -5,9 +5,11 @@ type Props = {
     required: boolean;
     defaultChecked: boolean;
     type: 'checkbox' | 'toggle';
-    customError: string;
+    customErrorMessage: string;
     value: boolean;
     help: string;
+    toggle: boolean;
+    formTouched: boolean;
     onChange: (value: any) => void;
 };
 declare const Checkbox: {

@@ -6,6 +6,8 @@ export type TextAreaProps = {
     width: number;
     disabled: boolean;
     rows: number;
+    formTouched?: boolean;
+    customErrorMessage?: string;
     onChange: (value: string) => void;
 };
 declare const TextArea: {

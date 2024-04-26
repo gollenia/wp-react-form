@@ -4,13 +4,14 @@ export type ComboboxProps = {
     name: string;
     required: boolean;
     width: number;
-    options?: Array<string>;
+    options: Array<string>;
     hasEmptyOption?: boolean;
     help: string;
     hint: string;
     disabled: boolean;
     multiple: boolean;
     customError: string;
+    customErrorMessage?: string;
     onChange: (value: string) => void;
 };
 declare const Combobox: {
@@ -19,6 +20,7 @@ declare const Combobox: {
         label: string;
         placeholder: string;
         name: string;
+        options: never[];
         required: boolean;
         width: number;
         region: string;

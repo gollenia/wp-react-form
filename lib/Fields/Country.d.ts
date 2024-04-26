@@ -5,9 +5,11 @@ type CountryProps = {
     required: boolean;
     width: number;
     region: 'world' | 'europe' | 'german' | 'english' | 'spanish' | 'french' | 'asia' | 'africa' | 'oceania' | 'americas';
-    emptyOption: string;
     disabled: boolean;
     customError: string;
+    help: string;
+    formTouched: boolean;
+    customErrorMessage?: string;
     onChange: (value: string) => void;
 };
 declare const Country: {

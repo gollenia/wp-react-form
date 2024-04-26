@@ -11,6 +11,8 @@ export type SelectProps = {
     disabled: boolean;
     multiple?: boolean;
     customError?: string;
+    formTouched?: boolean;
+    customErrorMessage?: string;
     onChange: (value: string) => void;
 };
 declare const Select: {
