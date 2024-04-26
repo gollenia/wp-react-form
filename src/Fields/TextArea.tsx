@@ -1,4 +1,4 @@
-import { useRef } from '@wordpress/element';
+import { useRef, useState } from '@wordpress/element';
 
 export type TextAreaProps = {
 	label: string;
@@ -8,39 +8,68 @@ export type TextAreaProps = {
 	width: number;
 	disabled: boolean;
 	rows: number;
-	onChange: ( value: string ) => void;
+	formTouched?: boolean;
+	customErrorMessage?: string;
+	onChange: (value: string) => void;
 };
 
-const TextArea = ( props: TextAreaProps ) => {
-	const { label, placeholder, name, required, width, rows, disabled, onChange } = props;
+const TextArea = (props: TextAreaProps) => {
+	const {
+		label,
+		placeholder,
+		name,
+		required,
+		width,
+		rows,
+		disabled,
+		onChange,
+		customErrorMessage,
+	} = props;
 
-	const textInputRef = useRef< HTMLTextAreaElement >( null );
+	console.log(props);
 
-	const onChangeHandler = ( event: any ) => {
-		onChange( event.target.value );
+	const textInputRef = useRef<HTMLTextAreaElement>(null);
+	const [touched, setTouched] = useState(false);
+	const onChangeHandler = (event: any) => {
+		onChange(event.target.value);
 	};
 
-	const classes = [ 'ctx-form-field', 'textarea', 'input--width-' + width, required ? 'input--required' : '' ].join(
-		' '
-	);
+	const isTouched = touched || props.formTouched;
+
+	const classes = [
+		'ctx-form-field',
+		'textarea',
+		'input--width-' + width,
+		required ? 'input--required' : '',
+		!textInputRef?.current?.validity.valid && isTouched ? 'error' : '',
+	].join(' ');
 
 	return (
-		<div className={classes} style={{
-			gridColumn: `span ${width}`
-		}}>
-			<label>{ label }</label>
+		<div
+			className={classes}
+			style={{
+				gridColumn: `span ${width}`,
+			}}
+		>
+			<label>{label}</label>
 			<textarea
-				name={ name }
-				required={ required }
-				disabled={ disabled }
-				rows={ rows }
-				ref={ textInputRef }
-				placeholder={ placeholder }
-				onChange={ onChangeHandler }
+				name={name}
+				required={required}
+				disabled={disabled}
+				rows={rows}
+				onBlur={() => setTouched(true)}
+				ref={textInputRef}
+				placeholder={placeholder}
+				onChange={onChangeHandler}
 			></textarea>
-			{ ! textInputRef?.current?.validity.valid && textInputRef.current?.validationMessage && (
-				<span className="input__error">{ textInputRef.current?.validationMessage }</span>
-			) }
+			{!textInputRef?.current?.validity.valid &&
+				isTouched &&
+				textInputRef.current?.validationMessage && (
+					<span className="error-message">
+						{customErrorMessage ||
+							textInputRef.current?.validationMessage}
+					</span>
+				)}
 		</div>
 	);
 };
