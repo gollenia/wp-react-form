@@ -3,13 +3,13 @@
 module.exports = {
 	preset: 'ts-jest/presets/js-with-ts',
 	testEnvironment: 'jsdom',
-	globals: {
-		'ts-jest': {
-			tsconfig: './tsconfig.json',
-		},
-	},
 	transform: {
-		'^.+\\.(js|jsx|ts|tsx|mjs)$': 'ts-jest',
+		'^.+\\.(js|jsx|ts|tsx|mjs)$': [
+			'ts-jest',
+			{
+				tsconfig: './tsconfig.json',
+			}
+		]
 	},
 	transformIgnorePatterns: [ 'node_modules/(?!troublesome-dependency/.*)' ],
 };
