@@ -7,7 +7,7 @@ type Props = {
 	required: boolean;
 	defaultChecked: boolean;
 	type: 'checkbox' | 'toggle';
-	customError: string;
+	customErrorMessage: string;
 	value: boolean;
 	help: string;
 	toggle: boolean;
@@ -16,7 +16,16 @@ type Props = {
 };
 
 const Checkbox = (props: Props) => {
-	const { label, width, onChange, type, value, help, toggle } = props;
+	const {
+		label,
+		width,
+		onChange,
+		type,
+		value,
+		help,
+		toggle,
+		customErrorMessage,
+	} = props;
 
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [touched, setTouched] = useState(false);
@@ -26,8 +35,8 @@ const Checkbox = (props: Props) => {
 	};
 
 	const setInvalidity = (event: any) => {
-		if (!props.customError) return;
-		event.target.setCustomValidity(props.customError);
+		if (!props.customErrorMessage) return;
+		event.target.setCustomValidity(props.customErrorMessage);
 	};
 
 	const isTouched = props.formTouched || touched;
@@ -70,7 +79,8 @@ const Checkbox = (props: Props) => {
 				!inputRef?.current?.validity.valid &&
 				inputRef.current?.validationMessage && (
 					<span className="error-message">
-						{inputRef.current?.validationMessage}
+						{customErrorMessage ||
+							inputRef.current?.validationMessage}
 					</span>
 				)}
 		</div>
