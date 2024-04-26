@@ -25,6 +25,7 @@ type InputType =
 	| 'datetime-local'
 	| 'number'
 	| 'select'
+	| 'combobox'
 	| 'radio'
 	| 'textarea'
 	| 'checkbox'
@@ -45,6 +46,14 @@ const InputField: any = (props: any) => {
 			case 'select':
 				return (
 					<Select
+						{...props}
+						onChange={onChange}
+						disabled={disabled}
+					/>
+				);
+			case 'combobox':
+				return (
+					<Combobox
 						{...props}
 						onChange={onChange}
 						disabled={disabled}
