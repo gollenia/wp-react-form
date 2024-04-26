@@ -26,8 +26,6 @@ const TextArea = (props: TextAreaProps) => {
 		customErrorMessage,
 	} = props;
 
-	console.log(props);
-
 	const textInputRef = useRef<HTMLTextAreaElement>(null);
 	const [touched, setTouched] = useState(false);
 	const onChangeHandler = (event: any) => {

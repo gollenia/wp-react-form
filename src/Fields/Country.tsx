@@ -44,7 +44,6 @@ const Country = (props: CountryProps) => {
 		help,
 		customErrorMessage,
 	} = props;
-	console.log(props);
 
 	const inputRef = useRef<HTMLSelectElement>(null);
 
