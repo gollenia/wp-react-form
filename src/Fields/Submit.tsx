@@ -16,9 +16,6 @@ const Submit = (props: Props) => {
 		'flex--align-center',
 		alignment == 'right' ? 'flex--justify-end' : '',
 	].join(' ');
-
-	const buttonText = label ? label : placeholder ? placeholder : 'Submit';
-
 	return (
 		<div
 			className={classes}
@@ -29,7 +26,7 @@ const Submit = (props: Props) => {
 			<input
 				className="button button--primary"
 				type="submit"
-				value={buttonText}
+				value={label ? label : placeholder}
 				disabled={disabled}
 			/>
 		</div>
