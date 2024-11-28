@@ -1,5 +1,14 @@
 import Checkbox from './Fields/Checkbox';
-import Form from './Form';
+import Combobox from './Fields/Combobox';
+import Country from './Fields/Country';
+import Hidden from './Fields/Hidden';
+import HtmlBlock from './Fields/HtmlBlock';
+import Input from './Fields/Input';
+import Radio from './Fields/Radio';
+import Select from './Fields/Select';
+import Submit from './Fields/Submit';
+import TextArea from './Fields/TextArea';
 import InputField from './InputField';
-export { Checkbox, InputField };
+import Form from './Form';
+export { Checkbox, Combobox, Country, Hidden, HtmlBlock, Input, InputField, Radio, Select, Submit, TextArea };
 export default Form;

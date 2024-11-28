@@ -18,16 +18,5 @@ type FormProps = {
     onStateChange?: (state: any) => void;
     onChange?: (form: any) => void;
 };
-declare const Form: {
-    (props: FormProps): import("react/jsx-runtime").JSX.Element;
-    defaultProps: {
-        id: number;
-        lang: string;
-        data: never[];
-        formUrl: string;
-        onSubmit: null;
-        validate: boolean;
-        submitUrl: string;
-    };
-};
+declare const Form: (props: FormProps) => import("react/jsx-runtime").JSX.Element;
 export default Form;

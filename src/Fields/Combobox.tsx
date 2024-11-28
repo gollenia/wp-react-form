@@ -20,17 +20,17 @@ export type ComboboxProps = {
 const Combobox = (props: ComboboxProps) => {
 	const {
 		onChange,
-		options,
+		options = [],
 		hasEmptyOption,
 		help,
 		hint,
 		disabled,
-		placeholder,
+		placeholder = '',
 		multiple,
-		required,
-		label,
-		name,
-		width,
+		required = false,
+		label = '',
+		name = '',
+		width = 6,
 		customErrorMessage,
 	} = props;
 
@@ -142,16 +142,6 @@ const Combobox = (props: ComboboxProps) => {
 			</ul>
 		</div>
 	);
-};
-
-Combobox.defaultProps = {
-	label: '',
-	placeholder: '',
-	name: '',
-	options: [],
-	required: false,
-	width: 6,
-	region: 'world',
 };
 
 export default Combobox;

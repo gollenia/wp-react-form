@@ -33,7 +33,7 @@ type Option = {
 const browserLanguage = navigator.language.split( '-' )[ 0 ];
 
 const Country = ( props: CountryProps ) => {
-	const { onChange, disabled, placeholder, required, name, label, width, region, help, customErrorMessage, value } =
+	const { onChange, disabled = false, placeholder = '', required, name='', label = '', width = 6, region = 'world', help, customErrorMessage, value } =
 		props;
 
 	const inputRef = useRef< HTMLSelectElement >( null );
@@ -104,14 +104,6 @@ const Country = ( props: CountryProps ) => {
 	);
 };
 
-Country.defaultProps = {
-	label: '',
-	placeholder: '',
-	name: '',
-	required: false,
-	width: 6,
-	region: 'world',
-};
 
 export default Country;
 export type { CountryProps };

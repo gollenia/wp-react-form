@@ -14,16 +14,5 @@ export type ComboboxProps = {
     customErrorMessage?: string;
     onChange: (value: string) => void;
 };
-declare const Combobox: {
-    (props: ComboboxProps): import("react/jsx-runtime").JSX.Element;
-    defaultProps: {
-        label: string;
-        placeholder: string;
-        name: string;
-        options: never[];
-        required: boolean;
-        width: number;
-        region: string;
-    };
-};
+declare const Combobox: (props: ComboboxProps) => import("react/jsx-runtime").JSX.Element;
 export default Combobox;

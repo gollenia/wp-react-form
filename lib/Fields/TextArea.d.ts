@@ -9,16 +9,7 @@ export type TextAreaProps = {
     formTouched?: boolean;
     customErrorMessage?: string;
     onChange: (value: string) => void;
+    value: string;
 };
-declare const TextArea: {
-    (props: TextAreaProps): import("react/jsx-runtime").JSX.Element;
-    defaultProps: {
-        label: string;
-        placeholder: string;
-        name: string;
-        required: boolean;
-        width: number;
-        rows: number;
-    };
-};
+declare const TextArea: (props: TextAreaProps) => import("react/jsx-runtime").JSX.Element;
 export default TextArea;

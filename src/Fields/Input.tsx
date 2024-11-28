@@ -51,7 +51,7 @@ const TextInput = ( props: InputProps ) => {
 	const [ touched, setTouched ] = useState( false );
 	const inputRef = useRef< HTMLInputElement >( null );
 
-	const { label, required, width, onChange, pattern, min, max, customErrorMessage, value } = props;
+	const { label = '', required = false, width = 6, onChange, type = 'text', pattern = undefined, min, max, customErrorMessage, value } = props;
 
 	const onChangeHandler = ( event: any ) => {
 		onChange( event.target.value );
@@ -83,10 +83,10 @@ const TextInput = ( props: InputProps ) => {
 	].join( ' ' );
 
 	const minMax = {
-		minLength: min && props.type === 'text' ? min : undefined,
-		maxLength: max && props.type === 'text' ? max : undefined,
-		min: min && props.type === 'date' ? min : undefined,
-		max: max && props.type === 'date' ? max : undefined,
+		minLength: min && type === 'text' ? min : undefined,
+		maxLength: max && type === 'text' ? max : undefined,
+		min: min && type === 'date' ? min : undefined,
+		max: max && type === 'date' ? max : undefined,
 	};
 
 	return (
@@ -103,10 +103,10 @@ const TextInput = ( props: InputProps ) => {
 				name={ props.name }
 				required={ required }
 				onBlur={ () => setTouched( true ) }
-				type={ props.type }
+				type={ type }
 				autoComplete={ props.autoComplete }
 				disabled={ props.disabled }
-				pattern={ props.pattern ? props.pattern : undefined }
+				pattern={ pattern ? pattern : undefined }
 				defaultValue={ props.defaultValue }
 				value={ value }
 				ref={ inputRef }
@@ -119,16 +119,6 @@ const TextInput = ( props: InputProps ) => {
 			) }
 		</div>
 	);
-};
-
-TextInput.defaultProps = {
-	label: '',
-	placeholder: '',
-	name: '',
-	required: false,
-	width: 6,
-	type: 'text',
-	pattern: null,
 };
 
 export default TextInput;

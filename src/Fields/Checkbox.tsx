@@ -17,7 +17,7 @@ type Props = {
 };
 
 const Checkbox = ( props: Props ) => {
-	const { label, width, onChange, type, value, help, toggle, customErrorMessage, name } = props;
+	const { label = '', width = 6, onChange, disabled = false, required = false, value, help, toggle, customErrorMessage, name } = props;
 
 	const inputRef = useRef< HTMLInputElement >( null );
 	const [ touched, setTouched ] = useState( false );
@@ -60,8 +60,8 @@ const Checkbox = ( props: Props ) => {
 			<label>
 				<div className="toggle__control">
 					<input
-						disabled={ props.disabled }
-						required={ props.required }
+						disabled={ disabled }
+						required={ required }
 						ref={ inputRef }
 						onClick={ () => setTouched( true ) }
 						checked={ value }
@@ -78,16 +78,6 @@ const Checkbox = ( props: Props ) => {
 			) }
 		</div>
 	);
-};
-
-Checkbox.defaultProps = {
-	label: '',
-	help: '',
-	width: 6,
-	disabled: false,
-	required: false,
-	defaultChecked: false,
-	type: 'checkbox',
 };
 
 export default Checkbox;

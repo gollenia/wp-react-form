@@ -1,11 +1,13 @@
 import Checkbox from './Fields/Checkbox';
 import Combobox from './Fields/Combobox';
 import Country from './Fields/Country';
+import CurrencyInput from './Fields/Currency';
 import Hidden from './Fields/Hidden';
 import HTMLBlock from './Fields/HtmlBlock';
 import Input from './Fields/Input';
 import NumberInput from './Fields/Number';
 import Radio from './Fields/Radio';
+import RangeInput from './Fields/Range';
 import Select from './Fields/Select';
 import Submit from './Fields/Submit';
 import TextArea from './Fields/TextArea';
@@ -24,6 +26,7 @@ type InputType =
 	| 'time'
 	| 'datetime-local'
 	| 'number'
+	| 'currency'
 	| 'select'
 	| 'combobox'
 	| 'radio'
@@ -98,8 +101,6 @@ const InputField: any = (props: any) => {
 					/>
 				);
 			case 'number':
-			case 'range':
-			case 'numberpicker':
 				return (
 					<NumberInput
 						{...props}
@@ -107,6 +108,24 @@ const InputField: any = (props: any) => {
 						disabled={disabled}
 					/>
 				);
+
+			case 'range':
+				return (
+					<RangeInput
+						{...props}
+						onChange={onChange}
+						disabled={disabled}
+					/>
+				);
+			case 'currency':
+				return (
+					<CurrencyInput
+						{...props}
+						onChange={onChange}
+						disabled={disabled}
+					/>
+				);
+				
 			case 'html':
 				return <HTMLBlock {...props} />;
 			case 'hidden':

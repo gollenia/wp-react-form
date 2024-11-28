@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from '@wordpress/element';
 
 export type RadioProps = {
 	label: string;
@@ -13,7 +13,7 @@ export type RadioProps = {
 };
 
 const Radio = ( props: RadioProps ) => {
-	const { onChange, options, name, disabled, placeholder, width, required, admin, value } = props;
+	const { onChange, options = [], name = '', disabled = false, placeholder = '', width = 6, required = false, value } = props;
 
 	const classes = [
 		'ctx-form-field',
@@ -62,16 +62,6 @@ const Radio = ( props: RadioProps ) => {
 			</fieldset>
 		</div>
 	);
-};
-
-Radio.defaultProps = {
-	label: '',
-	placeholder: '',
-	name: '',
-	options: [],
-	required: false,
-	width: 6,
-	region: 'world',
 };
 
 export default Radio;

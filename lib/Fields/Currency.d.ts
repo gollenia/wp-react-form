@@ -7,9 +7,10 @@ export type NumberInputProps = {
     min: number;
     max: number;
     disabled: boolean;
-    type: 'number';
+    currency: string;
+    type: 'currency';
     onChange: (value: string) => void;
     value: string;
 };
-declare const NumberInput: (props: NumberInputProps) => import("react/jsx-runtime").JSX.Element;
-export default NumberInput;
+declare const CurrencyInput: (props: NumberInputProps) => import("react/jsx-runtime").JSX.Element;
+export default CurrencyInput;

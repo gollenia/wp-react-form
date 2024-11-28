@@ -7,7 +7,7 @@ type Props = {
 };
 
 const Submit = (props: Props) => {
-	const { label, width, alignment, disabled, placeholder } = props;
+	const { label = '', width = 6, alignment, disabled = false, placeholder } = props;
 
 	const classes = [
 		'ctx-form-field',
@@ -31,11 +31,6 @@ const Submit = (props: Props) => {
 			/>
 		</div>
 	);
-};
-
-Submit.defaultProps = {
-	label: '',
-	width: 6,
 };
 
 export default Submit;

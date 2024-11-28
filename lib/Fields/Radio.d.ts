@@ -7,17 +7,7 @@ export type RadioProps = {
     options?: Array<string>;
     disabled: boolean;
     onChange: (value: string) => void;
+    value: string;
 };
-declare const Radio: {
-    (props: RadioProps): import("react/jsx-runtime").JSX.Element;
-    defaultProps: {
-        label: string;
-        placeholder: string;
-        name: string;
-        options: never[];
-        required: boolean;
-        width: number;
-        region: string;
-    };
-};
+declare const Radio: (props: RadioProps) => import("react/jsx-runtime").JSX.Element;
 export default Radio;

@@ -15,7 +15,7 @@ export type TextAreaProps = {
 };
 
 const TextArea = ( props: TextAreaProps ) => {
-	const { label, placeholder, name, required, width, rows, disabled, onChange, customErrorMessage, value } = props;
+	const { label = '', placeholder = '', name = '', required = false, width = 6, rows = 3, disabled = false, onChange, customErrorMessage, value } = props;
 
 	const textInputRef = useRef< HTMLTextAreaElement >( null );
 	const [ touched, setTouched ] = useState( false );
@@ -59,13 +59,5 @@ const TextArea = ( props: TextAreaProps ) => {
 	);
 };
 
-TextArea.defaultProps = {
-	label: '',
-	placeholder: '',
-	name: '',
-	required: false,
-	width: 6,
-	rows: 3,
-};
 
 export default TextArea;

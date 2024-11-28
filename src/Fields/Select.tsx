@@ -22,18 +22,18 @@ export type SelectProps = {
 const Select = ( props: SelectProps ) => {
 	const {
 		onChange,
-		options,
-		hasEmptyOption,
+		options = [],
+		hasEmptyOption = true,
 		help,
 		hint,
-		disabled,
-		placeholder,
+		disabled = false,
+		placeholder = '',
 		multiple,
 		required,
-		label,
-		name,
+		label = '',
+		name = '',
 		customErrorMessage,
-		width,
+		width = 6,
 		value,
 	} = props;
 
@@ -106,14 +106,6 @@ const Select = ( props: SelectProps ) => {
 			) }
 		</div>
 	);
-};
-
-Select.defaultProps = {
-	label: '',
-	placeholder: '',
-	name: '',
-	required: false,
-	width: 6,
 };
 
 export default Select;

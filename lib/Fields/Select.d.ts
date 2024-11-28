@@ -4,7 +4,7 @@ export type SelectProps = {
     name: string;
     required: boolean;
     width: number;
-    options?: Array<string>;
+    options?: Array<string> | Object;
     hasEmptyOption?: boolean;
     help?: string;
     hint?: string;
@@ -14,16 +14,7 @@ export type SelectProps = {
     formTouched?: boolean;
     customErrorMessage?: string;
     onChange: (value: string) => void;
+    value: string;
 };
-declare const Select: {
-    (props: SelectProps): import("react/jsx-runtime").JSX.Element;
-    defaultProps: {
-        label: string;
-        placeholder: string;
-        name: string;
-        required: boolean;
-        width: number;
-        region: string;
-    };
-};
+declare const Select: (props: SelectProps) => import("react/jsx-runtime").JSX.Element;
 export default Select;

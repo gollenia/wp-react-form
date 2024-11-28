@@ -6,10 +6,13 @@ export type NumberInputProps = {
     width: number;
     min: number;
     max: number;
+    range: boolean;
     disabled: boolean;
-    type: 'number';
+    hasTicks: boolean;
+    hasLabels: boolean;
+    type: 'range';
     onChange: (value: string) => void;
     value: string;
 };
-declare const NumberInput: (props: NumberInputProps) => import("react/jsx-runtime").JSX.Element;
-export default NumberInput;
+declare const RangeInput: (props: NumberInputProps) => import("react/jsx-runtime").JSX.Element;
+export default RangeInput;

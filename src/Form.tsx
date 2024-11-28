@@ -11,6 +11,7 @@ type Response = {
 		};
 	};
 };
+
 type FormProps = {
 	data: Array< any >;
 	formUrl: string;
@@ -32,6 +33,7 @@ const Form = ( props: FormProps ) => {
 	const [ form, setForm ] = useState< { [ key: string ]: any } >( {} );
 	const [ response, setResponse ] = useState< Response >();
 	const [ touched, setTouched ] = useState( false );
+	const [ additionalClasses, setAdditionalClasses ] = useState< string >( '' );
 
 	const { md, lg } = useMediaQueries();
 
@@ -58,6 +60,7 @@ const Form = ( props: FormProps ) => {
 				data.fields.forEach( ( field: any ) => {
 					fieldTemplate[ field.name ] = field.defaultValue;
 				} );
+				setAdditionalClasses( data.classes );
 
 				setForm( fieldTemplate );
 			} );
@@ -137,6 +140,7 @@ const Form = ( props: FormProps ) => {
 		status == 'ERROR' ? 'ctx-form--error' : '',
 		status == 'SUBMITTING' ? 'ctx-form--submitting' : '',
 		status == 'SUCCESS' ? 'ctx-form--submitted' : '',
+		...additionalClasses,	
 	].join( ' ' );
 
 	return (
@@ -202,16 +206,6 @@ const Form = ( props: FormProps ) => {
 			</form>
 		</>
 	);
-};
-
-Form.defaultProps = {
-	id: 0,
-	lang: 'en',
-	data: [],
-	formUrl: '',
-	onSubmit: null,
-	validate: true,
-	submitUrl: '',
 };
 
 export default Form;

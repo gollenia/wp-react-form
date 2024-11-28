@@ -16,18 +16,8 @@ type InputProps = {
     type: InputFieldTypes;
     formTouched: boolean;
     onChange: (value: any) => void;
+    value: string;
 };
-declare const TextInput: {
-    (props: InputProps): import("react/jsx-runtime").JSX.Element;
-    defaultProps: {
-        label: string;
-        placeholder: string;
-        name: string;
-        required: boolean;
-        width: number;
-        type: string;
-        pattern: null;
-    };
-};
+declare const TextInput: (props: InputProps) => import("react/jsx-runtime").JSX.Element;
 export default TextInput;
 export type { InputFieldTypes, InputProps };

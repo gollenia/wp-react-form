@@ -1,4 +1,4 @@
-import { useRef, useState } from '@wordpress/element';
+import React from 'react';
 
 export type NumberInputProps = {
 	label: string;
@@ -9,12 +9,13 @@ export type NumberInputProps = {
 	min: number;
 	max: number;
 	disabled: boolean;
-	type: 'number';
+	currency: string;
+	type: 'currency';
 	onChange: ( value: string ) => void;
 	value: string;
 };
 
-const NumberInput = ( props: NumberInputProps ) => {
+const CurrencyInput = ( props: NumberInputProps ) => {
 	const {
 		label = '',
 		placeholder = '0',
@@ -22,28 +23,37 @@ const NumberInput = ( props: NumberInputProps ) => {
 		required = false,
 		width = 6,
 		min = 0,
-		max = 100,
+		max = 1000,
 		disabled = false,
-
+		currency = '€',
 		onChange,
-	
 		value,
 	} = props;
 
-	const [ rangeValue, setRangeValue ] = useState( parseInt( placeholder ) );
-	const rangeRef = useRef( null );
 
 	const onChangeHandler = ( event: any ) => {
-		setRangeValue( parseInt( event.target.value ) );
 		onChange( event.target.value );
 	};
 
 	const classes = [
 		'ctx-form-field',
-		
+		'input',
+		'ctx-form-currency',
 		'input--width-' + width,
 		required ? 'input--required' : '',
 	].join( ' ' );
+
+	const inputStyle: React.CSSProperties = {
+		paddingLeft: '2.25rem'
+	};
+
+	const currencyStyle: React.CSSProperties = {
+		position: 'absolute',
+		left: '1.25rem',
+		top: '50%',
+		transform: 'translateY(-50%)',
+		color: '#aaa'
+	};
 
 	return (
 			<div
@@ -53,22 +63,23 @@ const NumberInput = ( props: NumberInputProps ) => {
 				} }
 			>
 				<label>{ label }</label>
+				<i style={currencyStyle} className="ctx-form-currency-symbol">{ currency }</i>
 				<input
+				    style={ inputStyle }
 					type="number"
 					placeholder={ placeholder }
 					name={ name }
 					required={ required }
-					disabled={ disabled }
-					onChange={ ( event ) => onChange( event.target.value ) }
-					value={ value }
 					min={ min }
 					max={ max }
+					disabled={ disabled }
+					onChange={ onChangeHandler }
+					value={ value }
+					step="0.01"
 				/>
+				
 			</div>
-		
 	);
-};
+}
 
-
-
-export default NumberInput;
+export default CurrencyInput;
