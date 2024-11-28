@@ -1,11 +1,10 @@
-import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import TextArea from '../src/Fields/TextArea';
+import InputField from '../src/InputField';
 
 test( 'TextArea', () => {
-	const inputField = render(
-		<TextArea label="Test" placeholder="testing" />
+	const element = render(
+		<InputField type="textarea" label="Test" placeholder="testing" />
 	);
-	expect( inputField.findAllByPlaceholderText( 'testing' ) ).toBeTruthy();
-	expect( inputField.findAllByText('textarea') ).toBeTruthy();
+
+	expect( element.baseElement.innerHTML == '<div><div class="ctx-form-field textarea input--width-6  " style="grid-column: span 6;"><label>Test</label><textarea name="" rows="3" placeholder="testing"></textarea></div></div>').toBeTruthy();
 } );

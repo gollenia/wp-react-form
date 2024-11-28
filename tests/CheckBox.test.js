@@ -1,9 +1,10 @@
 import { render } from '@testing-library/react';
-import Checkbox from '../src/Fields/Checkbox';
+import InputField from '../src/InputField';
 
 test( 'Checkbox', () => {
-	const checkbox = render(
-		<Checkbox label="Test" placeholder="testing" type="checkbox"/>
+	const element = render(
+		<InputField label="Test" placeholder="testing" type="checkbox"/>
 	);
-	expect( checkbox.findAllByPlaceholderText( 'type="checkbox"' ) ).toBeTruthy();
+
+	expect( element.baseElement.innerHTML == '<div><div class="ctx-form-field checkbox " style="grid-column: span 6;"><label><div class="toggle__control"><input type="checkbox"></div><span>Test</span></label></div></div>').toBeTruthy();
 }	);

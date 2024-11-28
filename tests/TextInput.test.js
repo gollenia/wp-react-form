@@ -1,12 +1,10 @@
-import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import TextInput from '../src/Fields/Input';
+import InputField from '../src/InputField';
 
 test( 'TextInput', () => {
-	const inputField = render(
-		<TextInput label="Test" placeholder="testing" />
+	const element = render(
+		<InputField label="Test" placeholder="testing" type={'text'} />
 	);
-	expect( inputField.findAllByPlaceholderText( 'testing' ) ).toBeTruthy();
-	expect( inputField.findAllByText('ctx-form-field input input--width-6') ).toBeTruthy();
-	expect( inputField.findAllByText('grid-column: span 6;') ).toBeTruthy();
+	
+	expect( element.baseElement.innerHTML == '<div><div class="ctx-form-field input input--width-6  " style="grid-column: span 6;"><label>Test</label><input placeholder="testing" type="text" value=""></div></div>').toBeTruthy();
 } );
