@@ -15,6 +15,9 @@ export type SelectProps = {
     customErrorMessage?: string;
     onChange: (value: string) => void;
     value: string;
+    className?: string;
+    tabIndex: number;
+    id: string;
 };
 declare const Select: (props: SelectProps) => import("react/jsx-runtime").JSX.Element;
 export default Select;

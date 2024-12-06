@@ -1,6 +1,6 @@
 {
 	"name": "@contexis/wp-react-form",
-	"version": "1.1.2",
+	"version": "1.1.5",
 	"description": "Create forms in the frontend based on JSON Form data",
 	"author": "Thomas Gollenia",
 	"prettier": "@wordpress/prettier-config",
@@ -32,6 +32,7 @@
 		"babel-loader": "^9.2.1",
 		"isomorphic-fetch": "^3.0.0",
 		"jest-environment-jsdom": "^29.7.0",
+		"@wordpress/prettier-config": "^4.13.0",
 		"ts-jest": "^29.2.5",
 		"ts-loader": "^9.5.1",
 		"ts-node": "^10.9.2",

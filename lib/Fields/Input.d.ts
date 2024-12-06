@@ -17,6 +17,9 @@ type InputProps = {
     formTouched: boolean;
     onChange: (value: any) => void;
     value: string;
+    className: string;
+    tabIndex: number;
+    id: string;
 };
 declare const TextInput: (props: InputProps) => import("react/jsx-runtime").JSX.Element;
 export default TextInput;

@@ -43,44 +43,64 @@ type InputProps = {
 	customErrorMessage?: string;
 	type: InputFieldTypes;
 	formTouched: boolean;
-	onChange: ( value: any ) => void;
+	onChange: (value: any) => void;
 	value: string;
+	className: string;
+	tabIndex: number;
+	id: string;
 };
 
-const TextInput = ( props: InputProps ) => {
-	const [ touched, setTouched ] = useState( false );
-	const inputRef = useRef< HTMLInputElement >( null );
+const TextInput = (props: InputProps) => {
+	const [touched, setTouched] = useState(false);
+	const inputRef = useRef<HTMLInputElement>(null);
 
-	const { label = '', required = false, width = 6, onChange, type = 'text', pattern = undefined, min, max, customErrorMessage, value } = props;
+	const {
+		label = '',
+		required = false,
+		width = 6,
+		onChange,
+		type = 'text',
+		pattern = undefined,
+		min,
+		max,
+		customErrorMessage,
+		value,
+		className = '',
+		tabIndex,
+		id,
+	} = props;
 
-	const onChangeHandler = ( event: any ) => {
-		onChange( event.target.value );
+	const onChangeHandler = (event: any) => {
+		onChange(event.target.value);
 	};
 
-	const onKeyPressHandler = ( event: any ) => {
-		if ( ! pattern ) return;
+	const onKeyPressHandler = (event: any) => {
+		if (!pattern) return;
 
-		let regex = new RegExp( pattern, 'gu' );
+		let regex = new RegExp(pattern, 'gu');
 
-		if ( regex.test( event.data ) === false ) {
+		if (regex.test(event.data) === false) {
 			event.preventDefault();
 		}
 	};
 
-	const setInvalidity = ( event: any ) => {
-		if ( ! props.customError ) return;
-		event.target.setCustomValidity( props.customError );
+	const setInvalidity = (event: any) => {
+		if (!props.customError) return;
+		event.target.setCustomValidity(props.customError);
 	};
 
 	const isTouched = props.formTouched || touched;
 
 	const classes = [
+		className,
 		'ctx-form-field',
 		'input',
 		'input--width-' + width,
 		required ? 'input--required' : '',
-		! inputRef?.current?.validity.valid && isTouched ? 'error' : '',
-	].join( ' ' );
+		!inputRef?.current?.validity.valid && isTouched ? 'error' : '',
+	]
+		.join(' ')
+		.trim();
 
 	const minMax = {
 		minLength: min && type === 'text' ? min : undefined,
@@ -91,32 +111,39 @@ const TextInput = ( props: InputProps ) => {
 
 	return (
 		<div
-			className={ classes }
-			style={ {
-				gridColumn: `span ${ width }`,
-			} }
+			className={classes}
+			style={{
+				gridColumn: `span ${width}`,
+			}}
 		>
-			<label>{ label }</label>
+			<label>{label}</label>
 			<input
-				{ ...minMax }
-				placeholder={ props.placeholder }
-				name={ props.name }
-				required={ required }
-				onBlur={ () => setTouched( true ) }
-				type={ type }
-				autoComplete={ props.autoComplete }
-				disabled={ props.disabled }
-				pattern={ pattern ? pattern : undefined }
-				defaultValue={ props.defaultValue }
-				value={ value }
-				ref={ inputRef }
-				onInvalid={ setInvalidity }
-				onChange={ onChangeHandler }
-				onBeforeInput={ onKeyPressHandler }
+				{...minMax}
+				placeholder={props.placeholder}
+				name={props.name}
+				required={required}
+				onBlur={() => setTouched(true)}
+				type={type}
+				autoComplete={props.autoComplete}
+				disabled={props.disabled}
+				pattern={pattern ? pattern : undefined}
+				defaultValue={props.defaultValue}
+				value={value}
+				ref={inputRef}
+				onInvalid={setInvalidity}
+				onChange={onChangeHandler}
+				onBeforeInput={onKeyPressHandler}
+				tabIndex={tabIndex}
+				id={id}
 			/>
-			{ ! inputRef?.current?.validity.valid && isTouched && inputRef.current?.validationMessage && (
-				<span className="error-message">{ customErrorMessage || inputRef.current?.validationMessage }</span>
-			) }
+			{!inputRef?.current?.validity.valid &&
+				isTouched &&
+				inputRef.current?.validationMessage && (
+					<span className="error-message">
+						{customErrorMessage ||
+							inputRef.current?.validationMessage}
+					</span>
+				)}
 		</div>
 	);
 };

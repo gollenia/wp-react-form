@@ -14,6 +14,9 @@ export type ComboboxProps = {
 	multiple: boolean;
 	customError: string;
 	customErrorMessage?: string;
+	className: string;
+	tabIndex: number;
+	id: string;
 	onChange: (value: string) => void;
 };
 
@@ -31,7 +34,10 @@ const Combobox = (props: ComboboxProps) => {
 		label = '',
 		name = '',
 		width = 6,
+		className = '',
 		customErrorMessage,
+		tabIndex,
+		id,
 	} = props;
 
 	const classes = [
@@ -39,7 +45,10 @@ const Combobox = (props: ComboboxProps) => {
 		'select',
 		'input--width-' + width,
 		props.required ? 'select--required' : '',
-	].join(' ');
+		className,
+	]
+		.join(' ')
+		.trim();
 
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -106,6 +115,8 @@ const Combobox = (props: ComboboxProps) => {
 					setListSelect(-1);
 				}}
 				onClick={() => {}}
+				tabIndex={tabIndex}
+				id={id}
 				placeholder={
 					selection !== -1 ? options[selection] : placeholder
 				}

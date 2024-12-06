@@ -11,6 +11,9 @@ export type NumberInputProps = {
     type: 'currency';
     onChange: (value: string) => void;
     value: string;
+    className: string;
+    tabIndex: number;
+    id: string;
 };
 declare const CurrencyInput: (props: NumberInputProps) => import("react/jsx-runtime").JSX.Element;
 export default CurrencyInput;

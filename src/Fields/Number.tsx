@@ -10,11 +10,14 @@ export type NumberInputProps = {
 	max: number;
 	disabled: boolean;
 	type: 'number';
-	onChange: ( value: string ) => void;
+	onChange: (value: string) => void;
 	value: string;
+	className: string;
+	tabIndex: number;
+	id: string;
 };
 
-const NumberInput = ( props: NumberInputProps ) => {
+const NumberInput = (props: NumberInputProps) => {
 	const {
 		label = '',
 		placeholder = '0',
@@ -24,51 +27,53 @@ const NumberInput = ( props: NumberInputProps ) => {
 		min = 0,
 		max = 100,
 		disabled = false,
-
+		className = '',
 		onChange,
-	
+		tabIndex,
 		value,
+		id,
 	} = props;
 
-	const [ rangeValue, setRangeValue ] = useState( parseInt( placeholder ) );
-	const rangeRef = useRef( null );
+	const [rangeValue, setRangeValue] = useState(parseInt(placeholder));
+	const rangeRef = useRef(null);
 
-	const onChangeHandler = ( event: any ) => {
-		setRangeValue( parseInt( event.target.value ) );
-		onChange( event.target.value );
+	const onChangeHandler = (event: any) => {
+		setRangeValue(parseInt(event.target.value));
+		onChange(event.target.value);
 	};
 
 	const classes = [
 		'ctx-form-field',
-		
+		className,
 		'input--width-' + width,
 		required ? 'input--required' : '',
-	].join( ' ' );
+	]
+		.join(' ')
+		.trim();
 
 	return (
-			<div
-				className={ classes }
-				style={ {
-					gridColumn: `span ${ width }`,
-				} }
-			>
-				<label>{ label }</label>
-				<input
-					type="number"
-					placeholder={ placeholder }
-					name={ name }
-					required={ required }
-					disabled={ disabled }
-					onChange={ ( event ) => onChange( event.target.value ) }
-					value={ value }
-					min={ min }
-					max={ max }
-				/>
-			</div>
-		
+		<div
+			className={classes}
+			style={{
+				gridColumn: `span ${width}`,
+			}}
+		>
+			<label>{label}</label>
+			<input
+				type="number"
+				placeholder={placeholder}
+				name={name}
+				required={required}
+				disabled={disabled}
+				onChange={(event) => onChange(event.target.value)}
+				value={value}
+				min={min}
+				max={max}
+				tabIndex={tabIndex}
+				id={id}
+			/>
+		</div>
 	);
 };
-
-
 
 export default NumberInput;

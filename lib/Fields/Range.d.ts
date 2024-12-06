@@ -11,8 +11,11 @@ export type NumberInputProps = {
     hasTicks: boolean;
     hasLabels: boolean;
     type: 'range';
+    className: string;
     onChange: (value: string) => void;
     value: string;
+    tabIndex: number;
+    id: string;
 };
 declare const RangeInput: (props: NumberInputProps) => import("react/jsx-runtime").JSX.Element;
 export default RangeInput;

@@ -10,6 +10,9 @@ export type NumberInputProps = {
     type: 'number';
     onChange: (value: string) => void;
     value: string;
+    className: string;
+    tabIndex: number;
+    id: string;
 };
 declare const NumberInput: (props: NumberInputProps) => import("react/jsx-runtime").JSX.Element;
 export default NumberInput;

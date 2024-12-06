@@ -9,5 +9,4 @@ const HiddenInput = (props: HiddenInputProps) => {
 	return <input value={defaultValue} name={name} type="hidden" id={name} />;
 };
 
-
 export default HiddenInput;

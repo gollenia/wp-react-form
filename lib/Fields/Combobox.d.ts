@@ -12,6 +12,9 @@ export type ComboboxProps = {
     multiple: boolean;
     customError: string;
     customErrorMessage?: string;
+    className: string;
+    tabIndex: number;
+    id: string;
     onChange: (value: string) => void;
 };
 declare const Combobox: (props: ComboboxProps) => import("react/jsx-runtime").JSX.Element;

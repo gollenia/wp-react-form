@@ -11,11 +11,14 @@ export type NumberInputProps = {
 	disabled: boolean;
 	currency: string;
 	type: 'currency';
-	onChange: ( value: string ) => void;
+	onChange: (value: string) => void;
 	value: string;
+	className: string;
+	tabIndex: number;
+	id: string;
 };
 
-const CurrencyInput = ( props: NumberInputProps ) => {
+const CurrencyInput = (props: NumberInputProps) => {
 	const {
 		label = '',
 		placeholder = '0',
@@ -28,11 +31,13 @@ const CurrencyInput = ( props: NumberInputProps ) => {
 		currency = '€',
 		onChange,
 		value,
+		className = '',
+		tabIndex,
+		id,
 	} = props;
 
-
-	const onChangeHandler = ( event: any ) => {
-		onChange( event.target.value );
+	const onChangeHandler = (event: any) => {
+		onChange(event.target.value);
 	};
 
 	const classes = [
@@ -40,11 +45,14 @@ const CurrencyInput = ( props: NumberInputProps ) => {
 		'input',
 		'ctx-form-currency',
 		'input--width-' + width,
+		className,
 		required ? 'input--required' : '',
-	].join( ' ' );
+	]
+		.join(' ')
+		.trim();
 
 	const inputStyle: React.CSSProperties = {
-		paddingLeft: '2.25rem'
+		paddingLeft: '2.25rem',
 	};
 
 	const currencyStyle: React.CSSProperties = {
@@ -52,34 +60,37 @@ const CurrencyInput = ( props: NumberInputProps ) => {
 		left: '1.25rem',
 		top: '50%',
 		transform: 'translateY(-50%)',
-		color: '#aaa'
+		color: '#aaa',
 	};
 
 	return (
-			<div
-				className={ classes }
-				style={ {
-					gridColumn: `span ${ width }`,
-				} }
-			>
-				<label>{ label }</label>
-				<i style={currencyStyle} className="ctx-form-currency-symbol">{ currency }</i>
-				<input
-				    style={ inputStyle }
-					type="number"
-					placeholder={ placeholder }
-					name={ name }
-					required={ required }
-					min={ min }
-					max={ max }
-					disabled={ disabled }
-					onChange={ onChangeHandler }
-					value={ value }
-					step="0.01"
-				/>
-				
-			</div>
+		<div
+			className={classes}
+			style={{
+				gridColumn: `span ${width}`,
+			}}
+		>
+			<label>{label}</label>
+			<i style={currencyStyle} className="ctx-form-currency-symbol">
+				{currency}
+			</i>
+			<input
+				style={inputStyle}
+				type="number"
+				placeholder={placeholder}
+				name={name}
+				required={required}
+				min={min}
+				max={max}
+				disabled={disabled}
+				onChange={onChangeHandler}
+				value={value}
+				step="0.01"
+				tabIndex={tabIndex}
+				id={id}
+			/>
+		</div>
 	);
-}
+};
 
 export default CurrencyInput;

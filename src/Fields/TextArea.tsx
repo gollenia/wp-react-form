@@ -10,17 +10,34 @@ export type TextAreaProps = {
 	rows: number;
 	formTouched?: boolean;
 	customErrorMessage?: string;
-	onChange: ( value: string ) => void;
+	onChange: (value: string) => void;
 	value: string;
+	className?: string;
+	tabIndex: number;
+	id: string;
 };
 
-const TextArea = ( props: TextAreaProps ) => {
-	const { label = '', placeholder = '', name = '', required = false, width = 6, rows = 3, disabled = false, onChange, customErrorMessage, value } = props;
+const TextArea = (props: TextAreaProps) => {
+	const {
+		label = '',
+		placeholder = '',
+		name = '',
+		required = false,
+		width = 6,
+		rows = 3,
+		disabled = false,
+		onChange,
+		customErrorMessage,
+		value,
+		className = '',
+		tabIndex,
+		id,
+	} = props;
 
-	const textInputRef = useRef< HTMLTextAreaElement >( null );
-	const [ touched, setTouched ] = useState( false );
-	const onChangeHandler = ( event: any ) => {
-		onChange( event.target.value );
+	const textInputRef = useRef<HTMLTextAreaElement>(null);
+	const [touched, setTouched] = useState(false);
+	const onChangeHandler = (event: any) => {
+		onChange(event.target.value);
 	};
 
 	const isTouched = touched || props.formTouched;
@@ -29,35 +46,44 @@ const TextArea = ( props: TextAreaProps ) => {
 		'ctx-form-field',
 		'textarea',
 		'input--width-' + width,
+		className,
 		required ? 'input--required' : '',
-		! textInputRef?.current?.validity.valid && isTouched ? 'error' : '',
-	].join( ' ' );
+		!textInputRef?.current?.validity.valid && isTouched ? 'error' : '',
+	]
+		.join(' ')
+		.trim();
 
 	return (
 		<div
-			className={ classes }
-			style={ {
-				gridColumn: `span ${ width }`,
-			} }
+			className={classes}
+			style={{
+				gridColumn: `span ${width}`,
+			}}
 		>
-			<label>{ label }</label>
+			<label>{label}</label>
 			<textarea
-				name={ name }
-				required={ required }
-				disabled={ disabled }
-				rows={ rows }
-				onBlur={ () => setTouched( true ) }
-				ref={ textInputRef }
-				placeholder={ placeholder }
-				onChange={ onChangeHandler }
-				value={ value }
+				name={name}
+				required={required}
+				disabled={disabled}
+				rows={rows}
+				onBlur={() => setTouched(true)}
+				ref={textInputRef}
+				placeholder={placeholder}
+				onChange={onChangeHandler}
+				tabIndex={tabIndex}
+				value={value}
+				id={id}
 			></textarea>
-			{ ! textInputRef?.current?.validity.valid && isTouched && textInputRef.current?.validationMessage && (
-				<span className="error-message">{ customErrorMessage || textInputRef.current?.validationMessage }</span>
-			) }
+			{!textInputRef?.current?.validity.valid &&
+				isTouched &&
+				textInputRef.current?.validationMessage && (
+					<span className="error-message">
+						{customErrorMessage ||
+							textInputRef.current?.validationMessage}
+					</span>
+				)}
 		</div>
 	);
 };
-
 
 export default TextArea;

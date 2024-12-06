@@ -13,11 +13,14 @@ export type NumberInputProps = {
 	hasTicks: boolean;
 	hasLabels: boolean;
 	type: 'range';
-	onChange: ( value: string ) => void;
+	className: string;
+	onChange: (value: string) => void;
 	value: string;
+	tabIndex: number;
+	id: string;
 };
 
-const RangeInput = ( props: NumberInputProps ) => {
+const RangeInput = (props: NumberInputProps) => {
 	const {
 		label = '',
 		placeholder = '0',
@@ -32,73 +35,78 @@ const RangeInput = ( props: NumberInputProps ) => {
 		onChange,
 		type,
 		value,
+		className = '',
+		tabIndex,
+		id,
 	} = props;
 
-	const [ rangeValue, setRangeValue ] = useState( parseInt( placeholder ) );
-	const rangeRef = useRef( null );
+	const [rangeValue, setRangeValue] = useState(parseInt(placeholder));
+	const rangeRef = useRef(null);
 
-	const onChangeHandler = ( event: any ) => {
-		setRangeValue( parseInt( event.target.value ) );
-		onChange( event.target.value );
+	const onChangeHandler = (event: any) => {
+		setRangeValue(parseInt(event.target.value));
+		onChange(event.target.value);
 	};
 
 	const classes = [
 		'ctx-form-field',
 		'range',
+		className,
 		hasTicks ? 'range--ticks' : '',
 		'input--width-' + width,
 		required ? 'input--required' : '',
-	].join( ' ' );
+	]
+		.join(' ')
+		.trim();
 
 	const rangeStyle = {
-		backgroundSize: ( ( rangeValue - min ) * 100 ) / ( max - min ) + '% 100%',
+		backgroundSize: ((rangeValue - min) * 100) / (max - min) + '% 100%',
 	};
 
 	return (
-
 		<div
-			className={ classes }
-			style={ {
-				gridColumn: `span ${ width }`,
-			} }
+			className={classes}
+			style={{
+				gridColumn: `span ${width}`,
+			}}
 		>
-			<label>{ label }</label>
+			<label>{label}</label>
 			<div className="range__set">
 				<div className="range__control">
 					<input
-						
-						name={ name }
-						required={ required }
-						disabled={ disabled }
+						name={name}
+						required={required}
+						disabled={disabled}
 						type="range"
-						max={ max }
-						min={ min }
-						style={ rangeStyle }
-						ref={ rangeRef }
-						onChange={ onChangeHandler }
-						value={ value }
+						max={max}
+						min={min}
+						style={rangeStyle}
+						ref={rangeRef}
+						onChange={onChangeHandler}
+						value={value}
+						tabIndex={tabIndex}
+						id={id}
 					/>
-					{ hasTicks && (
+					{hasTicks && (
 						<div className="range__ticks">
-							{ [ ...Array( max - min + 1 ) ].map( ( e, i ) => {
-								return <div className="range__tick" key={ i }></div>;
-							} ) }
+							{[...Array(max - min + 1)].map((e, i) => {
+								return (
+									<div className="range__tick" key={i}></div>
+								);
+							})}
 						</div>
-					) }
-					{ hasLabels && (
+					)}
+					{hasLabels && (
 						<div className="range__labels">
-							<span className="range__label">{ min }</span>
-							<span className="range__label">{ max }</span>
+							<span className="range__label">{min}</span>
+							<span className="range__label">{max}</span>
 						</div>
-					) }
+					)}
 				</div>
-				<span className="range__value">{ rangeValue }</span>
+				<span className="range__value">{rangeValue}</span>
 			</div>
 		</div>
-		
 	);
 };
-
-
 
 export default RangeInput;

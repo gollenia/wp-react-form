@@ -12,6 +12,9 @@ type CountryProps = {
     customErrorMessage?: string;
     onChange: (value: string) => void;
     value: string;
+    className: string;
+    tabIndex: number;
+    id: string;
 };
 declare const Country: (props: CountryProps) => import("react/jsx-runtime").JSX.Element;
 export default Country;

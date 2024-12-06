@@ -125,7 +125,7 @@ const InputField: any = (props: any) => {
 						disabled={disabled}
 					/>
 				);
-				
+
 			case 'html':
 				return <HTMLBlock {...props} />;
 			case 'hidden':

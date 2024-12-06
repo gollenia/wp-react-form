@@ -10,6 +10,9 @@ export type TextAreaProps = {
     customErrorMessage?: string;
     onChange: (value: string) => void;
     value: string;
+    className?: string;
+    tabIndex: number;
+    id: string;
 };
 declare const TextArea: (props: TextAreaProps) => import("react/jsx-runtime").JSX.Element;
 export default TextArea;

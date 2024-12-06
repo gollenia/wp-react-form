@@ -40,15 +40,49 @@ Then you can insert the component anywhere in your JSX template:
 
 ```jsx
 const formData = {
-	name: {
-		
-	}
+	fields: [
+		{ name: 'name', type: 'text' },
+		{ name: 'mail', type: 'email' }
+	]
 }
-	
+
 <Form
-	extraData={{ id, page }}
-	lang={lang}
-    data={formData}
+	extraData={{ id, page }} // hiddenfields
+	lang="de_AT"
+    data={formData} // Array containing form Data
+	formUrl='/wp-json/myfom/v2/getform/234' // load data from an URL instead
+	onSubmit={() => { yourAction()}}
+	onSubmissionFinished={() => { yourAction()}}
+	validate={true}
+	submitUrl={}
 />,
 ```
 
+You can also use the single fields without the form
+
+```
+
+
+#### Changes
+## 1.1.5
+- added ids
+
+## 1.1.4
+- added @wordpress/prettier-config
+- added tabIndex-property
+
+## 1.1.2
+- className added to every InputField
+
+## 1.1.1
+- Tests now run over InputField component
+
+## 1.1.0
+- Added Currency
+
+## 1.0.17
+- Numbers now suport range and numbers
+
+## 1.0.16
+- Added custom classes that can be included
+```

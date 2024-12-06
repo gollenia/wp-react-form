@@ -1,5 +1,6 @@
 type Props = {
     label: string;
+    id: string;
     width: number;
     disabled: boolean;
     required: boolean;
@@ -10,7 +11,9 @@ type Props = {
     value: boolean;
     help: string;
     toggle: boolean;
+    tabIndex: number;
     formTouched: boolean;
+    className: string;
     onChange: (value: any) => void;
 };
 declare const Checkbox: (props: Props) => import("react/jsx-runtime").JSX.Element;

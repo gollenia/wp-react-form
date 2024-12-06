@@ -2,6 +2,7 @@ import { useRef, useState } from '@wordpress/element';
 
 type Props = {
 	label: string;
+	id: string;
 	width: number;
 	disabled: boolean;
 	required: boolean;
@@ -12,70 +13,97 @@ type Props = {
 	value: boolean;
 	help: string;
 	toggle: boolean;
+	tabIndex: number;
 	formTouched: boolean;
-	onChange: ( value: any ) => void;
+	className: string;
+	onChange: (value: any) => void;
 };
 
-const Checkbox = ( props: Props ) => {
-	const { label = '', width = 6, onChange, disabled = false, required = false, value, help, toggle, customErrorMessage, name } = props;
+const Checkbox = (props: Props) => {
+	const {
+		label = '',
+		width = 6,
+		onChange,
+		disabled = false,
+		required = false,
+		value,
+		help,
+		toggle,
+		customErrorMessage,
+		name,
+		className = '',
+		tabIndex,
+		id,
+	} = props;
 
-	const inputRef = useRef< HTMLInputElement >( null );
-	const [ touched, setTouched ] = useState( false );
+	const inputRef = useRef<HTMLInputElement>(null);
+	const [touched, setTouched] = useState(false);
 
-	const onChangeHandler = ( event: any ) => {
-		onChange( event.target.checked );
+	const onChangeHandler = (event: any) => {
+		onChange(event.target.checked);
 	};
 
-	const setInvalidity = ( event: any ) => {
-		if ( ! props.customErrorMessage ) return;
-		event.target.setCustomValidity( props.customErrorMessage );
+	const setInvalidity = (event: any) => {
+		if (!props.customErrorMessage) return;
+		event.target.setCustomValidity(props.customErrorMessage);
 	};
 
 	const isTouched = props.formTouched || touched;
 
 	const reset = () => {
-		if ( ! inputRef.current ) return;
+		if (!inputRef.current) return;
 		inputRef.current.checked = false;
 	};
 
 	const classes = [
 		'ctx-form-field',
 		toggle ? 'toggle' : 'checkbox',
-		! inputRef?.current?.validity.valid && isTouched ? 'error' : '',
-	].join( ' ' );
+		!inputRef?.current?.validity.valid && isTouched ? 'error' : '',
+		className,
+	]
+		.join(' ')
+		.trim();
 
 	const Label = () => {
 		const labelText = help ?? label;
 
-		return <span dangerouslySetInnerHTML={ { __html: labelText } }></span>;
+		return <span dangerouslySetInnerHTML={{ __html: labelText }}></span>;
 	};
 
 	return (
 		<div
-			className={ classes }
-			style={ {
-				gridColumn: `span ${ width }`,
-			} }
+			className={classes}
+			style={{
+				gridColumn: `span ${width}`,
+			}}
 		>
 			<label>
 				<div className="toggle__control">
 					<input
-						disabled={ disabled }
-						required={ required }
-						ref={ inputRef }
-						onClick={ () => setTouched( true ) }
-						checked={ value }
+						disabled={disabled}
+						required={required}
+						ref={inputRef}
+						onClick={() => setTouched(true)}
+						checked={value}
 						type="checkbox"
-						onChange={ onChangeHandler }
-						onInvalid={ setInvalidity }
+						name={name}
+						onChange={onChangeHandler}
+						onInvalid={setInvalidity}
+						tabIndex={tabIndex}
+						id={id}
 					/>
-					{ toggle && <span className="toggle__switch"></span> }
+					{toggle && <span className="toggle__switch"></span>}
 				</div>
 				<Label />
 			</label>
-			{ isTouched && ! inputRef?.current?.validity.valid && inputRef.current?.validationMessage && (
-				<span className="error-message">{ customErrorMessage || inputRef.current?.validationMessage }</span>
-			) }
+			{isTouched &&
+				!inputRef?.current?.validity.valid &&
+				inputRef.current?.validationMessage && (
+					<span className="error-message">
+						{customErrorMessage ||
+							inputRef.current?.validationMessage}
+					</span>
+				)}
 		</div>
 	);
 };
