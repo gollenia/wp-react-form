@@ -1,17 +1,30 @@
 {
 	"compilerOptions": {
-		"outDir": "./lib/",
+		"rootDir": "./src",
+		"outDir": "./lib",
 		"jsx": "react-jsx",
-		"target": "es6", // Set to ES5 for older browser support.
+		"target": "ES2020",
+		"lib": ["DOM", "ES2020"],
+		"module": "CommonJS",
+		"moduleResolution": "Node",
 		"declaration": true,
+		"sourceMap": true,
 		"strict": true,
+		"isolatedModules": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowUnusedLabels": false,
 		"allowSyntheticDefaultImports": true,
-		"plugins": [{ "name": "typescript-plugin-css-modules" }],
+		"noUncheckedSideEffectImports": true,
+		"noFallthroughCasesInSwitch": true,
+		"allowUnreachableCode": false,
+		"noUncheckedIndexedAccess": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noErrorTruncation": false,
 		"noImplicitAny": false,
 		"allowJs": true,
-		"moduleResolution": "node",
 		"resolveJsonModule": true
 	},
-	"include": [ "src" ],
-	"exclude": [ "node_modules" ]
+	"include": ["src"],
+	"exclude": ["node_modules"]
 }

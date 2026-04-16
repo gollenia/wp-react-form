@@ -1,0 +1,9 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"outDir": "./.ts-jest",
+		"rootDir": ".",
+		"allowJs": true
+	},
+	"include": ["src", "tests", "jest.config.ts"]
+}
