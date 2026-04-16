@@ -7,9 +7,9 @@ module.exports = {
 		'^.+\\.(js|jsx|ts|tsx|mjs)$': [
 			'ts-jest',
 			{
-				tsconfig: './tsconfig.json',
-			}
-		]
+				tsconfig: './tsconfig.jest.json',
+			},
+		],
 	},
-	transformIgnorePatterns: [ 'node_modules/(?!troublesome-dependency/.*)' ],
+	transformIgnorePatterns: ['node_modules/(?!troublesome-dependency/.*)'],
 };
