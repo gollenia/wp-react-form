@@ -1,88 +1,252 @@
-## React form renderer for Wordpress
+# `@contexis/wp-react-form`
 
-This plugin is intended as a helper to render a form on your wordpress-website based on a JSON Scheme. This scheme can either be loaded directly into the component via props, or a fitting REST url can be provided.
+React form renderer for WordPress-based frontends.
 
-The plugin makes use of wordpress' own version of React in `@wordpress/element`, so no need to import any additional libraries.
+The package uses `@wordpress/element` and renders forms from a field schema. You can either render a complete form through `Form` or compose lower-level building blocks such as `Fieldset`, `FormField`, `Input`, `TextArea`, `Select`, `Checkbox`, `Flex`, and `Stepper`.
 
-#### Components
-
-You can render a complete form or only single form components, as you prefer. The components are
-
-- Checkbox
-- Country
-- DateInput
-- HtmlBlock
-- MailInput
-- NumberInput
-- Radio
-- Select
-- Submit
-- Telephone
-- Combobox
-- Textarea
-- TextInput
-
-#### Basic Usage
-
-Install the package with the package manager of your choice, like
+## Install
 
 ```bash
 npm install @contexis/wp-react-form
 ```
 
-and import it into your project:
+## Scope
 
-```js
+This package is primarily a schema-driven form renderer for WordPress-based frontends.
+
+- `Form`, `FormField`, and `Fieldset` are the main public building blocks.
+- The concrete field components such as `Input`, `TextArea`, `Select`, or `Checkbox` are exported so individual fields can also be rendered directly in larger apps and plugins while staying visually and behaviorally consistent with schema-rendered forms.
+- External UI libraries may be used internally as implementation details, but they are not the public API of this package.
+- If you want consistency with the schema-driven form system, import primitives from this package rather than mixing them directly with third-party field components.
+
+## Exports
+
+Default export:
+
+- `Form`
+
+Named exports:
+
+- `Form`
+- `Fieldset`
+- `FormFields`
+- `FormField`
+- `InputField`
+- `Input`
+- `TextArea`
+- `Select`
+- `Radio`
+- `Button`
+- `Checkbox`
+- `Combobox`
+- `Country`
+- `Flex`
+- `Hidden`
+- `Range`
+- `Stepper`
+- `Submit`
+- `getDefaultFormValues`
+- `normalizeFieldValue`
+- `isFieldVisible`
+- `getCountryOptions`
+- `sanitizeHtml`
+- `sanitizeInlineHtml`
+
+The package also exports the relevant TypeScript types from [`src/types.ts`](/var/www/projects/wp-react-form/src/types.ts).
+
+## Basic Usage
+
+```tsx
 import Form from '@contexis/wp-react-form';
-```
 
-Then you can insert the component anywhere in your JSX template:
+const fields = [
+	{
+		name: 'name',
+		type: 'text',
+		label: 'Name',
+		required: true,
+	},
+	{
+		name: 'email',
+		type: 'email',
+		label: 'E-Mail',
+		required: true,
+	},
+	{
+		name: 'country',
+		type: 'country',
+		label: 'Country',
+	},
+	{
+		name: 'newsletter',
+		type: 'toggle',
+		label: 'Subscribe to newsletter',
+		defaultValue: false,
+	},
+	{
+		name: 'submit',
+		type: 'submit',
+		label: 'Send',
+	},
+];
 
-```jsx
-const formData = {
-	fields: [
-		{ name: 'name', type: 'text' },
-		{ name: 'mail', type: 'email' }
-	]
+export function Example() {
+	return (
+		<Form
+			data={fields}
+			extraData={{ source: 'landing-page' }}
+			submitUrl="/wp-json/my-form/v1/submit"
+			onSubmissionFinished={(response) => {
+				console.log(response.success);
+			}}
+		/>
+	);
 }
-
-<Form
-	extraData={{ id, page }} // hiddenfields
-	lang="de_AT"
-    data={formData} // Array containing form Data
-	formUrl='/wp-json/myfom/v2/getform/234' // load data from an URL instead
-	onSubmit={() => { yourAction()}}
-	onSubmissionFinished={() => { yourAction()}}
-	validate={true}
-	submitUrl={}
-/>,
 ```
 
-You can also use the single fields without the form
+## `Form` Props
 
+- `data?: FormFieldDefinition[]`
+- `formUrl?: string`
+- `submitUrl?: string`
+- `extraData?: FormValues`
+- `onSubmit?: (event, data) => void`
+- `onSubmissionFinished?: (response) => void`
+- `onStateChange?: (state) => void`
+- `onChange?: (form) => void`
+
+Notes:
+
+- If `formUrl` is set, the form schema is loaded via `fetch`.
+- If `onSubmit` is provided, submission is handled externally.
+- If `onSubmit` is not provided, the component posts JSON to `submitUrl`.
+
+## Supported Field Types
+
+- `text`
+- `email`
+- `url`
+- `tel`
+- `password`
+- `search`
+- `date`
+- `week`
+- `month`
+- `datetime-local`
+- `number`
+- `range`
+- `numberpicker`
+- `select`
+- `combobox`
+- `radio`
+- `options`
+- `textarea`
+- `checkbox`
+- `toggle`
+- `country`
+- `html`
+- `hidden`
+- `submit`
+
+The following input types exist in the shared type union but are not currently mapped to dedicated UI in `FormField`:
+
+- `time`
+- `year`
+- `file`
+
+## Field Schema
+
+The main schema type is `FormFieldDefinition`.
+
+Common properties:
+
+- `name`
+- `type`
+- `label`
+- `defaultValue`
+- `required`
+- `placeholder`
+- `help`
+- `hint`
+- `description`
+- `width`
+- `visibilityRule`
+- `customError`
+- `customErrorMessage`
+- `testId`
+
+Field-specific properties:
+
+- `options` for `select`, `combobox`, `radio`, `options`
+- `rows` for `textarea`
+- `min`, `max`, `hasTicks`, `hasLabels` for `range` and `numberpicker`
+- `region` for `country`
+- `alignment` for `submit`
+- `content` for `html`
+
+Example:
+
+```ts
+const fields = [
+	{
+		name: 'details',
+		type: 'textarea',
+		label: 'Details',
+		rows: 5,
+		visibilityRule: {
+			field: 'newsletter',
+			value: true,
+			operator: 'equals',
+		},
+	},
+];
 ```
 
+## Lower-Level Usage
 
-#### Changes
-## 1.1.5
-- added ids
+If you do not want the full `Form` component, you can render visible fields yourself:
 
-## 1.1.4
-- added @wordpress/prettier-config
-- added tabIndex-property
+```tsx
+import { Fieldset } from '@contexis/wp-react-form';
 
-## 1.1.2
-- className added to every InputField
+<Fieldset
+	fields={fields}
+	formData={formData}
+	errors={errors}
+	status="LOADED"
+	formTouched={false}
+	disabled={false}
+	onChange={(name, value) => {
+		setFormData((prev) => ({ ...prev, [name]: value }));
+	}}
+/>;
+```
 
-## 1.1.1
-- Tests now run over InputField component
+`FormFields` remains available as a backwards-compatible alias.
 
-## 1.1.0
-- Added Currency
+Or render a single schema-driven field directly:
 
-## 1.0.17
-- Numbers now suport range and numbers
+```tsx
+import { FormField } from '@contexis/wp-react-form';
 
-## 1.0.16
-- Added custom classes that can be included
+<FormField
+	type="text"
+	name="company"
+	label="Company"
+	status="LOADED"
+	formTouched={false}
+	disabled={false}
+	value=""
+	onChange={(value) => {
+		console.log(value);
+	}}
+/>;
+```
+
+`InputField` remains available as a backwards-compatible alias.
+
+If you want to use the concrete field primitives directly, import them individually:
+
+```tsx
+import { Input, Select, TextArea } from '@contexis/wp-react-form';
 ```
