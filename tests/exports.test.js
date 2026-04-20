@@ -24,6 +24,7 @@ import Form, {
 	sanitizeHtml,
 	sanitizeInlineHtml,
 } from '../src';
+import packageJson from '../package.json';
 
 test('exports the public API from the package entrypoint', () => {
 	expect(Form).toBe(NamedForm);
@@ -52,4 +53,8 @@ test('exports the public API from the package entrypoint', () => {
 	expect(sanitizeInlineHtml).toBeTruthy();
 	expect(FormField).toBe(InputField);
 	expect(Fieldset).toBe(FormFields);
+});
+
+test('exports the packaged stylesheet as a subpath', () => {
+	expect(packageJson.exports['./style.css']).toBe('./lib/style.css');
 });
