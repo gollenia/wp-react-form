@@ -1,4 +1,7 @@
 #### Changes
+## 2.0.1
+- replaced own sanitize functions with DOMPurify
+- export styles.css
 
 ## 2.0.0
 - added field visibility
