@@ -10,6 +10,10 @@ The package uses `@wordpress/element` and renders forms from a field schema. You
 npm install @contexis/wp-react-form
 ```
 
+```ts
+import '@contexis/wp-react-form/style.css';
+```
+
 ## Scope
 
 This package is primarily a schema-driven form renderer for WordPress-based frontends.
@@ -58,6 +62,7 @@ The package also exports the relevant TypeScript types from [`src/types.ts`](/va
 
 ```tsx
 import Form from '@contexis/wp-react-form';
+import '@contexis/wp-react-form/style.css';
 
 const fields = [
 	{
