@@ -1,4 +1,6 @@
-const ALLOWED_BLOCK_TAGS = new Set([
+import createDOMPurify from 'dompurify';
+
+const ALLOWED_BLOCK_TAGS = [
 	'a',
 	'b',
 	'strong',
@@ -32,9 +34,9 @@ const ALLOWED_BLOCK_TAGS = new Set([
 	'img',
 	'figure',
 	'figcaption',
-]);
+] as const;
 
-const ALLOWED_INLINE_TAGS = new Set([
+const ALLOWED_INLINE_TAGS = [
 	'a',
 	'b',
 	'strong',
@@ -45,9 +47,9 @@ const ALLOWED_INLINE_TAGS = new Set([
 	'span',
 	'br',
 	'code',
-]);
+] as const;
 
-const ALLOWED_ATTRIBUTES: Record<string, string[]> = {
+const ALLOWED_ATTRIBUTES_BY_TAG: Record<string, readonly string[]> = {
 	a: ['href', 'title', 'target', 'rel'],
 	img: ['src', 'alt', 'width', 'height', 'loading'],
 	td: ['colspan', 'rowspan'],
@@ -55,104 +57,76 @@ const ALLOWED_ATTRIBUTES: Record<string, string[]> = {
 	'*': ['class', 'id', 'lang', 'dir'],
 };
 
+const GLOBAL_ALLOWED_ATTRIBUTES = Array.from(new Set(Object.values(ALLOWED_ATTRIBUTES_BY_TAG).flat()));
+
 const SAFE_PROTOCOLS = new Set(['http:', 'https:', 'mailto:']);
+
+const getPurifier = () => {
+	if (typeof window === 'undefined') {
+		return null;
+	}
+
+	return createDOMPurify(window);
+};
 
 const isUrlSafe = (url: string): boolean => {
 	try {
-		const parsed = new URL(url, window.location.href);
+		const baseUrl = typeof window !== 'undefined' ? window.location.href : 'https://example.com';
+		const parsed = new URL(url, baseUrl);
 		return SAFE_PROTOCOLS.has(parsed.protocol);
 	} catch {
 		return false;
 	}
 };
 
-const sanitizeNode = (node: Node, allowedTags: Set<string>): Node | null => {
-	if (node.nodeType === Node.TEXT_NODE) {
-		return node.cloneNode();
-	}
+const sanitizeAttributes = (root: ParentNode) => {
+	root.querySelectorAll('*').forEach((element) => {
+		const tagName = element.tagName.toLowerCase();
+		const allowedAttributes = new Set([
+			...(ALLOWED_ATTRIBUTES_BY_TAG[tagName] ?? []),
+			...(ALLOWED_ATTRIBUTES_BY_TAG['*'] ?? []),
+		]);
 
-	if (node.nodeType !== Node.ELEMENT_NODE) {
-		return null;
-	}
+		Array.from(element.attributes).forEach((attribute) => {
+			if (!allowedAttributes.has(attribute.name)) {
+				element.removeAttribute(attribute.name);
+				return;
+			}
 
-	const element = node as Element;
-	const tagName = element.tagName.toLowerCase();
-
-	if (!allowedTags.has(tagName)) {
-		const fragment = document.createDocumentFragment();
-		node.childNodes.forEach((child) => {
-			const sanitized = sanitizeNode(child, allowedTags);
-			if (sanitized) {
-				fragment.appendChild(sanitized);
+			if (
+				(attribute.name === 'href' || attribute.name === 'src') &&
+				!isUrlSafe(attribute.value)
+			) {
+				element.removeAttribute(attribute.name);
 			}
 		});
-		return fragment;
+
+		if (tagName === 'a' && element.getAttribute('target') === '_blank') {
+			element.setAttribute('rel', 'noopener noreferrer');
+		}
+	});
+};
+
+const sanitize = (html: string, allowedTags: readonly string[]): string => {
+	const purifier = getPurifier();
+	if (!purifier || typeof DOMParser === 'undefined') {
+		return html;
 	}
 
-	const newElement = document.createElement(tagName);
-	const allowedAttrs = [
-		...(ALLOWED_ATTRIBUTES[tagName] ?? []),
-		...(ALLOWED_ATTRIBUTES['*'] ?? []),
-	];
-
-	allowedAttrs.forEach((attr) => {
-		const value = element.getAttribute(attr);
-
-		if (value === null) {
-			return;
-		}
-
-		if ((attr === 'href' || attr === 'src') && !isUrlSafe(value)) {
-			return;
-		}
-
-		newElement.setAttribute(attr, value);
+	const sanitizedHtml = purifier.sanitize(html, {
+		ALLOWED_TAGS: [...allowedTags],
+		ALLOWED_ATTR: GLOBAL_ALLOWED_ATTRIBUTES,
+		ALLOW_UNKNOWN_PROTOCOLS: false,
 	});
 
-	if (tagName === 'a' && newElement.getAttribute('target') === '_blank') {
-		newElement.setAttribute('rel', 'noopener noreferrer');
-	}
+	const doc = new DOMParser().parseFromString(sanitizedHtml, 'text/html');
+	sanitizeAttributes(doc.body);
 
-	node.childNodes.forEach((child) => {
-		const sanitized = sanitizeNode(child, allowedTags);
-		if (sanitized) {
-			newElement.appendChild(sanitized);
-		}
-	});
-
-	return newElement;
+	return doc.body.innerHTML;
 };
 
-const toHtmlString = (fragment: DocumentFragment | Node): string => {
-	const wrapper = document.createElement('div');
-	wrapper.appendChild(fragment.cloneNode(true));
-	return wrapper.innerHTML;
-};
+export const sanitizeHtml = (html: string): string =>
+	sanitize(html, ALLOWED_BLOCK_TAGS);
 
-export const sanitizeHtml = (html: string): string => {
-	const doc = new DOMParser().parseFromString(html, 'text/html');
-	const fragment = document.createDocumentFragment();
-
-	doc.body.childNodes.forEach((child) => {
-		const sanitized = sanitizeNode(child, ALLOWED_BLOCK_TAGS);
-		if (sanitized) {
-			fragment.appendChild(sanitized);
-		}
-	});
-
-	return toHtmlString(fragment);
-};
-
-export const sanitizeInlineHtml = (html: string): string => {
-	const doc = new DOMParser().parseFromString(html, 'text/html');
-	const fragment = document.createDocumentFragment();
-
-	doc.body.childNodes.forEach((child) => {
-		const sanitized = sanitizeNode(child, ALLOWED_INLINE_TAGS);
-		if (sanitized) {
-			fragment.appendChild(sanitized);
-		}
-	});
-
-	return toHtmlString(fragment);
-};
+export const sanitizeInlineHtml = (html: string): string =>
+	sanitize(html, ALLOWED_INLINE_TAGS);
