@@ -1,6 +1,6 @@
 {
 	"name": "@contexis/wp-react-form",
-	"version": "2.0.1",
+	"version": "2.0.4",
 	"description": "Create forms in the frontend based on JSON Form data",
 	"author": "Thomas Gollenia",
 	"license": "GPL-2.0-or-later",

@@ -1,4 +1,13 @@
 #### Changes
+## 2.0.4
+- Combobox fixes
+
+## 2.0.3
+- Combobox fix that closes the suggestion box when value is empty
+
+## 2.0.2
+- ComboBox CSS fix that makes items not wrap
+
 ## 2.0.1
 - replaced own sanitize functions with DOMPurify
 - export styles.css
