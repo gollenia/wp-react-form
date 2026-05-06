@@ -52,6 +52,7 @@
   color: inherit;
 }
 .ctx-form-field {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--wp--custom--ctx-forms--field--gap, 0.375rem);
@@ -291,7 +292,13 @@
   transform: translateX(1.05rem);
 }
 .ctx-combobox-listbox {
-  margin: 0.25rem 0 0;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  right: 0;
+  margin: 0;
   padding: 0.25rem;
   list-style: none;
   border: 1px solid var(--wp--custom--ctx-forms--field--border-color);
@@ -300,16 +307,20 @@
   box-shadow: var(--wp--custom--ctx-forms--field--box-shadow);
   max-height: 16rem;
   overflow: auto;
-  position: relative;
   z-index: 20;
 }
-.ctx-combobox-listbox li {
+.ctx-combobox-listbox > button[role=option] {
   padding: 0.5rem 0.625rem;
+  border: 0;
   border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
   cursor: pointer;
 }
-.ctx-combobox-listbox li.selected,
-.ctx-combobox-listbox li:hover {
+.ctx-combobox-listbox > button[role=option].selected,
+.ctx-combobox-listbox > button[role=option]:hover {
   background: var(--wp--custom--ctx-forms--field--hover-background);
 }
 .ctx-combobox-listbox .muted {
