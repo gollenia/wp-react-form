@@ -37,7 +37,6 @@ const Combobox = (props: ComboboxProps) => {
 	const {
 		label = '',
 		name = '',
-		width = 6,
 		options,
 		required = false,
 		disabled = false,
@@ -71,8 +70,13 @@ const Combobox = (props: ComboboxProps) => {
 	useEffect(() => {
 		setInputValue(value);
 
-		if (!value || options.includes(value)) {
+		if (options.includes(value)) {
 			setIsOpen(false);
+			setHighlightedIndex(-1);
+			return;
+		}
+
+		if (!value) {
 			setHighlightedIndex(-1);
 		}
 	}, [options, value]);
