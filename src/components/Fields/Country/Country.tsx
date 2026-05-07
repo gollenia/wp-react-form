@@ -86,14 +86,5 @@ const Country = (props: CountryProps) => {
 	);
 };
 
-Country.defaultProps = {
-	label: '',
-	placeholder: '',
-	name: '',
-	required: false,
-	width: 6,
-	region: 'world',
-};
-
 export default Country;
 export type { CountryProps };

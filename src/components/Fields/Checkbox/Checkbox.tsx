@@ -1,6 +1,6 @@
 import { useId, useRef, useState } from '@wordpress/element';
 import type { ChangeEvent, InvalidEvent } from 'react';
-import { sanitizeInlineHtml } from '../../../modules/sanitize';
+import { RenderHtml, sanitizeInlineHtml } from '../../../modules/RenderHtml';
 import type { FieldValue } from '../../../types';
 import { FieldMessages } from '../../FieldMessages/FieldMessages';
 
@@ -58,9 +58,9 @@ const Checkbox = (props: CheckboxProps) => {
 			.join(' ') || undefined;
 
 	const classes = [
-		'ctx-form-field',
-		variant === 'toggle' ? 'toggle' : 'checkbox',
-		hasError ? 'error' : '',
+		'ctx2-form-field',
+		variant === 'toggle' ? 'ctx2-toggle' : 'ctx2-checkbox',
+		hasError ? 'ctx2-form-error' : '',
 	]
 		.filter(Boolean)
 		.join(' ');
@@ -79,8 +79,8 @@ const Checkbox = (props: CheckboxProps) => {
 
 	return (
 		<div className={classes}>
-			<label htmlFor={inputId} className="ctx-form-checkbox-label">
-				<span className="toggle__control">
+			<label htmlFor={inputId} className="ctx2-form-checkbox-label">
+				<span className="ctx2-toggle__control">
 					<input
 						ref={inputRef}
 						id={inputId}
@@ -98,18 +98,19 @@ const Checkbox = (props: CheckboxProps) => {
 						onInvalid={handleInvalid}
 					/>
 					{variant === 'toggle' && (
-						<span className="toggle__switch" aria-hidden="true" />
+						<span className="ctx2-toggle__switch" aria-hidden="true" />
 					)}
 				</span>
 
 				{label && (
 					<>
-						<span
-							className="ctx-form-checkbox-label__text"
-							dangerouslySetInnerHTML={{ __html: sanitizeInlineHtml(label) }}
+						<RenderHtml
+							className="ctx2-form-checkbox-label__text"
+							html={label}
+							tag="span"
 						/>
 						{required && (
-							<span className="ctx-form-label__required" aria-hidden="true" />
+							<span className="ctx2-form-label__required" aria-hidden="true" />
 						)}
 					</>
 				)}

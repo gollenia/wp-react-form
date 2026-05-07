@@ -25,7 +25,6 @@ const TextArea = (props: TextAreaProps) => {
 		placeholder = '',
 		name = '',
 		required = false,
-		width = 6,
 		disabled = false,
 		rows = 3,
 		help,
@@ -59,10 +58,10 @@ const TextArea = (props: TextAreaProps) => {
 			.join(' ') || undefined;
 
 	const classes = [
-		'ctx-form-field',
-		'textarea',
-		required ? 'input--required' : '',
-		hasError ? 'error' : '',
+		'ctx2-form-field',
+		'ctx2-textarea',
+		required ? 'ctx2-textarea--required' : '',
+		hasError ? 'ctx2-form-error' : '',
 	]
 		.filter(Boolean)
 		.join(' ');

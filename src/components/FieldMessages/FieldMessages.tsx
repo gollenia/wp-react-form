@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { RenderHtml } from '../../modules/RenderHtml';
 
 type FieldMessagesProps = {
 	hint?: string;
@@ -23,27 +23,23 @@ export const FieldMessages = ({
 }: FieldMessagesProps) => (
 	<>
 		{hint && hintId && (
-			<div id={hintId} className="ctx-form-hint">
+			<div id={hintId} className="ctx2-form-hint">
 				{hint}
 			</div>
 		)}
 
 		{helpHtml && helpId && (
-			<div
-				id={helpId}
-				className="ctx-form-help"
-				dangerouslySetInnerHTML={{ __html: helpHtml }}
-			/>
+			<RenderHtml id={helpId} className="ctx2-form-help" html={helpHtml} />
 		)}
 
 		{help && helpId && !helpHtml && (
-			<div id={helpId} className="ctx-form-help">
+			<div id={helpId} className="ctx2-form-help">
 				{help}
 			</div>
 		)}
 
 		{hasError && errorMessage && (
-			<div id={errorId} role="alert" className="error-message">
+			<div id={errorId} role="alert" className="ctx2-form-error">
 				{errorMessage}
 			</div>
 		)}

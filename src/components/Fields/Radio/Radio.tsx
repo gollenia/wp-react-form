@@ -46,10 +46,10 @@ const Radio = (props: RadioProps) => {
 			.join(' ') || undefined;
 
 	const classes = [
-		'ctx-form-field',
-		'radio',
-		required ? 'radio--required' : '',
-		hasError ? 'error' : '',
+		'ctx2-form-field',
+		'ctx2-radio',
+		required ? 'ctx2-radio--required' : '',
+		hasError ? 'ctx2-form-error' : '',
 	]
 		.filter(Boolean)
 		.join(' ');
@@ -61,7 +61,7 @@ const Radio = (props: RadioProps) => {
 	return (
 		<div className={classes}>
 			<fieldset
-				className="ctx-radio-group"
+				className="ctx2-radio-group"
 				aria-describedby={describedBy}
 				aria-invalid={hasError || undefined}
 			>
@@ -69,7 +69,7 @@ const Radio = (props: RadioProps) => {
 					<legend>
 						<span>{label}</span>
 						{required && (
-							<span className="ctx-form-label__required" aria-hidden="true" />
+							<span className="ctx2-form-label__required" aria-hidden="true" />
 						)}
 					</legend>
 				)}

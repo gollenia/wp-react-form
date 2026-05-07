@@ -128,10 +128,10 @@ const Combobox = (props: ComboboxProps) => {
 			.join(' ') || undefined;
 
 	const classes = [
-		'ctx-form-field',
-		'combobox',
-		required ? 'input--required' : '',
-		hasError ? 'error' : '',
+		'ctx2-form-field',
+		'ctx2-combobox',
+		required ? 'ctx2-input--required' : '',
+		hasError ? 'ctx2-form-error' : '',
 	]
 		.filter(Boolean)
 		.join(' ');
@@ -308,7 +308,7 @@ const Combobox = (props: ComboboxProps) => {
 			/>
 
 			{isOpen && !disabled && (
-				<div id={listboxId} role="listbox" className="ctx-combobox-listbox">
+				<div id={listboxId} role="listbox" className="ctx2-combobox-listbox">
 					{clearEnabled && (
 						<button
 							type="button"

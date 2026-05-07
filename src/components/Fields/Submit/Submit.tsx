@@ -10,9 +10,9 @@ type SubmitProps = {
 };
 
 const Submit = (props: SubmitProps) => {
-	const { label, width, alignment, disabled, placeholder } = props;
+	const { label, alignment, disabled, placeholder } = props;
 
-	const className = 'ctx-form-field';
+	const className = 'ctx2-form-field';
 
 	return (
 		<Flex
@@ -27,18 +27,13 @@ const Submit = (props: SubmitProps) => {
 			}
 		>
 			<input
-				className="ctx-button"
+				className="ctx2-button"
 				type={props.type ?? 'submit'}
 				value={label || placeholder}
 				disabled={disabled}
 			/>
 		</Flex>
 	);
-};
-
-Submit.defaultProps = {
-	label: '',
-	width: 6,
 };
 
 export default Submit;

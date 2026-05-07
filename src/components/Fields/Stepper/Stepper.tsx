@@ -31,10 +31,10 @@ export function Stepper({
 	const canIncrement = !disabled && value < max;
 
 	return (
-		<div className={['ctx-stepper', className].filter(Boolean).join(' ')}>
+		<div className={['ctx2-stepper', className].filter(Boolean).join(' ')}>
 			<button
 				type="button"
-				className="ctx-stepper__button"
+				className="ctx2-stepper__button"
 				onClick={() => onChange(Math.max(min, value - step))}
 				disabled={!canDecrement}
 				aria-label={decrementLabel}
@@ -43,7 +43,7 @@ export function Stepper({
 				-
 			</button>
 			<span
-				className="ctx-stepper__value"
+				className="ctx2-stepper__value"
 				aria-live="polite"
 				data-testid={valueTestId}
 			>
@@ -51,7 +51,7 @@ export function Stepper({
 			</span>
 			<button
 				type="button"
-				className="ctx-stepper__button"
+				className="ctx2-stepper__button"
 				onClick={() => onChange(Math.min(max, value + step))}
 				disabled={!canIncrement}
 				aria-label={incrementLabel}

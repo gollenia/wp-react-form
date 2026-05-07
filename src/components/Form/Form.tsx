@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from '@wordpress/element';
 import type { ChangeEvent, FormEvent } from 'react';
-import {
-	getDefaultFormValues,
-} from '../../modules/values';
+import { RenderHtml } from '../../modules/RenderHtml';
+import { getDefaultFormValues } from '../../modules/values';
 import { isFieldVisible } from '../../modules/visibility';
 import type {
 	FormFieldDefinition,
@@ -10,7 +9,6 @@ import type {
 	FormState,
 	FormValues,
 } from '../../types';
-import { sanitizeHtml } from '../../modules/sanitize';
 import { Fieldset } from '../FormFields/FormFields';
 
 type FormProps = {
@@ -133,57 +131,53 @@ const Form = (props: FormProps) => {
 	].join(' ');
 
 	return (
-		<>
-			<form
-				className={classes}
-				ref={formRef}
-				onSubmit={handleSubmit}
-				onInvalid={() => setTouched(true)}
-				onChange={onFormChange}
-				onReset={resetForm}
-			>
-				{status === 'ERROR' && (
-					<div
-						role="alert"
-						className="ctx-form__response ctx-form__response--error"
-						dangerouslySetInnerHTML={{
-							__html: sanitizeHtml(response?.message?.html ?? ''),
-						}}
-					/>
-				)}
-
-				<div
-					role="status"
-					aria-live="polite"
-					style={{
-						opacity: status === 'SUCCESS' ? 1 : 0,
-						pointerEvents: status === 'SUCCESS' ? 'all' : 'none',
-						transition: 'all 0.3s',
-						left: 0,
-						top: 0,
-						bottom: 0,
-						right: 0,
-						position: 'absolute',
-						zIndex: 5,
-					}}
-					className={`ctx-form__response ${status === 'SUCCESS' ? 'ctx-form__response--show' : ''}`}
-					dangerouslySetInnerHTML={{
-						__html: sanitizeHtml(response?.message?.html ?? '<p>Success</p>'),
-					}}
+		<form
+			className={classes}
+			ref={formRef}
+			onSubmit={handleSubmit}
+			onInvalid={() => setTouched(true)}
+			onChange={onFormChange}
+			onReset={resetForm}
+		>
+			{status === 'ERROR' && (
+				<RenderHtml
+					tag="div"
+					role="alert"
+					className="ctx-form__response ctx-form__response--error"
+					html={response?.message?.html ?? ''}
 				/>
+			)}
 
-				<Fieldset
-					fields={visibleFields}
-					formData={form}
-					status={status}
-					disabled={status === 'SUBMITTING'}
-					formTouched={touched}
-					onChange={(name, value) => {
-						setForm((prev) => ({ ...prev, [name]: value }));
-					}}
-				/>
-			</form>
-		</>
+			<RenderHtml
+				tag="div"
+				role="status"
+				aria-live="polite"
+				style={{
+					opacity: status === 'SUCCESS' ? 1 : 0,
+					pointerEvents: status === 'SUCCESS' ? 'all' : 'none',
+					transition: 'all 0.3s',
+					left: 0,
+					top: 0,
+					bottom: 0,
+					right: 0,
+					position: 'absolute',
+					zIndex: 5,
+				}}
+				className={`ctx-form__response ${status === 'SUCCESS' ? 'ctx-form__response--show' : ''}`}
+				html={response?.message?.html ?? '<p>Success</p>'}
+			/>
+
+			<Fieldset
+				fields={visibleFields}
+				formData={form}
+				status={status}
+				disabled={status === 'SUBMITTING'}
+				formTouched={touched}
+				onChange={(name, value) => {
+					setForm((prev) => ({ ...prev, [name]: value }));
+				}}
+			/>
+		</form>
 	);
 };
 

@@ -83,10 +83,10 @@ const TextInput = (props: InputProps) => {
 			.join(' ') || undefined;
 
 	const classes = [
-		'ctx-form-field',
-		'input',
-		required ? 'input--required' : '',
-		hasError ? 'error' : '',
+		'ctx2-form-field',
+		'ctx2-input',
+		required ? 'ctx2-input--required' : '',
+		hasError ? 'ctx2-form-error' : '',
 	]
 		.filter(Boolean)
 		.join(' ');

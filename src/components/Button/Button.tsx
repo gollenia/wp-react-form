@@ -18,9 +18,9 @@ export default function Button({
 	...props
 }: Props) {
 	const classes = [
-		'ctx-button',
-		`ctx-button--${variant}`,
-		fullWidth ? 'ctx-button--full-width' : '',
+		'ctx2-button',
+		`ctx2-button--${variant}`,
+		fullWidth ? 'ctx2-button--full-width' : '',
 		className,
 	]
 		.filter(Boolean)

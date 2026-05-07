@@ -41,7 +41,6 @@ const Select = (props: SelectProps) => {
 		customError,
 		customErrorMessage,
 		error,
-		width = 6,
 		value,
 		formTouched = false,
 		emptyOptionLabel = 'Make a selection',
@@ -71,10 +70,10 @@ const Select = (props: SelectProps) => {
 			.join(' ') || undefined;
 
 	const classes = [
-		'ctx-form-field',
-		'select',
-		required ? 'select--required' : '',
-		hasError ? 'error' : '',
+		'ctx2-form-field',
+		'ctx2-select',
+		required ? 'ctx2-select--required' : '',
+		hasError ? 'ctx2-form-error' : '',
 	]
 		.filter(Boolean)
 		.join(' ');

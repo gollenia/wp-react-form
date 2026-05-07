@@ -1,4 +1,4 @@
-import { sanitizeHtml } from '../../modules/sanitize';
+import { RenderHtml } from '../../modules/RenderHtml';
 
 export type HTMLBlockProps = {
 	content?: string;
@@ -9,15 +9,7 @@ export type HTMLBlockProps = {
 const HTMLBlock = ({ content = '', role }: HTMLBlockProps) => {
 	const classes = ['ctx-content-block', 'core-block'].join(' ');
 
-	return (
-		<div
-			className={classes}
-			role={role}
-			dangerouslySetInnerHTML={{
-				__html: sanitizeHtml(content),
-			}}
-		/>
-	);
+	return <RenderHtml className={classes} role={role} html={content} />;
 };
 
 export default HTMLBlock;
