@@ -16,32 +16,19 @@ import { Fieldset } from './components/FormFields/FormFields';
 import FormField from './components/InputField/InputField';
 
 export type {
-	FieldRenderProps,
-	FieldValue,
-	FormFieldDefinition,
-	FormState,
-	FormValues,
-	InputType,
-	VisibilityRule,
-	CountryRegion,
-	FormResponse,
-	SelectOptions,
-} from './types';
-export type { CheckboxProps, CheckboxVariant } from './components/Fields/Checkbox/Checkbox';
+	CheckboxProps,
+	CheckboxVariant,
+} from './components/Fields/Checkbox/Checkbox';
 export type { ComboboxProps } from './components/Fields/Combobox/Combobox';
 export type { CountryProps } from './components/Fields/Country/Country';
-export type { InputFieldTypes, InputProps } from './components/Fields/Input/Input';
+export type {
+	InputFieldTypes,
+	InputProps,
+} from './components/Fields/Input/Input';
 export type { RadioProps } from './components/Fields/Radio/Radio';
 export type { RangeInputProps } from './components/Fields/Range/Range';
 export type { SelectProps } from './components/Fields/Select/Select';
 export type { TextAreaProps } from './components/Fields/TextArea/TextArea';
-export {
-	getDefaultFormValues,
-	normalizeFieldValue,
-} from './modules/values';
-export { isFieldVisible } from './modules/visibility';
-export type { CountryOption } from './modules/countries';
-export { getCountryOptions } from './modules/countries';
 export type {
 	FlexAlign,
 	FlexDirection,
@@ -49,7 +36,26 @@ export type {
 	FlexProps,
 	FlexWrap,
 } from './components/Flex/Flex';
-export { sanitizeHtml, sanitizeInlineHtml } from './modules/sanitize';
+export type { CountryOption } from './modules/countries';
+export { getCountryOptions } from './modules/countries';
+export { sanitizeHtml, sanitizeInlineHtml } from './modules/RenderHtml';
+export {
+	getDefaultFormValues,
+	normalizeFieldValue,
+} from './modules/values';
+export { isFieldVisible } from './modules/visibility';
+export type {
+	CountryRegion,
+	FieldRenderProps,
+	FieldValue,
+	FormFieldDefinition,
+	FormResponse,
+	FormState,
+	FormValues,
+	InputType,
+	SelectOptions,
+	VisibilityRule,
+} from './types';
 export {
 	Button,
 	Checkbox,
