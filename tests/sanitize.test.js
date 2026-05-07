@@ -17,8 +17,10 @@ test('sanitizeHtml removes unsafe protocols and keeps safe blank links hardened'
 	expect(links[1].getAttribute('rel')).toBe('noopener noreferrer');
 });
 
-test('sanitizeInlineHtml strips block tags but keeps inline content', () => {
-	const html = sanitizeInlineHtml('<p>Text <strong>bold</strong></p><script>alert(1)</script>');
+test('sanitizeInlineHtml keeps allowed formatting and removes unsafe tags', () => {
+	const html = sanitizeInlineHtml(
+		'<p>Text <strong>bold</strong></p><script>alert(1)</script>',
+	);
 
-	expect(html).toBe('Text <strong>bold</strong>');
+	expect(html).toBe('<p>Text <strong>bold</strong></p>');
 });

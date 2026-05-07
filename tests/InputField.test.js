@@ -67,7 +67,7 @@ describe('FormField', () => {
 			'type',
 			'checkbox',
 		);
-		expect(document.querySelector('.toggle__switch')).toBeTruthy();
+		expect(document.querySelector('.ctx2-toggle__switch')).toBeTruthy();
 	});
 
 	test('renders combobox fields inside the shared field wrapper', () => {
