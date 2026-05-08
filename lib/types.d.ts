@@ -44,15 +44,16 @@ export type FormFieldDefinition = {
     alignment?: 'left' | 'center' | 'right';
     customError?: string;
     customErrorMessage?: string;
+    unit?: string;
     hasEmptyOption?: boolean;
     multiple?: boolean;
     toggle?: boolean;
     testId?: string;
 };
 export type FieldRenderProps = FormFieldDefinition & {
-    status: FormState;
-    formTouched: boolean;
-    disabled: boolean;
+    status?: FormState;
+    formTouched?: boolean;
+    disabled?: boolean;
     value: FieldValue;
     onChange: (value: FieldValue) => void;
 };

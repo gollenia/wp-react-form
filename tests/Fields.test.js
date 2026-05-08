@@ -31,9 +31,34 @@ describe('field components', () => {
 		const input = screen.getByLabelText('Code');
 		expect(input).toHaveAttribute('minlength', '2');
 		expect(input).toHaveAttribute('maxlength', '5');
+		expect(document.querySelector('.ctx2-input__control')).toBeNull();
 
 		fireEvent.change(input, { target: { value: 'abc' } });
 		expect(onChange).toHaveBeenCalledWith('abc');
+	});
+
+	test('Input renders an optional unit suffix without changing the value', () => {
+		const onChange = jest.fn();
+
+		const { container } = render(
+			<Input
+				name="weight"
+				label="Weight"
+				type="number"
+				unit="kg"
+				value="12"
+				onChange={onChange}
+			/>,
+		);
+
+		const input = screen.getByLabelText('Weight');
+		const control = container.querySelector('.ctx2-input__control');
+		expect(control).toHaveAttribute('data-unit', 'kg');
+		expect(control).toContainElement(input);
+		expect(input).toHaveValue(12);
+
+		fireEvent.change(input, { target: { value: '13' } });
+		expect(onChange).toHaveBeenCalledWith('13');
 	});
 
 	test('Select supports object options, hint/help descriptions and empty required option', () => {

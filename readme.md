@@ -171,6 +171,7 @@ Common properties:
 - `defaultValue`
 - `required`
 - `placeholder`
+- `unit`
 - `help`
 - `hint`
 - `description`
@@ -189,10 +190,21 @@ Field-specific properties:
 - `alignment` for `submit`
 - `content` for `html`
 
+`unit` can be used on native input fields to show a visual suffix inside the
+input, for example `kg` or `m2`. It is not part of the submitted value. The
+schema `number` field currently renders the range-style control, so units apply
+to native inputs rather than that slider field.
+
 Example:
 
 ```ts
 const fields = [
+	{
+		name: 'area',
+		type: 'text',
+		label: 'Area',
+		unit: 'm2',
+	},
 	{
 		name: 'details',
 		type: 'textarea',

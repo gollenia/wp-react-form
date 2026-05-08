@@ -49,6 +49,27 @@ describe('FormField', () => {
 		expect(onChange).toHaveBeenCalledWith('Grace');
 	});
 
+	test('passes units into native input fields', () => {
+		const { container } = render(
+			<FormField
+				type="text"
+				name="area"
+				label="Area"
+				unit="m2"
+				status="LOADED"
+				formTouched={false}
+				disabled={false}
+				value=""
+				onChange={() => {}}
+			/>,
+		);
+
+		const input = screen.getByLabelText('Area');
+		const control = container.querySelector('.ctx2-input__control');
+		expect(control).toHaveAttribute('data-unit', 'm2');
+		expect(control).toContainElement(input);
+	});
+
 	test('renders toggle fields with the toggle affordance', () => {
 		render(
 			<FormField

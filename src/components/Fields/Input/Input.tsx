@@ -36,6 +36,7 @@ type InputProps = {
 	formTouched?: boolean;
 	onChange: (value: FieldValue) => void;
 	value: string;
+	unit?: string;
 };
 
 const TextInput = (props: InputProps) => {
@@ -46,7 +47,6 @@ const TextInput = (props: InputProps) => {
 		required = false,
 		autoComplete = '',
 		pattern = null,
-		width = 6,
 		disabled = false,
 		customError = '',
 		min,
@@ -58,6 +58,7 @@ const TextInput = (props: InputProps) => {
 		formTouched = false,
 		onChange,
 		value,
+		unit = '',
 	} = props;
 
 	const [touched, setTouched] = useState(false);
@@ -158,6 +159,30 @@ const TextInput = (props: InputProps) => {
 		}
 	};
 
+	const input = (
+		<input
+			{...inputConstraints}
+			ref={inputRef}
+			id={inputId}
+			name={name || undefined}
+			type={type}
+			value={value}
+			placeholder={placeholder}
+			required={required}
+			disabled={disabled}
+			autoComplete={autoComplete || undefined}
+			pattern={pattern ?? undefined}
+			aria-required={required || undefined}
+			aria-invalid={hasError || undefined}
+			aria-describedby={describedBy}
+			aria-errormessage={hasError && errorMessage ? errorId : undefined}
+			onChange={handleChange}
+			onBlur={handleBlur}
+			onInvalid={handleInvalid}
+			onBeforeInput={handleBeforeInput}
+		/>
+	);
+
 	return (
 		<FieldWrapper
 			className={classes}
@@ -170,27 +195,13 @@ const TextInput = (props: InputProps) => {
 			errorId={errorId}
 			hasError={hasError}
 		>
-			<input
-				{...inputConstraints}
-				ref={inputRef}
-				id={inputId}
-				name={name || undefined}
-				type={type}
-				value={value}
-				placeholder={placeholder}
-				required={required}
-				disabled={disabled}
-				autoComplete={autoComplete || undefined}
-				pattern={pattern ?? undefined}
-				aria-required={required || undefined}
-				aria-invalid={hasError || undefined}
-				aria-describedby={describedBy}
-				aria-errormessage={hasError && errorMessage ? errorId : undefined}
-				onChange={handleChange}
-				onBlur={handleBlur}
-				onInvalid={handleInvalid}
-				onBeforeInput={handleBeforeInput}
-			/>
+			{unit ? (
+				<div className="ctx2-input__control" data-unit={unit}>
+					{input}
+				</div>
+			) : (
+				input
+			)}
 		</FieldWrapper>
 	);
 };

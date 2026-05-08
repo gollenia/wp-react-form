@@ -144,6 +144,7 @@ const InputField = (props: FieldRenderProps): JSX.Element | null => {
 					customError={props.customError ?? ''}
 					help={props.help}
 					error={props.error}
+					unit={props.unit}
 					value={props.value as string}
 					onChange={onChange}
 				/>

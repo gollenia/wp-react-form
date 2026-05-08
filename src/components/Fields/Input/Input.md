@@ -18,10 +18,12 @@ Wrapper for native `<input>` types such as `text`, `email`, `url`, `date`, and `
 - `min` / `max`
 - `pattern`
 - `autoComplete`
+- `unit`
 - `error`
 
 ## Notes
 
 - `number` here means the real native number input.
+- `unit` renders a visual suffix inside the input and is not part of the value.
 - Field layout does not come from this component, but from `FormFields`.
 - For sliders, do not use `Input type="number"`; use `Range` instead.

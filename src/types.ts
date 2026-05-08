@@ -93,6 +93,7 @@ export type FormFieldDefinition = {
 	alignment?: 'left' | 'center' | 'right';
 	customError?: string;
 	customErrorMessage?: string;
+	unit?: string;
 	hasEmptyOption?: boolean;
 	multiple?: boolean;
 	toggle?: boolean;
