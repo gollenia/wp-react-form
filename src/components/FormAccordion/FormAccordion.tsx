@@ -131,20 +131,13 @@ export function FormAccordionSection({
 					)}
 					disabled={disabled}
 				>
-					{completed &&
-						(completedIndicator ?? <DefaultCompletedIndicator />)}
 					<span className="ctx2-form-accordion__title">{title}</span>
-					<span
-						className="ctx2-form-accordion__chevron"
-						aria-hidden="true"
-					/>
+					{completed &&
+						(completedIndicator ?? <DefaultCompletedIndicator />)}{' '}
 				</Accordion.Trigger>
 			</Accordion.Header>
 			<Accordion.Panel
-				className={classNames(
-					'ctx2-form-accordion__content',
-					panelClassName,
-				)}
+				className={classNames('ctx2-form-accordion__content', panelClassName)}
 			>
 				<div
 					className={classNames(
