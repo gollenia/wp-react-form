@@ -19,8 +19,8 @@ const InputField = (props: FieldRenderProps): JSX.Element | null => {
 		label: props.label ?? '',
 		width: props.width ?? 6,
 		required: props.required ?? false,
-		disabled,
-		formTouched: props.formTouched,
+		disabled: disabled ?? false,
+		formTouched: props.formTouched ?? false,
 		customErrorMessage: props.customErrorMessage,
 		placeholder: props.placeholder ?? '',
 	};
@@ -128,7 +128,7 @@ const InputField = (props: FieldRenderProps): JSX.Element | null => {
 					width={props.width ?? 6}
 					alignment={props.alignment ?? 'left'}
 					placeholder={props.placeholder}
-					disabled={disabled}
+					disabled={!!disabled}
 					type="submit"
 				/>
 			);

@@ -100,9 +100,9 @@ export type FormFieldDefinition = {
 };
 
 export type FieldRenderProps = FormFieldDefinition & {
-	status: FormState;
-	formTouched: boolean;
-	disabled: boolean;
+	status?: FormState;
+	formTouched?: boolean;
+	disabled?: boolean;
 	value: FieldValue;
 	onChange: (value: FieldValue) => void;
 };
