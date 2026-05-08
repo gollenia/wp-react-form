@@ -7,6 +7,7 @@ import Form, {
 	AccordionSection,
 	Fieldset,
 	Flex,
+	FlexItem,
 	Form as NamedForm,
 	FormAccordion,
 	FormAccordionSection,
@@ -40,6 +41,7 @@ test('exports the public API from the package entrypoint', () => {
 	expect(Country).toBeTruthy();
 	expect(Fieldset).toBeTruthy();
 	expect(Flex).toBeTruthy();
+	expect(FlexItem).toBeTruthy();
 	expect(FormAccordion).toBeTruthy();
 	expect(Accordion).toBe(FormAccordion);
 	expect(AccordionSection).toBe(FormAccordionSection);
