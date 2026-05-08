@@ -2,7 +2,7 @@
 
 React form renderer for WordPress-based frontends.
 
-The package uses `@wordpress/element` and renders forms from a field schema. You can either render a complete form through `Form` or compose lower-level building blocks such as `Fieldset`, `FormField`, `Input`, `TextArea`, `Select`, `Checkbox`, `Flex`, `Accordion`, and `Stepper`.
+The package uses `@wordpress/element` and renders forms from a field schema. You can either render a complete form through `Form` or compose lower-level building blocks such as `Fieldset`, `FormField`, `Input`, `TextArea`, `Select`, `Checkbox`, `Flex`, `FlexItem`, `Accordion`, and `Stepper`.
 
 ## Install
 
@@ -47,6 +47,7 @@ Named exports:
 - `Combobox`
 - `Country`
 - `Flex`
+- `FlexItem`
 - `FormAccordion`
 - `FormAccordionSection`
 - `Hidden`
