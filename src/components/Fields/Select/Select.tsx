@@ -1,5 +1,5 @@
+import { Select as BaseSelect } from '@base-ui/react/select';
 import { useId, useMemo, useRef, useState } from '@wordpress/element';
-import type { ChangeEvent } from 'react';
 import type { FieldValue, SelectOptions } from '../../../types';
 import FieldWrapper from '../../FieldWrapper/FieldWrapper';
 
@@ -47,7 +47,7 @@ const Select = (props: SelectProps) => {
 	} = props;
 
 	const [touched, setTouched] = useState(false);
-	const selectRef = useRef<HTMLSelectElement>(null);
+	const inputRef = useRef<HTMLInputElement | null>(null);
 	const reactId = useId();
 
 	const selectId = name || `select-${reactId}`;
@@ -57,12 +57,12 @@ const Select = (props: SelectProps) => {
 
 	const isTouched = formTouched || touched;
 	const nativeInvalid =
-		!!selectRef.current && !selectRef.current.validity.valid;
+		!!inputRef.current && !inputRef.current.validity.valid;
 	const hasError = !!error || (nativeInvalid && isTouched);
 	const errorMessage =
 		error ??
 		customErrorMessage ??
-		(isTouched ? selectRef.current?.validationMessage : undefined);
+		(isTouched ? inputRef.current?.validationMessage : undefined);
 
 	const describedBy =
 		[hintId, helpId, hasError && errorMessage ? errorId : undefined]
@@ -94,21 +94,37 @@ const Select = (props: SelectProps) => {
 		}));
 	}, [options]);
 
-	const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-		if (customError) {
-			event.currentTarget.setCustomValidity('');
+	const selectedLabel = useMemo(() => {
+		const selected = normalizedOptions.find((option) => option.value === value);
+
+		if (selected) {
+			return selected.label;
 		}
 
-		onChange(event.currentTarget.value);
-	};
+		return hasEmptyOption && value === '' ? emptyOptionLabel : undefined;
+	}, [emptyOptionLabel, hasEmptyOption, normalizedOptions, value]);
 
 	const handleBlur = () => {
 		setTouched(true);
 	};
 
-	const handleInvalid = (event: ChangeEvent<HTMLSelectElement>) => {
+	const handleValueChange = (nextValue: string | null) => {
 		if (customError) {
-			event.currentTarget.setCustomValidity(customError);
+			inputRef.current?.setCustomValidity('');
+		}
+
+		onChange(nextValue ?? '');
+	};
+
+	const setInputRef = (input: HTMLInputElement | null) => {
+		inputRef.current = input;
+
+		if (!input) {
+			return;
+		}
+
+		if (customError) {
+			input.setCustomValidity(customError);
 		}
 	};
 
@@ -126,35 +142,90 @@ const Select = (props: SelectProps) => {
 			errorId={errorId}
 			hasError={hasError}
 		>
-			<select
-				ref={selectRef}
+			<BaseSelect.Root<string>
 				id={selectId}
 				name={name || undefined}
 				required={required}
 				disabled={disabled}
-				value={value}
+				value={typeof value === 'string' ? value : value[0] ?? ''}
+				onValueChange={handleValueChange}
+				inputRef={setInputRef}
+			>
+				<BaseSelect.Trigger
+				id={selectId}
+				disabled={disabled}
 				aria-required={required || undefined}
 				aria-invalid={hasError || undefined}
 				aria-describedby={describedBy}
 				aria-errormessage={hasError && errorMessage ? errorId : undefined}
-				onChange={handleChange}
 				onBlur={handleBlur}
-				onInvalid={
-					handleInvalid as unknown as React.FormEventHandler<HTMLSelectElement>
-				}
-			>
-				{hasEmptyOption && (
-					<option value="" disabled={required}>
-						{emptyOptionLabel}
-					</option>
-				)}
+					className="ctx2-select__trigger"
+				>
+					<BaseSelect.Value placeholder={emptyOptionLabel}>
+						{() => selectedLabel ?? emptyOptionLabel}
+					</BaseSelect.Value>
+					<BaseSelect.Icon className="ctx2-select__icon" aria-hidden="true" />
+				</BaseSelect.Trigger>
 
-				{normalizedOptions.map((option) => (
-					<option key={option.value} value={option.value}>
-						{option.label}
-					</option>
-				))}
-			</select>
+				<BaseSelect.Portal>
+					<BaseSelect.Positioner
+						className="ctx2-select__positioner"
+						alignItemWithTrigger={false}
+					>
+						<BaseSelect.Popup className="ctx2-select__popup">
+							<BaseSelect.List className="ctx2-select__list">
+								{hasEmptyOption && (
+									<BaseSelect.Item
+										value=""
+										disabled={required}
+										label={emptyOptionLabel}
+										className="ctx2-select__option"
+										onMouseDown={(event) => {
+											event.preventDefault();
+											if (!required) {
+												handleValueChange('');
+											}
+										}}
+										onClick={() => {
+											if (!required) {
+												handleValueChange('');
+											}
+										}}
+									>
+										<BaseSelect.ItemIndicator
+											className="ctx2-select__option-indicator"
+											keepMounted
+										/>
+										<BaseSelect.ItemText>
+											{emptyOptionLabel}
+										</BaseSelect.ItemText>
+									</BaseSelect.Item>
+								)}
+
+								{normalizedOptions.map((option) => (
+									<BaseSelect.Item
+										key={option.value}
+										value={option.value}
+										label={option.label}
+										className="ctx2-select__option"
+										onMouseDown={(event) => {
+											event.preventDefault();
+											handleValueChange(option.value);
+										}}
+										onClick={() => handleValueChange(option.value)}
+									>
+										<BaseSelect.ItemIndicator
+											className="ctx2-select__option-indicator"
+											keepMounted
+										/>
+										<BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
+									</BaseSelect.Item>
+								))}
+							</BaseSelect.List>
+						</BaseSelect.Popup>
+					</BaseSelect.Positioner>
+				</BaseSelect.Portal>
+			</BaseSelect.Root>
 		</FieldWrapper>
 	);
 };

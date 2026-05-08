@@ -1,5 +1,5 @@
 :root,
-:where(.ctx2-form, .ctx-form, .ctx2-form-field, .ctx2-content-block, .ctx2-stepper) {
+:where(.ctx2-form, .ctx-form, .ctx2-form-field, .ctx2-content-block, .ctx2-stepper, .ctx2-form-accordion) {
 	--wp--custom--ctx-forms--field--gap: 0.375rem;
 	--wp--custom--ctx-forms--field--radius: 6px 6px 6px 6px;
 	--wp--custom--ctx-forms--field--border-color: rgba(15, 23, 42, 0.16);

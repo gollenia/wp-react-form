@@ -104,6 +104,7 @@ const InputField = (props: FieldRenderProps): JSX.Element | null => {
 					max={props.max ?? 100}
 					hasTicks={props.hasTicks ?? false}
 					hasLabels={props.hasLabels ?? false}
+					showValue={props.showValue ?? true}
 					value={props.value as string}
 					onChange={onChange}
 				/>

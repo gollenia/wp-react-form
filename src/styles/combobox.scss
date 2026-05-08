@@ -1,10 +1,12 @@
+.ctx2-combobox {
+	.ctx2-combobox-positioner {
+		z-index: 20;
+	}
+}
+
 .ctx2-combobox-listbox {
 	display: flex;
 	flex-direction: column;
-	position: absolute;
-	top: calc(100% + 0.25rem);
-	left: 0;
-	right: 0;
 	margin: 0;
 	padding: 0.25rem;
 	list-style: none;
@@ -14,9 +16,9 @@
 	box-shadow: var(--wp--custom--ctx-forms--field--box-shadow);
 	max-height: 16rem;
 	overflow: auto;
-	z-index: 20;
+	min-width: var(--anchor-width);
 
-	> button[role='option'] {
+	.ctx2-combobox-option {
 		padding: 0.5rem 0.625rem;
 		border: 0;
 		border-radius: 4px;
@@ -26,13 +28,18 @@
 		text-align: left;
 		cursor: pointer;
 
-		&.selected,
+		&[data-highlighted],
 		&:hover {
 			background: var(--wp--custom--ctx-forms--field--hover-background);
 		}
+
+		&[data-selected] {
+			font-weight: 600;
+		}
 	}
 
-	.muted {
+	.ctx2-combobox-empty {
+		padding: 0.5rem 0.625rem;
 		color: var(--wp--custom--ctx-forms--field--muted-color);
 		cursor: default;
 	}
