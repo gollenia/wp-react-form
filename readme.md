@@ -2,7 +2,7 @@
 
 React form renderer for WordPress-based frontends.
 
-The package uses `@wordpress/element` and renders forms from a field schema. You can either render a complete form through `Form` or compose lower-level building blocks such as `Fieldset`, `FormField`, `Input`, `TextArea`, `Select`, `Checkbox`, `Flex`, and `Stepper`.
+The package uses `@wordpress/element` and renders forms from a field schema. You can either render a complete form through `Form` or compose lower-level building blocks such as `Fieldset`, `FormField`, `Input`, `TextArea`, `Select`, `Checkbox`, `Flex`, `Accordion`, and `Stepper`.
 
 ## Install
 
@@ -32,6 +32,8 @@ Default export:
 Named exports:
 
 - `Form`
+- `Accordion`
+- `AccordionSection`
 - `Fieldset`
 - `FormFields`
 - `FormField`
@@ -45,6 +47,8 @@ Named exports:
 - `Combobox`
 - `Country`
 - `Flex`
+- `FormAccordion`
+- `FormAccordionSection`
 - `Hidden`
 - `Range`
 - `Stepper`
@@ -57,6 +61,24 @@ Named exports:
 - `sanitizeInlineHtml`
 
 The package also exports the relevant TypeScript types from [`src/types.ts`](/var/www/projects/wp-react-form/src/types.ts).
+
+## Structure Helpers
+
+`Accordion` is a form-oriented layout primitive for grouped flows. Sections can contain schema-rendered fields, custom components, or both.
+
+```tsx
+import { Accordion, Fieldset } from '@contexis/wp-react-form';
+
+<Accordion value={[openSection]} onValueChange={([next]) => setOpenSection(next)}>
+	<Accordion.Section id="details" title="Contact details" completed={detailsDone}>
+		<Fieldset fields={detailsFields} formData={form} onChange={setFieldValue} />
+	</Accordion.Section>
+
+	<Accordion.Section id="payment" title="Payment" disabled={!detailsDone}>
+		<PaymentSection />
+	</Accordion.Section>
+</Accordion>;
+```
 
 ## Basic Usage
 

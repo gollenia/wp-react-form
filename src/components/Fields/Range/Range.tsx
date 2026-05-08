@@ -1,5 +1,4 @@
-import { useRef } from '@wordpress/element';
-import type { ChangeEvent } from 'react';
+import { Slider } from '@base-ui/react/slider';
 import type { FieldValue } from '../../../types';
 
 export type RangeInputProps = {
@@ -13,6 +12,7 @@ export type RangeInputProps = {
 	disabled: boolean;
 	hasTicks: boolean;
 	hasLabels: boolean;
+	showValue?: boolean;
 	type: 'number' | 'range' | 'numberpicker';
 	onChange: (value: FieldValue) => void;
 	value: string;
@@ -27,19 +27,18 @@ const RangeInput = (props: RangeInputProps) => {
 		max,
 		disabled,
 		hasTicks,
-		hasLabels,
+		hasLabels = false,
+		showValue = true,
 		onChange,
 		value,
 	} = props;
 
-	const rangeRef = useRef<HTMLInputElement>(null);
 	const valueDisplayId = `${name}-value`;
 
-	const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-		onChange(event.target.value);
-	};
-
-	const rangeValue = parseInt(value) || min;
+	const numericValue = Number.parseFloat(value);
+	const rangeValue = Number.isFinite(numericValue) ? numericValue : min;
+	const safeMax = max === min ? min + 1 : max;
+	const tickCount = Math.max(0, safeMax - min + 1);
 
 	const classes = [
 		'ctx2-form-field',
@@ -51,32 +50,37 @@ const RangeInput = (props: RangeInputProps) => {
 		.join(' ');
 
 	return (
-		<div className={classes}>
+		<Slider.Root
+			className={classes}
+			name={name}
+			min={min}
+			max={safeMax}
+			step={1}
+			value={rangeValue}
+			disabled={disabled}
+			onValueChange={(nextValue) => onChange(String(nextValue))}
+		>
 			<label htmlFor={name}>{label}</label>
 			<div className="ctx2-range__set">
 				<div className="ctx2-range__control">
-					<input
-						id={name}
-						name={name}
-						required={required}
-						aria-valuemin={min}
-						aria-valuemax={max}
-						aria-valuenow={rangeValue}
-						aria-controls={valueDisplayId}
-						disabled={disabled}
-						type="range"
-						max={max}
-						min={min}
-						style={{
-							backgroundSize: `${((rangeValue - min) * 100) / (max - min)}% 100%`,
-						}}
-						ref={rangeRef}
-						onChange={onChangeHandler}
-						value={value}
-					/>
+					<Slider.Control className="ctx2-range__slider">
+						<Slider.Track className="ctx2-range__track">
+							<Slider.Indicator className="ctx2-range__indicator" />
+							<Slider.Thumb
+								className="ctx2-range__thumb"
+								inputRef={(input) => {
+									if (input) {
+										input.id = name;
+										input.required = required;
+										input.setAttribute('aria-controls', valueDisplayId);
+									}
+								}}
+							/>
+						</Slider.Track>
+					</Slider.Control>
 					{hasTicks && (
 						<div className="ctx2-range__ticks" aria-hidden="true">
-							{[...Array(max - min + 1)].map((_, index) => {
+							{[...Array(tickCount)].map((_, index) => {
 								const value = min + index;
 								return <div className="ctx2-range__tick" key={value} />;
 							})}
@@ -89,15 +93,19 @@ const RangeInput = (props: RangeInputProps) => {
 						</div>
 					)}
 				</div>
-				<span
-					id={valueDisplayId}
-					className="ctx2-range__value"
-					aria-live="polite"
-				>
-					{rangeValue}
-				</span>
+				{showValue && (
+					<span
+						id={valueDisplayId}
+						className="ctx2-range__value"
+						aria-live="polite"
+					>
+						<Slider.Value>
+							{(_, values) => values[0] ?? rangeValue}
+						</Slider.Value>
+					</span>
+				)}
 			</div>
-		</div>
+		</Slider.Root>
 	);
 };
 

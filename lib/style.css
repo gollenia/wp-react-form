@@ -1,6 +1,6 @@
 /* src/styles/tokens.scss */
 :root,
-:where(.ctx2-form, .ctx-form, .ctx2-form-field, .ctx2-content-block, .ctx2-stepper) {
+:where(.ctx2-form, .ctx-form, .ctx2-form-field, .ctx2-content-block, .ctx2-stepper, .ctx2-form-accordion) {
   --wp--custom--ctx-forms--field--gap: 0.375rem;
   --wp--custom--ctx-forms--field--radius: 6px 6px 6px 6px;
   --wp--custom--ctx-forms--field--border-color: rgba(15, 23, 42, 0.16);
@@ -61,7 +61,8 @@
   min-width: 0;
   input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=submit]),
   textarea,
-  select {
+  select,
+  .ctx2-select__trigger {
     width: 100%;
     min-height: 2.75rem;
     padding: 0.625rem 0.75rem;
@@ -84,14 +85,16 @@
   }
   input:focus,
   textarea:focus,
-  select:focus {
+  select:focus,
+  .ctx2-select__trigger:focus-visible {
     outline: none;
     border-color: var(--wp--custom--ctx-forms--field--active-color);
     box-shadow: var(--wp--custom--ctx-forms--field--focus-ring);
   }
   input:disabled,
   textarea:disabled,
-  select:disabled {
+  select:disabled,
+  .ctx2-select__trigger:disabled {
     opacity: 0.68;
     cursor: not-allowed;
     background: rgba(148, 163, 184, 0.08);
@@ -236,6 +239,83 @@
       pointer-events: none;
       transform: translateY(-50%);
     }
+  }
+}
+
+/* src/styles/select.scss */
+.ctx2-select__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  text-align: left;
+  cursor: pointer;
+}
+.ctx2-select__icon {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: 0 0 auto;
+  border: solid currentColor;
+  border-width: 0 1.5px 1.5px 0;
+  opacity: 0.7;
+  transform: rotate(45deg) translateY(-0.125rem);
+}
+.ctx2-select__trigger[data-popup-open] .ctx2-select__icon {
+  transform: rotate(225deg) translate(-0.125rem, -0.125rem);
+}
+.ctx2-select__positioner {
+  z-index: 30;
+}
+.ctx2-select__popup {
+  box-sizing: border-box;
+  min-width: var(--anchor-width);
+  max-height: 16rem;
+  overflow: auto;
+  padding: 0.25rem;
+  border: 1px solid var(--wp--custom--ctx-forms--field--border-color);
+  border-radius: var(--wp--custom--ctx-forms--field--radius);
+  background: var(--wp--custom--ctx-forms--field--background);
+  box-shadow: var(--wp--custom--ctx-forms--field--box-shadow);
+}
+.ctx2-select__list {
+  display: grid;
+  gap: 0.125rem;
+}
+.ctx2-select__option {
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: 4px;
+  color: inherit;
+  cursor: pointer;
+  &[data-highlighted] {
+    background: var(--wp--custom--ctx-forms--field--hover-background);
+  }
+  &[data-selected] {
+    font-weight: 600;
+  }
+  &[data-disabled] {
+    color: var(--wp--custom--ctx-forms--field--muted-color);
+    cursor: default;
+    opacity: var(--wp--custom--ctx-forms--button--disabled-opacity, 0.55);
+  }
+}
+.ctx2-select__option-indicator {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+  &[data-selected]::after {
+    position: absolute;
+    left: 0.3rem;
+    top: 0.05rem;
+    width: 0.35rem;
+    height: 0.65rem;
+    border: solid currentColor;
+    border-width: 0 2px 2px 0;
+    content: "";
+    transform: rotate(45deg);
   }
 }
 
@@ -396,13 +476,14 @@
 }
 
 /* src/styles/combobox.scss */
+.ctx2-combobox {
+  .ctx2-combobox-positioner {
+    z-index: 20;
+  }
+}
 .ctx2-combobox-listbox {
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: calc(100% + 0.25rem);
-  left: 0;
-  right: 0;
   margin: 0;
   padding: 0.25rem;
   list-style: none;
@@ -412,8 +493,8 @@
   box-shadow: var(--wp--custom--ctx-forms--field--box-shadow);
   max-height: 16rem;
   overflow: auto;
-  z-index: 20;
-  > button[role=option] {
+  min-width: var(--anchor-width);
+  .ctx2-combobox-option {
     padding: 0.5rem 0.625rem;
     border: 0;
     border-radius: 4px;
@@ -422,12 +503,16 @@
     font: inherit;
     text-align: left;
     cursor: pointer;
-    &.selected,
+    &[data-highlighted],
     &:hover {
       background: var(--wp--custom--ctx-forms--field--hover-background);
     }
+    &[data-selected] {
+      font-weight: 600;
+    }
   }
-  .muted {
+  .ctx2-combobox-empty {
+    padding: 0.5rem 0.625rem;
     color: var(--wp--custom--ctx-forms--field--muted-color);
     cursor: default;
   }
@@ -524,9 +609,6 @@
   label {
     font-weight: 600;
   }
-  input[type=range] {
-    width: 100%;
-  }
   .ctx2-range__set {
     display: flex;
     align-items: center;
@@ -534,6 +616,49 @@
   }
   .ctx2-range__control {
     flex: 1;
+  }
+  .ctx2-range__slider {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: var(--wp--custom--ctx-forms--range--control-height, 1.5rem);
+    touch-action: none;
+    user-select: none;
+  }
+  .ctx2-range__track {
+    position: relative;
+    width: 100%;
+    height: var(--wp--custom--ctx-forms--range--track-height, 0.375rem);
+    border-radius: var(--wp--custom--ctx-forms--range--track-radius, 999px);
+    background: var(--wp--custom--ctx-forms--range--track-background, var(--wp--custom--ctx-forms--field--hover-background));
+  }
+  .ctx2-range__indicator {
+    position: absolute;
+    inset: 0 auto 0 0;
+    border-radius: inherit;
+    background: var(--wp--custom--ctx-forms--range--indicator-background, var(--wp--custom--ctx-forms--field--active-color));
+  }
+  .ctx2-range__thumb {
+    position: absolute;
+    top: 50%;
+    width: var(--wp--custom--ctx-forms--range--thumb-size, 1rem);
+    height: var(--wp--custom--ctx-forms--range--thumb-size, 1rem);
+    border: var(--wp--custom--ctx-forms--range--thumb-border, 2px solid var(--wp--custom--ctx-forms--field--active-color));
+    border-radius: var(--wp--custom--ctx-forms--range--thumb-radius, 999px);
+    background: var(--wp--custom--ctx-forms--range--thumb-background, var(--wp--custom--ctx-forms--field--background));
+    box-shadow: var(--wp--custom--ctx-forms--range--thumb-shadow, var(--wp--custom--ctx-forms--field--box-shadow));
+    transform: translate(-50%, -50%);
+    &:focus-within {
+      box-shadow: var(--wp--custom--ctx-forms--field--focus-ring);
+    }
+  }
+  &[data-disabled] {
+    .ctx2-range__slider {
+      opacity: var(--wp--custom--ctx-forms--button--disabled-opacity, 0.55);
+    }
+    .ctx2-range__thumb {
+      cursor: default;
+    }
   }
   .ctx2-range__ticks,
   .ctx2-range__labels {
@@ -650,6 +775,108 @@
     font-variant-numeric: tabular-nums;
     font-size: var(--wp--custom--ctx-forms--field--font-size);
   }
+}
+
+/* src/styles/form-accordion.scss */
+.ctx2-form-accordion {
+  display: grid;
+  gap: var(--wp--custom--ctx-forms--accordion--gap, 1rem);
+}
+.ctx2-form-accordion__section {
+  min-width: 0;
+  border: var(--wp--custom--ctx-forms--accordion--section-border, 1px solid var(--wp--custom--ctx-forms--field--border-color));
+  border-radius: var(--wp--custom--ctx-forms--accordion--section-radius, var(--wp--custom--ctx-forms--field--radius));
+  background: var(--wp--custom--ctx-forms--accordion--section-background, var(--wp--custom--ctx-forms--field--background));
+  box-shadow: var(--wp--custom--ctx-forms--accordion--section-shadow, var(--wp--custom--ctx-forms--field--box-shadow));
+  overflow: hidden;
+}
+.ctx2-form-accordion__header-wrap {
+  margin: 0;
+}
+.ctx2-form-accordion__header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: var(--wp--custom--ctx-forms--accordion--header-gap, 0.5rem);
+  padding: var(--wp--custom--ctx-forms--accordion--header-padding, 1rem 1.25rem);
+  border: 0;
+  background: transparent;
+  color: var(--wp--custom--ctx-forms--accordion--header-text-color, var(--wp--custom--ctx-forms--field--text-color, inherit));
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--wp--custom--ctx-forms--field--label-size);
+  font-weight: var(--wp--custom--ctx-forms--accordion--header-font-weight, 600);
+  line-height: var(--wp--custom--ctx-forms--field--line-height);
+  text-align: left;
+  &:not([data-disabled]):hover {
+    background: var(--wp--custom--ctx-forms--accordion--header-hover-background, var(--wp--custom--ctx-forms--field--hover-background));
+  }
+  &:focus-visible {
+    outline: 0;
+    box-shadow: var(--wp--custom--ctx-forms--field--focus-ring);
+  }
+  &[data-disabled] {
+    color: var(--wp--custom--ctx-forms--accordion--disabled-text-color, var(--wp--custom--ctx-forms--field--muted-color));
+    cursor: default;
+    opacity: var(--wp--custom--ctx-forms--accordion--disabled-opacity, var(--wp--custom--ctx-forms--button--disabled-opacity, 0.55));
+  }
+}
+.ctx2-form-accordion__title {
+  flex: 1;
+  min-width: 0;
+}
+.ctx2-form-accordion__completed-indicator {
+  position: relative;
+  display: inline-flex;
+  width: var(--wp--custom--ctx-forms--accordion--indicator-size, 1.125rem);
+  height: var(--wp--custom--ctx-forms--accordion--indicator-size, 1.125rem);
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--wp--custom--ctx-forms--accordion--completed-background, var(--wp--custom--ctx-forms--field--active-color));
+  &::after {
+    content: "";
+    width: 0.38rem;
+    height: 0.62rem;
+    border: solid var(--wp--custom--ctx-forms--accordion--completed-color, #fff);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) translate(-1px, -1px);
+  }
+}
+.ctx2-form-accordion__chevron {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: 0 0 auto;
+  border: solid currentColor;
+  border-width: 0 1.5px 1.5px 0;
+  opacity: 0.7;
+  transform: rotate(45deg);
+  transition: transform 160ms ease;
+}
+.ctx2-form-accordion__section--open .ctx2-form-accordion__chevron {
+  transform: rotate(225deg);
+}
+.ctx2-form-accordion__content {
+  box-sizing: border-box;
+  height: var(--accordion-panel-height);
+  overflow: hidden;
+  transition: height 200ms cubic-bezier(0.2, 0, 0, 1);
+  &[data-starting-style],
+  &[data-ending-style] {
+    height: 0;
+  }
+}
+.ctx2-form-accordion__content-inner {
+  padding: var(--wp--custom--ctx-forms--accordion--content-padding, 1.25rem);
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 140ms ease-out, transform 180ms ease-out;
+}
+.ctx2-form-accordion__content[data-starting-style] .ctx2-form-accordion__content-inner,
+.ctx2-form-accordion__content[data-ending-style] .ctx2-form-accordion__content-inner {
+  opacity: 0;
+  transform: translateY(-0.125rem);
 }
 
 /* src/style.scss */

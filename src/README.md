@@ -75,13 +75,13 @@ Legacy-Aliase:
 
 ## Combobox
 
-Die Combobox ist bewusst eigenstaendig implementiert und nicht auf Base UI umgestellt.
+Die Combobox ist intern auf Base UI aufgebaut, behaelt aber die lokale Public API.
 
 Aktueller Stand:
 
-- konsistenterer interner State fuer sichtbaren Wert und Auswahl
-- Clear-Option ist korrekt in Highlighting und Keyboard-Navigation integriert
-- `Home` / `End` werden unterstuetzt
+- Base UI uebernimmt Popup, ARIA, Highlighting und Auswahlmechanik
+- lokale Filterlogik bleibt erhalten, inklusive Prefix-Suche mit `*`
+- Clear-Option bleibt als auswählbarer Eintrag integriert
 - low-level `renderOption(option, state)` Callback fuer angepasste Eintragsdarstellung
 
 Wichtig:

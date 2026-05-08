@@ -10,6 +10,7 @@ export type RangeInputProps = {
     disabled: boolean;
     hasTicks: boolean;
     hasLabels: boolean;
+    showValue?: boolean;
     type: 'number' | 'range' | 'numberpicker';
     onChange: (value: FieldValue) => void;
     value: string;

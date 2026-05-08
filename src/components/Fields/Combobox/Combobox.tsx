@@ -1,11 +1,6 @@
-import {
-	useEffect,
-	useId,
-	useMemo,
-	useRef,
-	useState,
-} from '@wordpress/element';
-import type { ChangeEvent, KeyboardEvent, MouseEvent, ReactNode } from 'react';
+import { Combobox as BaseCombobox } from '@base-ui/react/combobox';
+import { useEffect, useId, useMemo, useState } from '@wordpress/element';
+import type { ReactNode } from 'react';
 import FieldWrapper from '../../FieldWrapper/FieldWrapper';
 
 type RenderOptionState = {
@@ -33,6 +28,14 @@ type ComboboxProps = {
 	renderOption?: (option: string, state: RenderOptionState) => ReactNode;
 };
 
+type ComboboxItem = {
+	type: 'option' | 'clear';
+	value: string;
+	label: string;
+};
+
+const CLEAR_VALUE = '__ctx2_combobox_clear__';
+
 const Combobox = (props: ComboboxProps) => {
 	const {
 		label = '',
@@ -55,49 +58,19 @@ const Combobox = (props: ComboboxProps) => {
 
 	const reactId = useId();
 	const inputId = name || `combobox-${reactId}`;
-	const listboxId = `${inputId}-listbox`;
 	const helpId = help ? `${inputId}-help` : undefined;
 	const errorId = `${inputId}-error`;
-
-	const wrapperRef = useRef<HTMLDivElement>(null);
-	const inputRef = useRef<HTMLInputElement>(null);
 
 	const [touched, setTouched] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 	const [inputValue, setInputValue] = useState(value);
-	const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+	const [highlightedItem, setHighlightedItem] = useState<ComboboxItem | null>(
+		null,
+	);
 
 	useEffect(() => {
 		setInputValue(value);
-
-		if (options.includes(value)) {
-			setIsOpen(false);
-			setHighlightedIndex(-1);
-			return;
-		}
-
-		if (!value) {
-			setHighlightedIndex(-1);
-		}
 	}, [options, value]);
-
-	useEffect(() => {
-		const wrapper = wrapperRef.current;
-
-		if (!wrapper) {
-			return;
-		}
-
-		const handleFocusOut = () => {
-			closeIfFocusLeft();
-		};
-
-		wrapper.addEventListener('focusout', handleFocusOut);
-
-		return () => {
-			wrapper.removeEventListener('focusout', handleFocusOut);
-		};
-	}, []);
 
 	const filteredOptions = useMemo(() => {
 		const query = inputValue.trim().toLowerCase();
@@ -117,7 +90,38 @@ const Combobox = (props: ComboboxProps) => {
 	}, [inputValue, options]);
 
 	const clearEnabled = allowClear && inputValue.trim() !== '';
-	const totalItems = filteredOptions.length + (clearEnabled ? 1 : 0);
+	const items = useMemo<ComboboxItem[]>(() => {
+		const optionItems = filteredOptions.map((option) => ({
+			type: 'option' as const,
+			value: option,
+			label: option,
+		}));
+
+		if (!clearEnabled) {
+			return optionItems;
+		}
+
+		return [
+			{
+				type: 'clear',
+				value: CLEAR_VALUE,
+				label: clearLabel,
+			},
+			...optionItems,
+		];
+	}, [clearEnabled, clearLabel, filteredOptions]);
+
+	const selectedItem = useMemo(
+		() =>
+			options.includes(value)
+				? {
+						type: 'option' as const,
+						value,
+						label: value,
+					}
+				: null,
+		[options, value],
+	);
 
 	const hasError = !!error;
 	const errorMessage =
@@ -136,142 +140,24 @@ const Combobox = (props: ComboboxProps) => {
 		.filter(Boolean)
 		.join(' ');
 
-	const activeDescendant =
-		isOpen && highlightedIndex >= 0
-			? clearEnabled && highlightedIndex === 0
-				? `${inputId}-option-clear`
-				: `${inputId}-option-${clearEnabled ? highlightedIndex - 1 : highlightedIndex}`
-			: undefined;
-
-	const openList = () => {
-		if (disabled) return;
-		setIsOpen(true);
-	};
-
-	const closeList = () => {
-		setIsOpen(false);
-		setHighlightedIndex(-1);
-	};
-
-	const commitSelection = (selectedValue: string) => {
-		setInputValue(selectedValue);
-		onChange(selectedValue);
-		closeList();
-	};
-
-	const clearSelection = () => {
-		setInputValue('');
-		onChange('');
-		closeList();
-	};
-
-	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const nextValue = event.currentTarget.value;
+	const handleInputValueChange = (nextValue: string) => {
 		setInputValue(nextValue);
-		setIsOpen(true);
-		setHighlightedIndex(-1);
 		onChange(nextValue);
 	};
 
-	const handleFocus = () => {
-		openList();
-	};
-
-	const closeIfFocusLeft = () => {
-		window.setTimeout(() => {
-			if (!wrapperRef.current?.contains(document.activeElement)) {
-				setTouched(true);
-				closeList();
-			}
-		}, 0);
-	};
-
-	const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-		if (disabled) return;
-
-		switch (event.key) {
-			case 'ArrowDown': {
-				event.preventDefault();
-				if (!isOpen) {
-					openList();
-				}
-				setHighlightedIndex((prev) =>
-					prev < 0 ? 0 : Math.min(prev + 1, totalItems - 1),
-				);
-				break;
-			}
-
-			case 'ArrowUp': {
-				event.preventDefault();
-				if (!isOpen) {
-					openList();
-				}
-				setHighlightedIndex((prev) =>
-					prev < 0 ? totalItems - 1 : Math.max(prev - 1, 0),
-				);
-				break;
-			}
-
-			case 'Home': {
-				if (!isOpen || totalItems === 0) return;
-				event.preventDefault();
-				setHighlightedIndex(0);
-				break;
-			}
-
-			case 'End': {
-				if (!isOpen || totalItems === 0) return;
-				event.preventDefault();
-				setHighlightedIndex(totalItems - 1);
-				break;
-			}
-
-			case 'Enter': {
-				if (isOpen && highlightedIndex >= 0) {
-					event.preventDefault();
-					if (clearEnabled && highlightedIndex === 0) {
-						clearSelection();
-						break;
-					}
-
-					const optionIndex = clearEnabled
-						? highlightedIndex - 1
-						: highlightedIndex;
-					if (filteredOptions[optionIndex]) {
-						commitSelection(filteredOptions[optionIndex]);
-					}
-				}
-				break;
-			}
-
-			case 'Escape': {
-				if (isOpen) {
-					event.preventDefault();
-					closeList();
-				}
-				break;
-			}
+	const handleValueChange = (item: ComboboxItem | null) => {
+		if (!item || item.type === 'clear') {
+			setInputValue('');
+			onChange('');
+			return;
 		}
-	};
 
-	const handleOptionMouseDown = (
-		event: MouseEvent<HTMLButtonElement>,
-		selectedValue: string,
-	) => {
-		event.preventDefault();
-		commitSelection(selectedValue);
-		inputRef.current?.focus();
-	};
-
-	const handleClearMouseDown = (event: MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-		clearSelection();
-		inputRef.current?.focus();
+		setInputValue(item.value);
+		onChange(item.value);
 	};
 
 	return (
 		<FieldWrapper
-			containerRef={wrapperRef}
 			className={classes}
 			label={label}
 			required={required}
@@ -282,83 +168,81 @@ const Combobox = (props: ComboboxProps) => {
 			errorId={errorId}
 			hasError={hasError && (touched || formTouched)}
 		>
-			<input
-				ref={inputRef}
-				id={inputId}
-				name={name || undefined}
-				type="text"
-				role="combobox"
-				value={inputValue}
-				placeholder={placeholder}
-				required={required}
+			<BaseCombobox.Root<ComboboxItem>
+				items={items}
+				value={selectedItem}
+				inputValue={inputValue}
+				open={isOpen}
+				onInputValueChange={handleInputValueChange}
+				onValueChange={handleValueChange}
+				onOpenChange={setIsOpen}
+				onItemHighlighted={(item) => setHighlightedItem(item ?? null)}
+				itemToStringLabel={(item) => item.label}
+				itemToStringValue={(item) => item.value}
+				isItemEqualToValue={(item, selected) => item.value === selected.value}
+				openOnInputClick={true}
+				autoHighlight={false}
+				filter={null}
 				disabled={disabled}
-				autoComplete="off"
-				aria-describedby={describedBy}
-				aria-required={required || undefined}
-				aria-invalid={hasError || undefined}
-				aria-errormessage={hasError && errorMessage ? errorId : undefined}
-				aria-expanded={isOpen}
-				aria-controls={listboxId}
-				aria-haspopup="listbox"
-				aria-autocomplete="list"
-				aria-activedescendant={activeDescendant}
-				onChange={handleInputChange}
-				onFocus={handleFocus}
-				onKeyDown={handleKeyDown}
-			/>
+				required={required}
+			>
+				<BaseCombobox.Input
+					id={inputId}
+					name={name || undefined}
+					type="text"
+					value={inputValue}
+					placeholder={placeholder}
+					required={required}
+					disabled={disabled}
+					autoComplete="off"
+					aria-describedby={describedBy}
+					aria-required={required || undefined}
+					aria-invalid={hasError || undefined}
+					aria-errormessage={hasError && errorMessage ? errorId : undefined}
+					onFocus={() => setIsOpen(true)}
+					onBlur={() => setTouched(true)}
+				/>
 
-			{isOpen && !disabled && (
-				<div id={listboxId} role="listbox" className="ctx2-combobox-listbox">
-					{clearEnabled && (
-						<button
-							type="button"
-							role="option"
-							tabIndex={-1}
-							aria-selected={false}
-							className={highlightedIndex === 0 ? 'selected' : ''}
-							id={`${inputId}-option-clear`}
-							onMouseEnter={() => setHighlightedIndex(0)}
-							onMouseDown={handleClearMouseDown}
-						>
-							{clearLabel}
-						</button>
-					)}
+				{isOpen && !disabled && (
+					<BaseCombobox.Portal>
+						<BaseCombobox.Positioner className="ctx2-combobox-positioner">
+							<BaseCombobox.Popup className="ctx2-combobox-listbox">
+								<BaseCombobox.List>
+									{(item: ComboboxItem, index: number) => (
+										<BaseCombobox.Item
+											key={`${item.type}-${item.value}`}
+											value={item}
+											index={index}
+											className="ctx2-combobox-option"
+											onMouseDown={(event) => {
+												event.preventDefault();
+												handleValueChange(item);
+												setIsOpen(false);
+											}}
+										>
+											{item.type === 'clear'
+												? item.label
+												: renderOption
+													? renderOption(item.value, {
+															highlighted:
+																highlightedItem?.value === item.value,
+															selected: inputValue === item.value,
+														})
+													: item.label}
+										</BaseCombobox.Item>
+									)}
+								</BaseCombobox.List>
 
-					{filteredOptions.map((option, index) => (
-						<button
-							type="button"
-							key={option}
-							tabIndex={-1}
-							id={`${inputId}-option-${index}`}
-							role="option"
-							aria-selected={inputValue === option}
-							className={
-								highlightedIndex === (clearEnabled ? index + 1 : index)
-									? 'selected'
-									: ''
-							}
-							onMouseEnter={() =>
-								setHighlightedIndex(clearEnabled ? index + 1 : index)
-							}
-							onMouseDown={(event) => handleOptionMouseDown(event, option)}
-						>
-							{renderOption
-								? renderOption(option, {
-										highlighted:
-											highlightedIndex === (clearEnabled ? index + 1 : index),
-										selected: inputValue === option,
-									})
-								: option}
-						</button>
-					))}
-
-					{filteredOptions.length === 0 && (
-						<div className="muted" role="presentation">
-							{noResultsLabel}
-						</div>
-					)}
-				</div>
-			)}
+								{filteredOptions.length === 0 && !clearEnabled && (
+									<BaseCombobox.Empty className="ctx2-combobox-empty">
+										{noResultsLabel}
+									</BaseCombobox.Empty>
+								)}
+							</BaseCombobox.Popup>
+						</BaseCombobox.Positioner>
+					</BaseCombobox.Portal>
+				)}
+			</BaseCombobox.Root>
 		</FieldWrapper>
 	);
 };

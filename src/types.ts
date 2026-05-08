@@ -90,6 +90,7 @@ export type FormFieldDefinition = {
 	region?: CountryRegion;
 	hasTicks?: boolean;
 	hasLabels?: boolean;
+	showValue?: boolean;
 	alignment?: 'left' | 'center' | 'right';
 	customError?: string;
 	customErrorMessage?: string;

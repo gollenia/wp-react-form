@@ -14,6 +14,7 @@ Slider-like input based on native `input type="range"`.
 - `max`
 - `hasTicks`
 - `hasLabels`
+- `showValue`
 
 ## Notes
 

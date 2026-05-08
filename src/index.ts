@@ -13,6 +13,10 @@ import Submit from './components/Fields/Submit/Submit';
 import TextArea from './components/Fields/TextArea/TextArea';
 import { Flex } from './components/Flex/Flex';
 import Form from './components/Form/Form';
+import {
+	FormAccordion,
+	FormAccordionSection,
+} from './components/FormAccordion/FormAccordion';
 import { Fieldset } from './components/FormFields/FormFields';
 import FormField from './components/InputField/InputField';
 
@@ -41,6 +45,12 @@ export type {
 	FlexProps,
 	FlexWrap,
 } from './components/Flex/Flex';
+export type {
+	FormAccordionComponent,
+	FormAccordionProps,
+	FormAccordionSectionProps,
+	FormAccordionValue,
+} from './components/FormAccordion/FormAccordion';
 export type { CountryOption } from './modules/countries';
 export { getCountryOptions } from './modules/countries';
 export { sanitizeHtml, sanitizeInlineHtml } from './modules/RenderHtml';
@@ -68,6 +78,10 @@ export {
 	Country,
 	Fieldset,
 	Flex,
+	FormAccordion as Accordion,
+	FormAccordionSection as AccordionSection,
+	FormAccordion,
+	FormAccordionSection,
 	FormField,
 	Form,
 	Hidden,
