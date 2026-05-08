@@ -1,4 +1,12 @@
 #### Changes
+## 2.3.1
+- Range CSS fix
+- FlexItem added
+
+## 2.3.0
+- Added Accordion
+- moved Range, Select, Combobox and Stepper to base-ui
+
 ## 2.2.0
 - Added optional `unit` suffixes for native input fields.
 - Split form styles into focused partials and cleaned up field-specific nesting.
