@@ -7,6 +7,7 @@ import {
 	Radio,
 	Range,
 	Select,
+	Stepper,
 	Submit,
 	TextArea,
 } from '../src';
@@ -80,12 +81,13 @@ describe('field components', () => {
 
 		const select = screen.getByLabelText('Plan');
 		expect(select).toHaveAttribute('aria-describedby', 'plan-hint plan-help');
+		fireEvent.click(select);
 		expect(
 			screen.getByRole('option', { name: 'Make a selection' }),
-		).toBeDisabled();
-		expect(screen.getByRole('option', { name: 'Basic' })).toHaveValue('basic');
+		).toHaveAttribute('data-disabled');
+		expect(screen.getByRole('option', { name: 'Basic' })).toBeTruthy();
 
-		fireEvent.change(select, { target: { value: 'pro' } });
+		fireEvent.click(screen.getByRole('option', { name: 'Pro' }));
 		expect(onChange).toHaveBeenCalledWith('pro');
 	});
 
@@ -228,5 +230,50 @@ describe('field components', () => {
 		);
 
 		expect(screen.getByRole('button', { name: 'Send request' })).toBeDisabled();
+	});
+
+	test('Stepper increments, decrements and respects bounds', () => {
+		const onChange = jest.fn();
+
+		const { rerender } = render(
+			<Stepper
+				value={1}
+				min={0}
+				max={2}
+				onChange={onChange}
+				decrementLabel="Less"
+				incrementLabel="More"
+			/>,
+		);
+
+		fireEvent.click(screen.getByRole('button', { name: 'More' }));
+		expect(onChange).toHaveBeenCalledWith(2);
+
+		fireEvent.click(screen.getByRole('button', { name: 'Less' }));
+		expect(onChange).toHaveBeenCalledWith(0);
+
+		rerender(
+			<Stepper
+				value={0}
+				min={0}
+				max={2}
+				onChange={onChange}
+				decrementLabel="Less"
+				incrementLabel="More"
+			/>,
+		);
+		expect(screen.getByRole('button', { name: 'Less' })).toBeDisabled();
+
+		rerender(
+			<Stepper
+				value={2}
+				min={0}
+				max={2}
+				onChange={onChange}
+				decrementLabel="Less"
+				incrementLabel="More"
+			/>,
+		);
+		expect(screen.getByRole('button', { name: 'More' })).toBeDisabled();
 	});
 });

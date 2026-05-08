@@ -3,9 +3,13 @@ import Form, {
 	Checkbox,
 	Combobox,
 	Country,
+	Accordion,
+	AccordionSection,
 	Fieldset,
 	Flex,
 	Form as NamedForm,
+	FormAccordion,
+	FormAccordionSection,
 	FormField,
 	FormFields,
 	Hidden,
@@ -29,11 +33,17 @@ import packageJson from '../package.json';
 test('exports the public API from the package entrypoint', () => {
 	expect(Form).toBe(NamedForm);
 	expect(Button).toBeTruthy();
+	expect(Accordion).toBeTruthy();
+	expect(Accordion.Section).toBe(AccordionSection);
 	expect(Checkbox).toBeTruthy();
 	expect(Combobox).toBeTruthy();
 	expect(Country).toBeTruthy();
 	expect(Fieldset).toBeTruthy();
 	expect(Flex).toBeTruthy();
+	expect(FormAccordion).toBeTruthy();
+	expect(Accordion).toBe(FormAccordion);
+	expect(AccordionSection).toBe(FormAccordionSection);
+	expect(FormAccordion.Section).toBe(FormAccordionSection);
 	expect(FormField).toBeTruthy();
 	expect(FormFields).toBeTruthy();
 	expect(Hidden).toBeTruthy();
