@@ -1,0 +1,21 @@
+.ctx2-input__control {
+	position: relative;
+	width: 100%;
+	min-width: 0;
+
+	&[data-unit] {
+		input {
+			padding-inline-end: var(--wp--custom--ctx-forms--input--unit-padding, 3.5rem);
+		}
+
+		&::after {
+			position: absolute;
+			inset-inline-end: 0.75rem;
+			top: 50%;
+			color: var(--wp--custom--ctx-forms--field--muted-color);
+			content: attr(data-unit);
+			pointer-events: none;
+			transform: translateY(-50%);
+		}
+	}
+}

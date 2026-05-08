@@ -1,0 +1,33 @@
+.ctx2-range {
+	label {
+		font-weight: 600;
+	}
+
+	input[type='range'] {
+		width: 100%;
+	}
+
+	.ctx2-range__set {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.ctx2-range__control {
+		flex: 1;
+	}
+
+	.ctx2-range__ticks,
+	.ctx2-range__labels {
+		display: flex;
+		justify-content: space-between;
+		font-size: 0.85em;
+		color: var(--wp--custom--ctx-forms--field--muted-color);
+	}
+
+	.ctx2-range__value {
+		min-width: 2ch;
+		font-weight: 600;
+		text-align: right;
+	}
+}

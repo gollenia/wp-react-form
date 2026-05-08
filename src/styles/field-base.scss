@@ -1,0 +1,48 @@
+.ctx2-form-field {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--custom--ctx-forms--field--gap, 0.375rem);
+	min-width: 0;
+
+	input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='submit']),
+	textarea,
+	select {
+		width: 100%;
+		min-height: 2.75rem;
+		padding: 0.625rem 0.75rem;
+		font-family: inherit;
+		font-size: var(--wp--custom--ctx-forms--field--font-size);
+		line-height: var(--wp--custom--ctx-forms--field--line-height);
+		color: var(--wp--custom--ctx-forms--field--text-color, inherit);
+		background: var(--wp--custom--ctx-forms--field--background);
+		border: 1px solid var(--wp--custom--ctx-forms--field--border-color);
+		border-radius: var(--wp--custom--ctx-forms--field--radius);
+		box-sizing: border-box;
+		transition:
+			border-color 0.15s ease,
+			box-shadow 0.15s ease,
+			background-color 0.15s ease;
+	}
+
+	textarea {
+		min-height: 6rem;
+		resize: vertical;
+	}
+
+	input:focus,
+	textarea:focus,
+	select:focus {
+		outline: none;
+		border-color: var(--wp--custom--ctx-forms--field--active-color);
+		box-shadow: var(--wp--custom--ctx-forms--field--focus-ring);
+	}
+
+	input:disabled,
+	textarea:disabled,
+	select:disabled {
+		opacity: 0.68;
+		cursor: not-allowed;
+		background: rgba(148, 163, 184, 0.08);
+	}
+}

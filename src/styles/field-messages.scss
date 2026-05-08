@@ -1,0 +1,56 @@
+.ctx2-form-label,
+.ctx2-form-checkbox-label {
+	font-family: inherit;
+	font-size: var(--wp--custom--ctx-forms--field--label-size);
+	line-height: var(--wp--custom--ctx-forms--field--line-height);
+	color: var(--wp--custom--ctx-forms--field--label-color, inherit);
+}
+
+.ctx2-form-label,
+.ctx2-radio-group legend,
+.ctx2-form-checkbox-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.20rem;
+}
+
+.ctx2-form-label__text {
+	display: inline-block;
+	font-weight: 600;
+	font-size: inherit;
+	line-height: inherit;
+}
+
+.ctx2-form-label__required,
+.ctx-form-label__required {
+	display: inline-block;
+	flex: 0 0 auto;
+	width: 0.85em;
+	height: 0.85em;
+	background-color: var(--wp--custom--ctx-forms--field--error-color);
+	mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path fill="%23ffffff" d="M440-120v-264L254-197l-57-57 187-186H120v-80h264L197-706l57-57 186 187v-264h80v264l186-187 57 57-187 186h264v80H576l187 186-57 57-186-187v264h-80Z"/></svg>');
+	mask-repeat: no-repeat;
+	mask-position: center;
+	mask-size: contain;
+	-webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path fill="%23ffffff" d="M440-120v-264L254-197l-57-57 187-186H120v-80h264L197-706l57-57 186 187v-264h80v264l186-187 57 57-187 186h264v80H576l187 186-57 57-186-187v264h-80Z"/></svg>');
+	-webkit-mask-repeat: no-repeat;
+	-webkit-mask-position: center;
+	-webkit-mask-size: contain;
+}
+
+.ctx2-form-checkbox-label__text,
+.ctx2-form-help,
+.ctx2-form-hint,
+.error-message {
+	font-size: var(--wp--custom--ctx-forms--field--help-size);
+	line-height: 1.4;
+}
+
+.ctx2-form-help,
+.ctx2-form-hint {
+	color: var(--wp--custom--ctx-forms--field--muted-color);
+}
+
+.ctx2-error-message {
+	color: var(--wp--custom--ctx-forms--field--error-color);
+}

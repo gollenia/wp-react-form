@@ -1,0 +1,51 @@
+.ctx2-stepper {
+	display: flex;
+	align-items: center;
+	gap: var(--wp--custom--ctx-forms--stepper--gap, 0.5rem);
+	border: var(--wp--custom--ctx-forms--stepper--outer-border, 1px solid var(--wp--custom--ctx-forms--field--border-color));
+	padding: var(--wp--custom--ctx-forms--stepper--padding, 3px);
+	border-radius: var(--wp--custom--ctx-forms--stepper--radius, 999px);
+
+	.ctx2-stepper__button {
+		width: var(--wp--custom--ctx-forms--stepper--button-size, 1.75rem);
+		height: var(--wp--custom--ctx-forms--stepper--button-size, 1.75rem);
+		border: 1px solid var(--wp--custom--ctx-forms--stepper--button-border-color, 0 solid var(--wp--custom--ctx-forms--field--border-color));
+		border-radius: var(--wp--custom--ctx-forms--stepper--button-radius, 999px);
+		background: var(--wp--custom--ctx-forms--stepper--button-background, var(--wp--custom--ctx-forms--field--background));
+		color: var(--wp--custom--ctx-forms--stepper--button-text-color, var(--wp--custom--ctx-forms--field--text-color, inherit));
+		cursor: pointer;
+		font-size: 1.125rem;
+		line-height: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition:
+			background-color 0.15s ease,
+			border-color 0.15s ease,
+			box-shadow 0.15s ease,
+			opacity 0.15s ease;
+
+		&:focus-visible {
+			outline: none;
+			border-color: var(--wp--custom--ctx-forms--field--border-color-focus);
+			box-shadow: var(--wp--custom--ctx-forms--stepper--focus-ring, var(--wp--custom--ctx-forms--field--focus-ring));
+		}
+
+		&:disabled {
+			opacity: var(--wp--custom--ctx-forms--stepper--disabled-opacity, var(--wp--custom--ctx-forms--button--disabled-opacity));
+			cursor: default;
+		}
+
+		&:not(:disabled):hover {
+			background: var(--wp--custom--ctx-forms--stepper--button-hover-background, var(--wp--custom--ctx-forms--button--secondary-hover-background));
+		}
+	}
+
+	.ctx2-stepper__value {
+		min-width: var(--wp--custom--ctx-forms--stepper--value-min-width, 1.75rem);
+		text-align: center;
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
+		font-size: var(--wp--custom--ctx-forms--field--font-size);
+	}
+}
