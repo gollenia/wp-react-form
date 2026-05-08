@@ -39,7 +39,22 @@ function DefaultCompletedIndicator() {
 		<span
 			className="ctx2-form-accordion__completed-indicator"
 			aria-hidden="true"
-		/>
+		>
+			<svg
+				className="ctx2-form-accordion__completed-icon"
+				viewBox="0 0 16 16"
+				focusable="false"
+			>
+				<path
+					d="M13.4 4.6 6.7 11.3 2.9 7.5"
+					fill="none"
+					stroke="currentColor"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					strokeWidth="2"
+				/>
+			</svg>
+		</span>
 	);
 }
 
