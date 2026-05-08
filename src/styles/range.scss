@@ -46,7 +46,6 @@
 		border-radius: var(--wp--custom--ctx-forms--range--thumb-radius, 999px);
 		background: var(--wp--custom--ctx-forms--range--thumb-background, var(--wp--custom--ctx-forms--field--background));
 		box-shadow: var(--wp--custom--ctx-forms--range--thumb-shadow, var(--wp--custom--ctx-forms--field--box-shadow));
-		transform: translate(-50%, -50%);
 
 		&:focus-within {
 			box-shadow: var(--wp--custom--ctx-forms--field--focus-ring);
