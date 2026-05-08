@@ -12,6 +12,7 @@ import { Stepper } from './components/Fields/Stepper/Stepper';
 import Submit from './components/Fields/Submit/Submit';
 import TextArea from './components/Fields/TextArea/TextArea';
 import { Flex } from './components/Flex/Flex';
+import { FlexItem } from './components/FlexItem/FlexItem';
 import Form from './components/Form/Form';
 import {
 	FormAccordion,
@@ -46,6 +47,10 @@ export type {
 	FlexWrap,
 } from './components/Flex/Flex';
 export type {
+	FlexItemAlignSelf,
+	FlexItemProps,
+} from './components/FlexItem/FlexItem';
+export type {
 	FormAccordionComponent,
 	FormAccordionProps,
 	FormAccordionSectionProps,
@@ -78,6 +83,7 @@ export {
 	Country,
 	Fieldset,
 	Flex,
+	FlexItem,
 	FormAccordion as Accordion,
 	FormAccordionSection as AccordionSection,
 	FormAccordion,
