@@ -48,4 +48,10 @@
 		cursor: not-allowed;
 		background: rgba(148, 163, 184, 0.08);
 	}
+
+	label {
+		font-size: var(--wp--custom--ctx-forms--field--label-font-size);
+		line-height: var(--wp--custom--ctx-forms--field--label-line-height);
+		color: var(--wp--custom--ctx-forms--field--label-color);
+	}
 }
