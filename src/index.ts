@@ -5,6 +5,7 @@ import Country from './components/Fields/Country/Country';
 import Hidden from './components/Fields/Hidden/Hidden';
 import Input from './components/Fields/Input/Input';
 import Radio from './components/Fields/Radio/Radio';
+import RadioCards from './components/Fields/RadioCards/RadioCards';
 import Range from './components/Fields/Range/Range';
 import Select from './components/Fields/Select/Select';
 import { Stepper } from './components/Fields/Stepper/Stepper';
@@ -26,6 +27,10 @@ export type {
 	InputProps,
 } from './components/Fields/Input/Input';
 export type { RadioProps } from './components/Fields/Radio/Radio';
+export type {
+	RadioCardOption,
+	RadioCardsProps,
+} from './components/Fields/RadioCards/RadioCards';
 export type { RangeInputProps } from './components/Fields/Range/Range';
 export type { SelectProps } from './components/Fields/Select/Select';
 export type { TextAreaProps } from './components/Fields/TextArea/TextArea';
@@ -70,6 +75,7 @@ export {
 	FormField as InputField,
 	Fieldset as FormFields,
 	Radio,
+	RadioCards,
 	Range,
 	Select,
 	Stepper,
