@@ -1,4 +1,12 @@
 #### Changes
+## 2.2.0
+- Added optional `unit` suffixes for native input fields.
+- Split form styles into focused partials and cleaned up field-specific nesting.
+- Added form layout style aliases for rendered `ctx-form-*` classes.
+
+## 2.1.0
+- Added RadioCards
+
 ## 2.0.4
 - Combobox fixes
 
