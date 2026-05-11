@@ -1,5 +1,3 @@
-import { NumberField } from '@base-ui/react/number-field';
-
 type Props = {
 	value: number;
 	min?: number;
@@ -29,43 +27,52 @@ export function Stepper({
 	valueTestId,
 	className = '',
 }: Props) {
-	const finiteMax = Number.isFinite(max) ? max : undefined;
+	const boundedValue = Math.min(max, Math.max(min, value));
+	const canDecrement = !disabled && boundedValue > min;
+	const canIncrement = !disabled && boundedValue < max;
+
+	const changeValue = (direction: -1 | 1) => {
+		const nextValue = Math.min(
+			max,
+			Math.max(min, boundedValue + step * direction),
+		);
+
+		if (nextValue !== boundedValue) {
+			onChange(nextValue);
+		}
+	};
 
 	return (
-		<NumberField.Root
+		<div
 			className={['ctx2-stepper', className].filter(Boolean).join(' ')}
-			value={value}
-			min={min}
-			max={finiteMax}
-			step={step}
-			disabled={disabled}
-			onValueChange={(nextValue) => {
-				if (nextValue !== null) {
-					onChange(nextValue);
-				}
-			}}
 		>
-			<NumberField.Decrement
+			<button
+				type="button"
 				className="ctx2-stepper__button"
 				aria-label={decrementLabel}
 				data-testid={decrementTestId}
+				disabled={!canDecrement}
+				onClick={() => changeValue(-1)}
 			>
 				-
-			</NumberField.Decrement>
+			</button>
 			<span
 				className="ctx2-stepper__value"
 				aria-live="polite"
 				data-testid={valueTestId}
 			>
-				{value}
+				{boundedValue}
 			</span>
-			<NumberField.Increment
+			<button
+				type="button"
 				className="ctx2-stepper__button"
 				aria-label={incrementLabel}
 				data-testid={incrementTestId}
+				disabled={!canIncrement}
+				onClick={() => changeValue(1)}
 			>
 				+
-			</NumberField.Increment>
-		</NumberField.Root>
+			</button>
+		</div>
 	);
 }

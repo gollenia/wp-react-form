@@ -1,4 +1,8 @@
 #### Changes
+## 2.3.3
+- Stepper fix
+- Select Icon Fix
+
 ## 2.3.2
 - label CSS fix
 - Accordion Header fix

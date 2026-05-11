@@ -152,13 +152,13 @@ const Select = (props: SelectProps) => {
 				inputRef={setInputRef}
 			>
 				<BaseSelect.Trigger
-				id={selectId}
-				disabled={disabled}
-				aria-required={required || undefined}
-				aria-invalid={hasError || undefined}
-				aria-describedby={describedBy}
-				aria-errormessage={hasError && errorMessage ? errorId : undefined}
-				onBlur={handleBlur}
+					id={selectId}
+					disabled={disabled}
+					aria-required={required || undefined}
+					aria-invalid={hasError || undefined}
+					aria-describedby={describedBy}
+					aria-errormessage={hasError && errorMessage ? errorId : undefined}
+					onBlur={handleBlur}
 					className="ctx2-select__trigger"
 				>
 					<BaseSelect.Value placeholder={emptyOptionLabel}>
@@ -192,10 +192,6 @@ const Select = (props: SelectProps) => {
 											}
 										}}
 									>
-										<BaseSelect.ItemIndicator
-											className="ctx2-select__option-indicator"
-											keepMounted
-										/>
 										<BaseSelect.ItemText>
 											{emptyOptionLabel}
 										</BaseSelect.ItemText>
@@ -214,10 +210,6 @@ const Select = (props: SelectProps) => {
 										}}
 										onClick={() => handleValueChange(option.value)}
 									>
-										<BaseSelect.ItemIndicator
-											className="ctx2-select__option-indicator"
-											keepMounted
-										/>
 										<BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
 									</BaseSelect.Item>
 								))}
