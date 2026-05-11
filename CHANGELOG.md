@@ -1,4 +1,9 @@
 #### Changes
+## 2.3.2
+- label CSS fix
+- Accordion Header fix
+- Button Radius Fix
+
 ## 2.3.1
 - Range CSS fix
 - FlexItem added

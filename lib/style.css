@@ -30,7 +30,7 @@
   --wp--custom--ctx-forms--form--grid-row-gap: 2rem;
   --wp--custom--ctx-forms--button--height: 2.75rem;
   --wp--custom--ctx-forms--button--padding-x: 1rem;
-  --wp--custom--ctx-forms--button--radius: var(--wp--custom--ctx-forms--field--radius);
+  --wp--custom--ctx-forms--button--radius: 6px 6px 6px 6px;
   --wp--custom--ctx-forms--button--font-weight: 600;
   --wp--custom--ctx-forms--button--primary-background: var(--wp--custom--ctx-forms--field--active-color);
   --wp--custom--ctx-forms--button--primary-text-color: #fff;
