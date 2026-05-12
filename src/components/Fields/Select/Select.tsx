@@ -164,12 +164,16 @@ const Select = (props: SelectProps) => {
 					<BaseSelect.Value placeholder={emptyOptionLabel}>
 						{() => selectedLabel ?? emptyOptionLabel}
 					</BaseSelect.Value>
-					<BaseSelect.Icon className="ctx2-select__icon" aria-hidden="true" />
+					<BaseSelect.Icon aria-hidden="true" />
 				</BaseSelect.Trigger>
 
 				<BaseSelect.Portal>
 					<BaseSelect.Positioner
 						className="ctx2-select__positioner"
+						positionMethod="fixed"
+						side="bottom"
+						align="start"
+						sideOffset={4}
 						alignItemWithTrigger={false}
 					>
 						<BaseSelect.Popup className="ctx2-select__popup">
