@@ -71,7 +71,12 @@ The package also exports the relevant TypeScript types from [`src/types.ts`](/va
 import { Accordion, Fieldset } from '@contexis/wp-react-form';
 
 <Accordion value={[openSection]} onValueChange={([next]) => setOpenSection(next)}>
-	<Accordion.Section id="details" title="Contact details" completed={detailsDone}>
+	<Accordion.Section
+		id="details"
+		title="Contact details"
+		completed={detailsDone}
+		editLabel="Edit"
+	>
 		<Fieldset fields={detailsFields} formData={form} onChange={setFieldValue} />
 	</Accordion.Section>
 
