@@ -19,6 +19,7 @@ export type FormAccordionSectionProps = {
     completed?: boolean;
     disabled?: boolean;
     completedIndicator?: ReactNode;
+    editLabel?: ReactNode;
     className?: string;
     headerClassName?: string;
     triggerClassName?: string;
@@ -26,7 +27,7 @@ export type FormAccordionSectionProps = {
     contentClassName?: string;
 };
 declare function FormAccordionRoot({ children, value, defaultValue, onValueChange, multiple, disabled, keepMounted, hiddenUntilFound, loopFocus, className, }: FormAccordionProps): import("react/jsx-runtime").JSX.Element;
-export declare function FormAccordionSection({ id, title, children, completed, disabled, completedIndicator, className, headerClassName, triggerClassName, panelClassName, contentClassName, }: FormAccordionSectionProps): import("react/jsx-runtime").JSX.Element;
+export declare function FormAccordionSection({ id, title, children, completed, disabled, completedIndicator, editLabel, className, headerClassName, triggerClassName, panelClassName, contentClassName, }: FormAccordionSectionProps): import("react/jsx-runtime").JSX.Element;
 export type FormAccordionComponent = typeof FormAccordionRoot & {
     Section: typeof FormAccordionSection;
 };

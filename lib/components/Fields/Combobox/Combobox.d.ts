@@ -20,6 +20,7 @@ type ComboboxProps = {
     allowClear?: boolean;
     clearLabel?: string;
     noResultsLabel?: string;
+    commitOnInput?: boolean;
     renderOption?: (option: string, state: RenderOptionState) => ReactNode;
 };
 declare const Combobox: (props: ComboboxProps) => import("react/jsx-runtime").JSX.Element;
