@@ -1,0 +1,9 @@
+.ctx2-flex {
+	flex-direction: var(--ctx2-flex-direction, row);
+}
+
+@media (max-width: 782px) {
+	.ctx2-flex--collapse {
+		flex-direction: var(--ctx2-flex-collapsed-direction, column);
+	}
+}
