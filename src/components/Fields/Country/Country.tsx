@@ -80,6 +80,7 @@ const Country = (props: CountryProps) => {
 			value={selectedLabel}
 			onChange={handleChange}
 			allowClear={!required}
+			commitOnInput={false}
 			clearLabel={help ?? 'Make a selection'}
 			noResultsLabel="No matching country"
 		/>
