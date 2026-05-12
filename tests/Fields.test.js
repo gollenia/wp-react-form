@@ -1,8 +1,11 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import {
+	Accordion,
 	Checkbox,
 	Combobox,
+	Country,
+	Flex,
 	Input,
 	Radio,
 	Range,
@@ -219,6 +222,38 @@ describe('field components', () => {
 		expect(onChange).toHaveBeenLastCalledWith('');
 	});
 
+	test('Country keeps typed search text and commits the country code on selection', () => {
+		const onChange = jest.fn();
+
+		render(
+			<Country
+				name="country"
+				label="Country"
+				placeholder="Country"
+				required={false}
+				width={6}
+				region="world"
+				disabled={false}
+				customError=""
+				formTouched={false}
+				value=""
+				onChange={onChange}
+			/>,
+		);
+
+		const input = screen.getByRole('combobox', { name: 'Country' });
+		fireEvent.focus(input);
+		fireEvent.change(input, { target: { value: 'Aus' } });
+
+		expect(input).toHaveValue('Aus');
+		expect(onChange).not.toHaveBeenCalledWith('');
+		expect(screen.getByRole('option', { name: 'Austria' })).toBeTruthy();
+
+		fireEvent.mouseDown(screen.getByRole('option', { name: 'Austria' }));
+
+		expect(onChange).toHaveBeenLastCalledWith('AT');
+	});
+
 	test('Submit uses placeholder fallback and respects disabled state', () => {
 		render(
 			<Submit
@@ -275,5 +310,62 @@ describe('field components', () => {
 			/>,
 		);
 		expect(screen.getByRole('button', { name: 'More' })).toBeDisabled();
+	});
+
+	test('Accordion renders edit labels only for completed sections', () => {
+		render(
+			<Accordion defaultValue={['details']}>
+				<Accordion.Section
+					id="details"
+					title="Contact details"
+					completed={true}
+					editLabel="Edit"
+				>
+					Details
+				</Accordion.Section>
+				<Accordion.Section
+					id="payment"
+					title="Payment"
+					completed={false}
+					editLabel="Edit"
+				>
+					Payment
+				</Accordion.Section>
+			</Accordion>,
+		);
+
+		expect(
+			screen.getByRole('button', { name: /Contact details Edit/ }),
+		).toBeTruthy();
+		expect(screen.getByRole('button', { name: 'Payment' })).toBeTruthy();
+		expect(screen.getAllByText('Edit')).toHaveLength(1);
+	});
+
+	test('Flex exposes collapse behavior through CSS classes and variables', () => {
+		render(
+			<Flex
+				data-testid="layout"
+				direction="row"
+				collapsedDirection="column-reverse"
+				collapse={true}
+				className="custom-layout"
+				gap="1rem"
+			>
+				<div>First</div>
+				<div>Second</div>
+			</Flex>,
+		);
+
+		const layout = screen.getByTestId('layout');
+		expect(layout).toHaveClass(
+			'ctx2-flex',
+			'ctx2-flex--collapse',
+			'custom-layout',
+		);
+		expect(layout.style.getPropertyValue('--ctx2-flex-direction')).toBe('row');
+		expect(
+			layout.style.getPropertyValue('--ctx2-flex-collapsed-direction'),
+		).toBe('column-reverse');
+		expect(layout).toHaveStyle({ gap: '1rem' });
 	});
 });
