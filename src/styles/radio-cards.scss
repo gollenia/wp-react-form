@@ -34,13 +34,14 @@
 
 			&:focus-visible + .ctx2-radio-cards__card {
 				outline: none;
-				border-color: var(--wp--custom--ctx-forms--field--active-color);
+				border-color: var(--wp--custom--ctx-forms--radio--color);
+
 				box-shadow: var(--wp--custom--ctx-forms--field--focus-ring);
 			}
 
 			&:checked + .ctx2-radio-cards__card {
-				border-color: var(--wp--custom--ctx-forms--field--active-color);
-				background: var(--ctx2-radio-cards-selected-background, var(--wp--custom--ctx-forms--field--hover-background));
+				border-color: var(--wp--custom--ctx-forms--radio--active-color);
+				background: color-mix(in srgb, var(--wp--custom--ctx-forms--radio--active-color) 8%, rgb(255, 255, 255));
 			}
 
 			&:disabled + .ctx2-radio-cards__card {
@@ -50,8 +51,7 @@
 		}
 
 		&:hover input:not(:disabled) + .ctx2-radio-cards__card {
-			border-color: var(--wp--custom--ctx-forms--field--active-color);
-			background: var(--wp--custom--ctx-forms--field--hover-background);
+			background: color-mix(in srgb, var(--wp--custom--ctx-forms--radio--active-color) 15%, rgb(255, 255, 255));
 		}
 	}
 
@@ -60,9 +60,9 @@
 		gap: 0.35rem;
 		min-height: var(--ctx2-radio-cards-min-height, 8.5rem);
 		padding: var(--ctx2-radio-cards-padding, 1.25rem);
-		border: 1px solid var(--wp--custom--ctx-forms--field--border-color);
+		border: 1px solid var(--wp--custom--ctx-forms--radio--color);
 		border-radius: var(--wp--custom--ctx-forms--field--radius);
-		background: var(--wp--custom--ctx-forms--field--background);
+		background: color-mix(in srgb, var(--wp--custom--ctx-forms--radio--color) 8%, rgb(255, 255, 255));
 		color: var(--wp--custom--ctx-forms--field--text-color, inherit);
 		cursor: pointer;
 		align-content: start;
