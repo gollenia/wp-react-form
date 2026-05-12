@@ -1,4 +1,22 @@
 #### Changes
+## 2.3.8
+- Flex now hast Collapsible porperty
+
+## 2.3.7
+- Accordion Indicator
+- Accordion Edit Label
+
+## 2.3.6
+- Success color bug
+
+## 2.3.5
+- Active Color black
+- accordion icon
+
+## 2.3.4
+- Select Fix
+- Country Field Fix
+
 ## 2.3.3
 - Stepper fix
 - Select Icon Fix
