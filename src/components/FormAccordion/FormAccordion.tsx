@@ -23,6 +23,7 @@ export type FormAccordionSectionProps = {
 	completed?: boolean;
 	disabled?: boolean;
 	completedIndicator?: ReactNode;
+	editLabel?: ReactNode;
 	className?: string;
 	headerClassName?: string;
 	triggerClassName?: string;
@@ -94,6 +95,7 @@ export function FormAccordionSection({
 	completed = false,
 	disabled = false,
 	completedIndicator,
+	editLabel,
 	className,
 	headerClassName,
 	triggerClassName,
@@ -131,9 +133,14 @@ export function FormAccordionSection({
 					)}
 					disabled={disabled}
 				>
-					<span className="ctx2-form-accordion__title">{title}</span>
 					{completed &&
-						(completedIndicator ?? <DefaultCompletedIndicator />)}{' '}
+						(completedIndicator ?? <DefaultCompletedIndicator />)}
+					<span className="ctx2-form-accordion__title">{title}</span>
+					{completed && editLabel && (
+						<span className="ctx2-form-accordion__edit-label">
+							{editLabel}
+						</span>
+					)}
 				</Accordion.Trigger>
 			</Accordion.Header>
 			<Accordion.Panel
